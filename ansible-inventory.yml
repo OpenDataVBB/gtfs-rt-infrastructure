@@ -1,0 +1,20 @@
+all:
+  hosts:
+    vbb-datendrehscheibe-proxy-staging:
+      ansible_host: 5.57.42.101
+      ansible_user: ubuntu
+    vbb-datendrehscheibe-proxy-production:
+      ansible_host: 5.57.42.201
+      ansible_user: ubuntu
+  children:
+    vdv-453-proxy:
+      hosts:
+        vbb-datendrehscheibe-proxy-staging:
+        vbb-datendrehscheibe-proxy-production:
+      children:
+        vdv-453-proxy-staging:
+          hosts:
+            vbb-datendrehscheibe-proxy-staging:
+        vdv-453-proxy-production:
+          hosts:
+            vbb-datendrehscheibe-proxy-production:
