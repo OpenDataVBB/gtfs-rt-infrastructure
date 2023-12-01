@@ -7,6 +7,18 @@
         security_fail2ban_enabled: true
       become: true
   tasks:
+    # todo:
+    # apt update
+    # apt upgrade -y
+    # apt autoremove -y
+    # do-release-upgrade # todo: unattended
+    #   https://www.jeffgeerling.com/blog/2018/ansible-playbook-upgrade-all-ubuntu-1204-lts-hosts-1404-or-1604-1804-etc
+    # unattended upgrades
+    # sudo apt install -y net-tools
+    # todo: vpn
+    # https://sysadmins.co.za/setup-a-site-to-site-ipsec-vpn-with-strongswan-on-ubuntu/
+    #   https://docs.strongswan.org/docs/5.9/howtos/introduction.html#_configuration_files
+
     - name: configure journald to persist logs
       lineinfile:
         path: /etc/systemd/journald.conf
