@@ -1,0 +1,41 @@
+connections {
+	hacon-datendrehscheibe-cisco-asa {
+		version = 2
+		proposals = aes256-sha256-modp2048,default
+
+		local_addrs = {{ our_vpn_gateway_ip }}
+		local {
+			auth = psk
+			id = {{ our_psk_id }}
+		}
+
+		remote_addrs = {{ their_vpn_gateway_ip }}
+		remote {
+			auth = psk
+			id = {{ their_psk_id }}
+		}
+
+		children {
+			foo {
+				local_ts = {{ our_vpn_ip }}/32
+				remote_ts = {{ their_vpn_ip }}/32
+
+				# establish VPN connection as soon as traffic for it occurs
+				# todo: `start|trap` is not supported yet in StrongSwan v5.9.5
+				#start_action = start|trap
+				start_action = start
+			}
+		}
+	}
+}
+
+secrets {
+	ike-1 {
+		id-1 = {{ our_psk_id }}
+		secret = "{{ our_psk }}"
+	}
+	ike-2 {
+		id-2 = {{ their_psk_id }}
+		secret = "{{ their_psk }}"
+	}
+}
