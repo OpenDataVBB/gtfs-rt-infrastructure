@@ -81,35 +81,35 @@
         rule: limit
         name: OpenSSH
       become: true
-    - name: let UFW allow IPSec/IKEv2 connections on ens4 from 213.83.5.136/32
+    - name: let UFW allow IPSec/IKEv2 connections on ens4 from {{ their_vpn_gateway_ip }}/32
       community.general.ufw:
         policy: allow
         direction: incoming
         interface: ens4
         name: IPSec
-        from_ip: '213.83.5.136/32'
+        from_ip: '{{ their_vpn_gateway_ip }}/32'
       become: true
-    - name: let UFW allow IPSec/IKEv2 connections on ens4 to 213.83.5.136/32
+    - name: let UFW allow IPSec/IKEv2 connections on ens4 to {{ their_vpn_gateway_ip }}/32
       community.general.ufw:
         policy: allow
         direction: outgoing
         interface: ens4
         name: IPSec
-        to_ip: '213.83.5.136/32'
+        to_ip: '{{ their_vpn_gateway_ip }}/32'
       become: true
-    - name: let UFW allow VPN-internal traffic on ens4 from 10.128.32.61/32
+    - name: let UFW allow VPN-internal traffic on ens4 from {{ their_vpn_ip }}/32
       community.general.ufw:
         policy: allow
         direction: incoming
         interface: ens4
-        from_ip: '10.128.32.61/32'
+        from_ip: '{{ their_vpn_ip }}/32'
       become: true
-    - name: let UFW allow VPN-internal traffic on ens4 to 10.128.32.61/32
+    - name: let UFW allow VPN-internal traffic on ens4 to {{ their_vpn_ip }}/32
       community.general.ufw:
         policy: allow
         direction: outgoing
         interface: ens4
-        to_ip: '10.128.32.61/32'
+        to_ip: '{{ their_vpn_ip }}/32'
       become: true
     - name: enable UFW
       community.general.ufw:
