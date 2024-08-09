@@ -15,9 +15,6 @@
     #   https://www.jeffgeerling.com/blog/2018/ansible-playbook-upgrade-all-ubuntu-1204-lts-hosts-1404-or-1604-1804-etc
     # unattended upgrades
     # sudo apt install -y net-tools
-    # todo: vpn
-    # https://sysadmins.co.za/setup-a-site-to-site-ipsec-vpn-with-strongswan-on-ubuntu/
-    #   https://docs.strongswan.org/docs/5.9/howtos/introduction.html#_configuration_files
 
     - name: configure journald to persist logs
       lineinfile:
@@ -116,7 +113,14 @@
         state: enabled
       become: true
 
-    # configure StrongSwan IPSec VPN
+    # install & configure StrongSwan IPSec VPN
+    - name: install StrongSwan IPSec VPN
+      ansible.builtin.apt:
+        name:
+          - strongswan
+          - strongswan-swanctl
+        # state: present
+      become: true
     - name: assign VPN-internal IP address to network interface
       ansible.builtin.template:
         src: templates/netplan-hacon-datendrehscheibe-cisco-asa.yaml.j2
@@ -126,12 +130,22 @@
       ansible.builtin.shell: netplan apply
       become: true
 
+    - name: create directory /etc/systemd/system/strongswan-starter.service.d
+      ansible.builtin.file:
+        path: /etc/systemd/system/strongswan-starter.service.d
+        state: directory
+      become: true
     - name: patch strongswan-starter systemd service to load all connections
       ansible.builtin.copy:
         dest: /etc/systemd/system/strongswan-starter.service.d/override.conf
         content: |
           [Service]
           ExecStartPost=/bin/sh -c 'sleep 3; /usr/sbin/swanctl --load-all'
+      become: true
+    - name: create directory /etc/swanctl/conf.d
+      ansible.builtin.file:
+        path: /etc/swanctl/conf.d
+        state: directory
       become: true
     - name: configure site-to-site VPN using StrongSwan
       ansible.builtin.template:
