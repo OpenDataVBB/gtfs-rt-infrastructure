@@ -1,0 +1,113 @@
+---
+- name: configure VDV-453 proxies
+  hosts: vdv-453-proxy
+  tasks:
+    # configure firewall
+    - name: put fail2ban config
+      ansible.builtin.copy:
+        src: ../lib/fail2ban-jail.local
+        dest: /etc/fail2ban/jail.local
+      become: true
+    - name: reload & restart fail2ban
+      ansible.builtin.shell: |
+        fail2ban-client reload
+        fail2ban-client restart
+      become: true
+    - name: let UFW deny everything
+      community.general.ufw:
+        policy: deny
+      become: true
+    - name: let UFW allow rate-limited SSH
+      community.general.ufw:
+        rule: limit
+        name: OpenSSH
+      become: true
+    - name: let UFW allow IPSec/IKEv2 connections on ens4 from {{ their_vpn_gateway_ip }}/32
+      community.general.ufw:
+        policy: allow
+        direction: incoming
+        interface: ens4
+        name: IPSec
+        from_ip: '{{ their_vpn_gateway_ip }}/32'
+      become: true
+    - name: let UFW allow IPSec/IKEv2 connections on ens4 to {{ their_vpn_gateway_ip }}/32
+      community.general.ufw:
+        policy: allow
+        direction: outgoing
+        interface: ens4
+        name: IPSec
+        to_ip: '{{ their_vpn_gateway_ip }}/32'
+      become: true
+    - name: let UFW allow VPN-internal traffic on ens4 from {{ their_vpn_ip }}/32
+      community.general.ufw:
+        policy: allow
+        direction: incoming
+        interface: ens4
+        from_ip: '{{ their_vpn_ip }}/32'
+      become: true
+    - name: let UFW allow VPN-internal traffic on ens4 to {{ their_vpn_ip }}/32
+      community.general.ufw:
+        policy: allow
+        direction: outgoing
+        interface: ens4
+        to_ip: '{{ their_vpn_ip }}/32'
+      become: true
+    - name: enable UFW
+      community.general.ufw:
+        state: enabled
+      become: true
+
+    # install & configure StrongSwan IPSec VPN
+    - name: install StrongSwan IPSec VPN
+      ansible.builtin.apt:
+        name:
+          - strongswan
+          - strongswan-swanctl
+        # state: present
+      become: true
+    - name: assign VPN-internal IP address to network interface
+      ansible.builtin.template:
+        src: ../templates/netplan-hacon-datendrehscheibe-cisco-asa.yaml.j2
+        dest: /etc/netplan/60-hacon-datendrehscheibe-cisco-asa.yaml
+      become: true
+    - name: netplan apply
+      ansible.builtin.shell: netplan apply
+      become: true
+
+    - name: create directory /etc/systemd/system/strongswan-starter.service.d
+      ansible.builtin.file:
+        path: /etc/systemd/system/strongswan-starter.service.d
+        state: directory
+      become: true
+    - name: patch strongswan-starter systemd service to load all connections
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/strongswan-starter.service.d/override.conf
+        content: |
+          [Service]
+          ExecStartPost=/bin/sh -c 'sleep 3; /usr/sbin/swanctl --load-all'
+      become: true
+    - name: create directory /etc/swanctl/conf.d
+      ansible.builtin.file:
+        path: /etc/swanctl/conf.d
+        state: directory
+      become: true
+    - name: configure site-to-site VPN using StrongSwan
+      ansible.builtin.template:
+        src: ../templates/strongswan-hacon-datendrehscheibe-cisco-asa.conf.j2
+        dest: /etc/swanctl/conf.d/hacon-datendrehscheibe-cisco-asa.conf
+      become: true
+    - name: restart strongswan-starter systemd service
+      ansible.builtin.shell: |
+        systemctl daemon-reload
+        systemctl restart strongswan-starter
+      become: true
+
+    - name: check if HaCon Datendrehscheibe can be ping-ed
+      ansible.builtin.shell: |
+        ping -w3 -c1 -q "{{ their_vpn_ip }}"
+
+    # todo: install recent Node.js version
+    # todo: apt install -y make g++
+    # todo: timedatectl set-ntp true
+    # todo: timedatectl set-timezone Europe/Berlin
+    # todo: install app
