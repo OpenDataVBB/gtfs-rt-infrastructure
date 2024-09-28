@@ -1,63 +1,8 @@
 ---
-- name: basic system setup
+- import_playbook: basic-system-setup.yml
+- name: configure VDV-453 proxies
   hosts: all
-  roles:
-    - role: geerlingguy.security
-      vars:
-        security_fail2ban_enabled: true
-      become: true
   tasks:
-    # todo:
-    # apt update
-    # apt upgrade -y
-    # apt autoremove -y
-    # do-release-upgrade # todo: unattended
-    #   https://www.jeffgeerling.com/blog/2018/ansible-playbook-upgrade-all-ubuntu-1204-lts-hosts-1404-or-1604-1804-etc
-    # unattended upgrades
-    # sudo apt install -y net-tools
-
-    - name: configure journald to persist logs
-      lineinfile:
-        path: /etc/systemd/journald.conf
-        regex: ^(# *)?Storage\b
-        line: Storage=persistent
-      become: true
-    - name: configure journald to compress logs
-      lineinfile:
-        path: /etc/systemd/journald.conf
-        regex: ^(# *)?Compress\b
-        line: Compress=yes
-      become: true
-    - name: configure journald to store at most 10GB of logs
-      lineinfile:
-        path: /etc/systemd/journald.conf
-        regex: ^(# *)?SystemMaxUse\b
-        line: SystemMaxUse=10G
-      become: true
-    - name: configure journald to store at most 10GB of logs
-      lineinfile:
-        path: /etc/systemd/journald.conf
-        regex: ^(# *)?SystemMaxUse\b
-        line: RuntimeMaxUse=10G
-      become: true
-    - name: configure journald to keep 2GB free
-      lineinfile:
-        path: /etc/systemd/journald.conf
-        regex: ^(# *)?SystemKeepFree\b
-        line: SystemKeepFree=2G
-      become: true
-    - name: configure journald to keep 2GB free
-      lineinfile:
-        path: /etc/systemd/journald.conf
-        regex: ^(# *)?RuntimeKeepFree\b
-        line: RuntimeKeepFree=2G
-      become: true
-    - name: enable & start journald
-      ansible.builtin.shell: |
-        systemctl daemon-reload
-        systemctl restart systemd-journald
-      become: true
-
     # configure firewall
     - name: put fail2ban config
       ansible.builtin.copy:
