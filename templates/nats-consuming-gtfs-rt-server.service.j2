@@ -1,0 +1,13 @@
+[Unit]
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/node cli.js
+Restart=always
+WorkingDirectory={{ nats_consuming_gtfs_rt_server_dir }}
+Environment=NODE_ENV=production
+Environment=HOSTNAME="{{ gtfs_rt_public_endpoints[0] }}"
+Environment=PORT={{ nats_consuming_gtfs_rt_server_internal_port }}
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+[Unit]
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/node index.js
+Restart=always
+WorkingDirectory={{ gtfs_rt_feed_dir }}
+Environment=NODE_ENV=production
+Environment=HOSTNAME="{{ gtfs_rt_public_endpoints[0] }}"
+Environment=PGHOST=localhost
+Environment=PGUSER=postgres
+Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
+Environment=MATCHING_CONCURRENCY="{{ gtfs_rt_feed_matching_concurrency }}"
+
+[Install]
+WantedBy=multi-user.target

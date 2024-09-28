@@ -1,0 +1,96 @@
+---
+- name: configure GTFS-RT converters/servers
+  hosts: gtfs_rt_converter
+  roles:
+    - name: deploy NATS message queue
+      become: true
+      role: nats
+      vars:
+        nats_jetstream_enabled: true
+        nats_jetstream_max_mem: 2G
+        nats_jetstream_max_file: 10G
+
+    - name: install Node.js from NodeSource's repo
+      role: geerlingguy.nodejs
+      vars:
+        nodejs_version: '22.x'
+
+    # todo: put StandardOutput=null in the [Service] section to disable logging?
+    - name: install Caddy server
+      role: caddy_ansible.caddy_ansible
+      vars:
+        caddy_packages:
+          - 'github.com/mholt/caddy-ratelimit'
+        caddy_systemd_capabilities_enabled: true
+        caddy_config: "{{ lookup('template', '../templates/Caddyfile.j2') }}"
+
+    - name: install PostgreSQL
+      become: true
+      role: geerlingguy.postgresql
+
+  tasks:
+    - name: set password of "postgres" user
+      become: true
+      ansible.builtin.shell: |
+        sudo -u postgres psql -c "ALTER USER postgres PASSWORD '{{ postgresql_postgres_password }}'"
+    - name: install PostGIS
+      package:
+        name:
+          - postgis
+
+    - name: clone OpenDataVBB/gtfs-rt-feed:{{ gtfs_rt_feed_git_ref }}
+      ansible.builtin.git:
+        repo: 'https://github.com/OpenDataVBB/gtfs-rt-feed.git'
+        dest: '{{ gtfs_rt_feed_dir }}'
+        version: '{{ gtfs_rt_feed_git_ref }}'
+    - name: npm install
+      community.general.npm:
+        path: '{{ gtfs_rt_feed_dir }}'
+    - name: put systemd gtfs-rt-feed.service unit file
+      ansible.builtin.template:
+        src: '../templates/gtfs-rt-feed.service.j2'
+        dest: /etc/systemd/system/gtfs-rt-feed.service
+    - name: validate gtfs-rt-feed.service
+      ansible.builtin.shell: |
+        systemd-analyze verify /etc/systemd/system/gtfs-rt-feed.service
+    - name: enable & start gtfs-rt-feed systemd service
+      ansible.builtin.shell: |
+        systemctl daemon-reload
+        systemctl enable gtfs-rt-feed
+        systemctl start gtfs-rt-feed
+    - name: reload Caddy config
+      ansible.builtin.shell: |
+        systemctl reload caddy
+
+    - name: clone OpenDataVBB/nats-consuming-gtfs-rt-server:{{ nats_consuming_gtfs_rt_server_git_ref }}
+      ansible.builtin.git:
+        repo: 'https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server.git'
+        dest: /srv/nats-consuming-gtfs-rt-server
+        version: '{{ nats_consuming_gtfs_rt_server_git_ref }}'
+    - name: npm install
+      community.general.npm:
+        path: /srv/nats-consuming-gtfs-rt-server
+    - name: put systemd nats-consuming-gtfs-rt-server.service unit file
+      ansible.builtin.template:
+        src: '../templates/nats-consuming-gtfs-rt-server.service.j2'
+        dest: /etc/systemd/system/nats-consuming-gtfs-rt-server.service
+    - name: validate nats-consuming-gtfs-rt-server.service
+      ansible.builtin.shell: |
+        systemd-analyze verify /etc/systemd/system/nats-consuming-gtfs-rt-server.service
+    - name: enable & start nats-consuming-gtfs-rt-server systemd service
+      ansible.builtin.shell: |
+        systemctl daemon-reload
+        systemctl enable nats-consuming-gtfs-rt-server
+        systemctl start nats-consuming-gtfs-rt-server
+
+    - name: put gtfs-rt.Caddyfile
+      ansible.builtin.template:
+        src: '../templates/gtfs-rt.Caddyfile.j2'
+        dest: /etc/caddy/gtfs-rt.Caddyfile
+        owner: 'www-data'
+    - name: validate Caddy config
+      ansible.builtin.shell: |
+        caddy validate -c /etc/caddy/Caddyfile
+    - name: reload Caddy config
+      ansible.builtin.shell: |
+        systemctl reload caddy

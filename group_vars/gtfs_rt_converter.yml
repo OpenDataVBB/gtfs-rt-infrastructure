@@ -1,0 +1,32 @@
+# todo: move to host_vars/all.yml?
+gtfs_rt_public_endpoints:
+- 'vbb-gtfs-rt.jannisr.de'
+
+# see https://github.com/mholt/caddy-ratelimit/blob/12435ecef5dbb1b137eb68002b85d775a9d5cdb2/README.md
+gtfs_rt_rate_limit_requests: 60
+gtfs_rt_rate_limit_window: 1m
+
+# PostgreSQL
+# password for user `postgres`
+postgresql_postgres_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          64326365376530323362623666636166336431373238623261613230363435663734643636653534
+          3164636564653532663631353863393061616331373233380a373465363630656666613162633064
+          32343262343935326531656535323233396333323330653535343365363132333964613337393436
+          3438646362363964660a313361636561373237386238383663376163626630393863393233376137
+          64333566323161613139306437366239373365323231616465333165663666353230
+
+# gtfs-rt-feed
+gtfs_rt_feed_git_ref: main # todo: pin?
+gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
+gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus + 2 }}'
+
+# nats-consuming-gtfs-rt-server
+nats_consuming_gtfs_rt_server_git_ref: main # todo: pin?
+nats_consuming_gtfs_rt_server_dir: '/srv/nats-consuming-gtfs-rt-server'
+# todo: bind only locally? or put behind firewall?
+nats_consuming_gtfs_rt_server_internal_port: 3000
+
+# monitoring
+gtfs_rt_feed_metrics_server_port: 9090
+nats_consuming_gtfs_rt_server_metrics_server_port: 9091
