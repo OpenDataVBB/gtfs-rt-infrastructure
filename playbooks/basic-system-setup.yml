@@ -7,14 +7,31 @@
         security_fail2ban_enabled: true
       become: true
   tasks:
+    # update all packages
+    - name: apt update
+      ansible.builtin.apt:
+        update_cache: true
+      become: true
+    - name: apt upgrade && apt autoremove
+      ansible.builtin.apt:
+        name: '*'
+        state: latest
+        autoremove: true
+      become: true
+    # todo: upgrade OS unattended? e.g. `do-release-upgrade`?
+    # see also https://www.jeffgeerling.com/blog/2018/ansible-playbook-upgrade-all-ubuntu-1204-lts-hosts-1404-or-1604-1804-etc
+    # - name: apt dist-upgrade
+    #   ansible.builtin.apt:
+    #     upgrade: dist
+    #   become: true
+
     # todo:
-    # apt update
-    # apt upgrade -y
-    # apt autoremove -y
-    # do-release-upgrade # todo: unattended
-    #   https://www.jeffgeerling.com/blog/2018/ansible-playbook-upgrade-all-ubuntu-1204-lts-hosts-1404-or-1604-1804-etc
     # unattended upgrades
     # sudo apt install -y net-tools
+
+    - name: set hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname | replace('_','-') }}"
 
     - name: configure journald to persist logs
       lineinfile:
