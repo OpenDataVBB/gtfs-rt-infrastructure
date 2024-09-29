@@ -1,6 +1,6 @@
 ---
 - name: configure VDV-453 proxies
-  hosts: vdv-453-proxy
+  hosts: vdv_453_proxy
   tasks:
     # configure firewall
     - name: put fail2ban config

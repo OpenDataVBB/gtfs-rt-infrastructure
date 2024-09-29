@@ -5,7 +5,7 @@ This repo **configures the machines that the [VBB GTFS Realtime (GTFS-RT) feed](
 ## VDV-453 proxy machines
 
 > [!NOTE]
-> Ansible group: `vdv-453-proxy`
+> Ansible group: `vdv_453_proxy`
 
 These two (staging & production) machines will act as "proxies" (in a logical sense, not in a technical sense) between VBB's VDV-453 API and the machines converting the data to GTFS-RT.
 

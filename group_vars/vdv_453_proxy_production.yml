@@ -1,5 +1,5 @@
 # (public) IP of our VPN server
-# todo: use vbb-datendrehscheibe-proxy-production's ansible_host specifically?
+# todo: use vbb_datendrehscheibe_proxy_production's ansible_host specifically?
 our_vpn_gateway_ip: "{{ ansible_host }}"
 # VPN credentials: our PSK's name/ID
 our_psk_id: !vault |
