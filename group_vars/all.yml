@@ -1,0 +1,4 @@
+journald_system_max_use: 10G
+journald_runtime_max_use: 10G
+journald_system_keep_free: 2G
+journald_runtime_keep_free: 2G
