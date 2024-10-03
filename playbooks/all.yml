@@ -1,3 +1,4 @@
 - import_playbook: basic-system-setup.yml
+- import_playbook: wireguard-vpn.yml
 - import_playbook: gtfs-rt-converters.yml
 - import_playbook: vdv-453-proxies.yml

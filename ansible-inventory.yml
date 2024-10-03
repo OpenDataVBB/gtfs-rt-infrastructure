@@ -27,3 +27,16 @@ all:
       hosts:
         vbb_gtfs_rt_staging:
         vbb_gtfs_rt_production:
+    wireguard_vpn:
+      hosts:
+        vbb_gtfs_rt_staging:
+        vbb_gtfs_rt_production:
+      children:
+        wireguard_vpn_staging:
+          hosts:
+            vbb_gtfs_rt_staging:
+            vbb_datendrehscheibe_proxy_staging:
+        wireguard_vpn_production:
+          hosts:
+            vbb_gtfs_rt_production:
+            vbb_datendrehscheibe_proxy_production:

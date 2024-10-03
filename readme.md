@@ -56,3 +56,5 @@ These machines convert VDV-453 data, convert it into the GTFS-RT format, and ser
 
 > [!TIP]
 > Currently, the production machine `vbb_gtfs_rt_production` does not exist yet.
+
+They are connected to their respective VDV-453 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel.

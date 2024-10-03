@@ -1,0 +1,13 @@
+---
+- hosts: wireguard_vpn_staging
+  become: true
+  roles:
+    - role: githubixx.ansible_role_wireguard
+      vars:
+        wireguard_interface_restart: true
+
+- hosts: wireguard_vpn_production
+  roles:
+    - role: githubixx.ansible_role_wireguard
+      vars:
+        wireguard_interface_restart: true
