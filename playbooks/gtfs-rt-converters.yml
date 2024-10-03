@@ -38,6 +38,10 @@
         name:
           - postgis
 
+    - name: install Docker (required for GTFS Schedule import)
+      ansible.builtin.apt:
+        name: docker.io
+
     - name: clone OpenDataVBB/gtfs-rt-feed:{{ gtfs_rt_feed_git_ref }}
       ansible.builtin.git:
         repo: 'https://github.com/OpenDataVBB/gtfs-rt-feed.git'
@@ -53,6 +57,38 @@
     - name: validate gtfs-rt-feed.service
       ansible.builtin.shell: |
         systemd-analyze verify /etc/systemd/system/gtfs-rt-feed.service
+
+    - name: create "{{ gtfs_rt_feed_gtfs_importer_db }}" database
+      # todo: use community.postgresql.postgresql_db instead?
+      # https://docs.ansible.com/ansible/10/collections/community/postgresql/postgresql_db_module.html
+      ansible.builtin.shell: |
+        # https://stackoverflow.com/a/18389184/1072129
+        # https://dba.stackexchange.com/a/337470/289704
+        # note the trailing spaces before the `\`
+        echo "\
+        SELECT 'CREATE DATABASE \"{{ gtfs_rt_feed_gtfs_importer_db }}\"' \
+        WHERE NOT EXISTS (\
+          SELECT FROM pg_database WHERE datname = '{{ gtfs_rt_feed_gtfs_importer_db }}'\
+        )\
+        \gexec" | sudo -u postgres psql
+      become: true
+    # todo: make this a systemd unit?
+    - name: run GTFS import manually
+      ansible.builtin.shell: |
+        export PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}'
+        export GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}'
+        {{ gtfs_rt_feed_dir }}/import.sh --docker
+
+    - name: set up GTFS import cron job
+      ansible.builtin.cron:
+        name: 'gtfs-rt-feed: GTFS import'
+        user: root # todo: use `www-data` instead?
+        cron_file: gtfs-rt-feed-gtfs-import
+        # todo: make $GTFS_IMPORTER_DB_PREFIX configurable
+        job: "env PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' {{ gtfs_rt_feed_dir }}/import.sh --docker"
+        # every hour
+        minute: '3'
+
     - name: enable & start gtfs-rt-feed systemd service
       ansible.builtin.shell: |
         systemctl daemon-reload
