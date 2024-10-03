@@ -29,6 +29,7 @@ flowchart TB
     style gtfs_rt_converter fill:none,stroke:#999999
 
     vdv_453_api-- VDV-453/-454 data -->vdv_453_nats_adapter
+    vdv_453_nats_adapter-- "`VDV-454 *AUS* *IstFahrt* messages`" -->nats_aus_istfahrt
     nats_aus_istfahrt-- "`VDV-454 *AUS* *IstFahrt* messages`" -->gtfs_rt_feed
     gtfs_rt_feed-- "`GTFS-RT messages`" -->nats_gtfs_rt
     nats_gtfs_rt-- "`GTFS-RT messages`" -->nats_consuming_gtfs_rt_server
@@ -52,9 +53,9 @@ They are VPSes hosted at [Planetary Networks](https://www.planetary-networks.de)
 > [!NOTE]
 > Ansible group: `gtfs_rt_converter`
 
-These machines convert VDV-453 data, convert it into the GTFS-RT format, and serve the GTFS-RT feeds via HTTP.
+These machines convert VDV-453 data (sent by the respective `vdv_453_proxy` machine, see above), convert it into the GTFS-RT format, and serve the GTFS-RT feeds via HTTP.
 
 > [!TIP]
 > Currently, the production machine `vbb_gtfs_rt_production` does not exist yet.
 
-They are connected to their respective VDV-453 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel.
+They are connected to their respective VDV-453 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel, letting them communicate via a [NATS message queue](https://nats.io).

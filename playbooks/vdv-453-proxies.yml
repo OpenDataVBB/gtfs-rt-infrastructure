@@ -1,6 +1,12 @@
 ---
 - name: configure VDV-453 proxies
   hosts: vdv_453_proxy
+  roles:
+    - name: install Node.js from NodeSource's repo
+      role: geerlingguy.nodejs
+      vars:
+        nodejs_version: '22.x'
+      become: true
   tasks:
     # configure firewall
     - name: put fail2ban config
@@ -106,8 +112,30 @@
       ansible.builtin.shell: |
         ping -w3 -c1 -q "{{ vdv_453_api_host }}"
 
-    # todo: install recent Node.js version
-    # todo: apt install -y make g++
+    - name: clone OpenDataVBB/vdv-453-nats-adapter:{{ vdv_453_nats_adapter_git_ref }}
+      ansible.builtin.git:
+        repo: 'https://github.com/OpenDataVBB/vdv-453-nats-adapter.git'
+        dest: '{{ vdv_453_nats_adapter_dir }}'
+        version: '{{ vdv_453_nats_adapter_git_ref }}'
+      become: true
+    - name: npm install
+      community.general.npm:
+        path: '{{ vdv_453_nats_adapter_dir }}'
+      become: true
+    - name: put systemd vdv-453-nats-adapter.service unit file
+      ansible.builtin.template:
+        src: '../templates/vdv-453-nats-adapter.service.j2'
+        dest: /etc/systemd/system/vdv-453-nats-adapter.service
+      become: true
+    - name: validate vdv-453-nats-adapter.service
+      ansible.builtin.shell: |
+        systemd-analyze verify /etc/systemd/system/vdv-453-nats-adapter.service
+    - name: enable & start vdv-453-nats-adapter systemd service
+      ansible.builtin.shell: |
+        systemctl daemon-reload
+        systemctl enable vdv-453-nats-adapter
+        systemctl start vdv-453-nats-adapter
+      become: true
+
     # todo: timedatectl set-ntp true
     # todo: timedatectl set-timezone Europe/Berlin
-    # todo: install app
