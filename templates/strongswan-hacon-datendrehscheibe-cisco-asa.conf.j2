@@ -18,7 +18,7 @@ connections {
 		children {
 			foo {
 				local_ts = {{ our_vpn_ip }}/32
-				remote_ts = {{ their_vpn_ip }}/32
+				remote_ts = {{ vdv_453_api_host }}/32
 
 				# establish VPN connection as soon as traffic for it occurs
 				# todo: `start|trap` is not supported yet in StrongSwan v5.9.5

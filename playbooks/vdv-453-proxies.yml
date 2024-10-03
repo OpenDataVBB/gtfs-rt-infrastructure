@@ -38,19 +38,19 @@
         name: IPSec
         to_ip: '{{ their_vpn_gateway_ip }}/32'
       become: true
-    - name: let UFW allow VPN-internal traffic on ens4 from {{ their_vpn_ip }}/32
+    - name: let UFW allow VPN-internal traffic on ens4 from {{ vdv_453_api_host }}/32
       community.general.ufw:
         policy: allow
         direction: incoming
         interface: ens4
-        from_ip: '{{ their_vpn_ip }}/32'
+        from_ip: '{{ vdv_453_api_host }}/32'
       become: true
-    - name: let UFW allow VPN-internal traffic on ens4 to {{ their_vpn_ip }}/32
+    - name: let UFW allow VPN-internal traffic on ens4 to {{ vdv_453_api_host }}/32
       community.general.ufw:
         policy: allow
         direction: outgoing
         interface: ens4
-        to_ip: '{{ their_vpn_ip }}/32'
+        to_ip: '{{ vdv_453_api_host }}/32'
       become: true
     - name: enable UFW
       community.general.ufw:
@@ -104,7 +104,7 @@
 
     - name: check if HaCon Datendrehscheibe can be ping-ed
       ansible.builtin.shell: |
-        ping -w3 -c1 -q "{{ their_vpn_ip }}"
+        ping -w3 -c1 -q "{{ vdv_453_api_host }}"
 
     # todo: install recent Node.js version
     # todo: apt install -y make g++
