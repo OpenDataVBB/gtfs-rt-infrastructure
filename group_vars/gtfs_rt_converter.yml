@@ -16,6 +16,12 @@ postgresql_postgres_password: !vault |
           3438646362363964660a313361636561373237386238383663376163626630393863393233376137
           64333566323161613139306437366239373365323231616465333165663666353230
 
+# Redis
+redis_maxmemory: 1gb
+# > Keeps most recently used keys; removes least recently used (LRU) keys
+redis_maxmemory_policy: allkeys-lru
+gtfs_rt_feed_redis_db: 1
+
 # gtfs-rt-feed
 gtfs_rt_feed_git_ref: main # todo: pin?
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
