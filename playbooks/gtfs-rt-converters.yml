@@ -90,7 +90,7 @@
     # todo: make this a systemd unit?
     - name: run GTFS import manually
       ansible.builtin.shell: |
-        export PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}'
+        export PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}'
         export GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}'
         {{ gtfs_rt_feed_dir }}/import.sh --docker
 
@@ -100,7 +100,7 @@
         user: root # todo: use `www-data` instead?
         cron_file: gtfs-rt-feed-gtfs-import
         # todo: make $GTFS_IMPORTER_DB_PREFIX configurable
-        job: "env PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' {{ gtfs_rt_feed_dir }}/import.sh --docker"
+        job: "env PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' {{ gtfs_rt_feed_dir }}/import.sh --docker"
         # every hour
         minute: '3'
 
