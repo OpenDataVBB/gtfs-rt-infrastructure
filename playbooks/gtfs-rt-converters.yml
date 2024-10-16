@@ -87,20 +87,18 @@
         )\
         \gexec" | sudo -u postgres psql
       become: true
-    # todo: make this a systemd unit?
     - name: run GTFS import manually
-      ansible.builtin.shell: |
-        export PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}'
-        export GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}'
-        {{ gtfs_rt_feed_dir }}/import.sh --docker
+      ansible.builtin.shell: '{{ gtfs_rt_feed_import_cmd }}'
+
+    # todo: use systemd unit, tie it to gtfs-rt-server.service? – or configure rsyslog to keep cron logs
+    # see also https://www.splendid-internet.de/blog/besser-als-cronjobs-timer-units-mit-systemd/#Und_was_sind_Timer_Units
 
     - name: set up GTFS import cron job
       ansible.builtin.cron:
         name: 'gtfs-rt-feed: GTFS import'
         user: root # todo: use `www-data` instead?
         cron_file: gtfs-rt-feed-gtfs-import
-        # todo: make $GTFS_IMPORTER_DB_PREFIX configurable
-        job: "env PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' {{ gtfs_rt_feed_dir }}/import.sh --docker"
+        job: '{{ gtfs_rt_feed_import_cmd }}'
         # every hour
         minute: '3'
 

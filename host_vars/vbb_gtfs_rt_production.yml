@@ -9,3 +9,7 @@ wireguard_private_key: !vault |
 
 wireguard_addresses:
   - '10.0.0.0/24'
+
+# see also https://caddyserver.com/docs/caddyfile/concepts#addresses
+# todo
+gtfs_rt_public_endpoints: []

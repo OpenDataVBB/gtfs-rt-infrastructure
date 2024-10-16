@@ -1,7 +1,3 @@
-# todo: move to host_vars/all.yml?
-gtfs_rt_public_endpoints:
-- 'vbb-gtfs-rt.jannisr.de'
-
 # see https://github.com/mholt/caddy-ratelimit/blob/12435ecef5dbb1b137eb68002b85d775a9d5cdb2/README.md
 gtfs_rt_rate_limit_requests: 60
 gtfs_rt_rate_limit_window: 1m
@@ -30,6 +26,10 @@ gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus + 2 }}'
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
 gtfs_rt_feed_gtfs_download_user_agent: '{{ inventory_hostname }} GTFS import'
+# This command imports the GTFS data into a database. It then writes a systemd override config file setting $PGDATABASE.
+# We assume that it is executed using `sh`.
+# todo: make $GTFS_IMPORTER_DB_PREFIX configurable
+gtfs_rt_feed_import_cmd: "export PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' && env GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' {{ gtfs_rt_feed_dir }}/import.sh --docker && echo \"[Service]\\nEnvironment=PGDATABASE=$(psql -q --csv -t -h localhost -c 'SELECT db_name FROM latest_import')\"| sponge /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf"
 
 # nats-consuming-gtfs-rt-server
 nats_consuming_gtfs_rt_server_git_ref: main # todo: pin?
