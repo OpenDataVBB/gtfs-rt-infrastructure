@@ -23,3 +23,8 @@ vdv_453_nats_adapter_dir: '/srv/vdv-453-nats-adapter'
 # > Port to listen on. VDV-453 requires the *client* to run an HTTP server that the VDV-453 API can call.
 # Note: VBB/HaCon has configured this port on their side, so we cannot just change it!
 vdv_453_nats_adapter_internal_port: 8080
+
+# For how long the VDV-454 AUS subscription(s) should be valid. Needs to be a plain number, in seconds!
+# see also templates/vdv-453-nats-adapter.service.j2 & templates/vdv-453-nats-adapter-run.sh.j2.
+# see also https://github.com/OpenDataVBB/vdv-453-nats-adapter/issues/2
+vdv_453_nats_adapter_aus_subscription_ttl: 86400 # 24 hours

@@ -124,6 +124,12 @@
       community.general.npm:
         path: '{{ vdv_453_nats_adapter_dir }}'
       become: true
+    - name: copy temporary wrapper script {{ vdv_453_nats_adapter_dir }}/run.sh
+      ansible.builtin.copy:
+        src: ../lib/vdv-453-nats-adapter-run.sh
+        dest: '{{ vdv_453_nats_adapter_dir }}/run.sh'
+        mode: 'u+x,g+x,o+x'
+      become: true
     - name: put systemd vdv-453-nats-adapter.service unit file
       ansible.builtin.template:
         src: '../templates/vdv-453-nats-adapter.service.j2'
