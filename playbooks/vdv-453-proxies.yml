@@ -102,10 +102,12 @@
         src: ../templates/strongswan-hacon-datendrehscheibe-cisco-asa.conf.j2
         dest: /etc/swanctl/conf.d/hacon-datendrehscheibe-cisco-asa.conf
       become: true
-    - name: restart strongswan-starter systemd service
-      ansible.builtin.shell: |
-        systemctl daemon-reload
-        systemctl restart strongswan-starter
+    - name: systemd daemon-reload, enable & restart systemd strongswan-starter.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        state: restarted
+        name: strongswan-starter
       become: true
 
     - name: check if HaCon Datendrehscheibe can be ping-ed
@@ -130,11 +132,12 @@
     - name: validate vdv-453-nats-adapter.service
       ansible.builtin.shell: |
         systemd-analyze verify /etc/systemd/system/vdv-453-nats-adapter.service
-    - name: enable & start vdv-453-nats-adapter systemd service
-      ansible.builtin.shell: |
-        systemctl daemon-reload
-        systemctl enable vdv-453-nats-adapter
-        systemctl start vdv-453-nats-adapter
+    - name: systemd daemon-reload, enable & restart systemd vdv-453-nats-adapter.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        state: restarted
+        name: vdv-453-nats-adapter
       become: true
 
     # todo: timedatectl set-ntp true

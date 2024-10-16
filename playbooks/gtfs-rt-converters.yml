@@ -104,14 +104,16 @@
         # every hour
         minute: '3'
 
-    - name: enable & start gtfs-rt-feed systemd service
-      ansible.builtin.shell: |
-        systemctl daemon-reload
-        systemctl enable gtfs-rt-feed
-        systemctl start gtfs-rt-feed
+    - name: systemd daemon-reload, enable & restart systemd gtfs-rt-feed.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        state: restarted
+        name: gtfs-rt-feed
     - name: reload Caddy config
-      ansible.builtin.shell: |
-        systemctl reload caddy
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: caddy
 
     - name: clone OpenDataVBB/nats-consuming-gtfs-rt-server:{{ nats_consuming_gtfs_rt_server_git_ref }}
       ansible.builtin.git:
@@ -128,11 +130,12 @@
     - name: validate nats-consuming-gtfs-rt-server.service
       ansible.builtin.shell: |
         systemd-analyze verify /etc/systemd/system/nats-consuming-gtfs-rt-server.service
-    - name: enable & start nats-consuming-gtfs-rt-server systemd service
-      ansible.builtin.shell: |
-        systemctl daemon-reload
-        systemctl enable nats-consuming-gtfs-rt-server
-        systemctl start nats-consuming-gtfs-rt-server
+    - name: systemd daemon-reload, enable & start systemd nats-consuming-gtfs-rt-server.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        state: restarted
+        name: nats-consuming-gtfs-rt-server
 
     - name: put gtfs-rt.Caddyfile
       ansible.builtin.template:
@@ -143,5 +146,6 @@
       ansible.builtin.shell: |
         caddy validate -c /etc/caddy/Caddyfile
     - name: reload Caddy config
-      ansible.builtin.shell: |
-        systemctl reload caddy
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: caddy
