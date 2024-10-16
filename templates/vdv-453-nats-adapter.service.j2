@@ -4,6 +4,9 @@ After=syslog.target network.target nats-server.service
 [Service]
 ExecStart=/usr/bin/node cli.js AUS
 Restart=always
+RestartSec=5s
+RestartMaxDelaySec=5m
+RestartSteps=20
 WorkingDirectory={{ vdv_453_nats_adapter_dir }}
 Environment=NODE_ENV=production
 Environment=VDV_453_LEITSTELLE="{{ vdv_453_our_leitstellenkennung }}"
