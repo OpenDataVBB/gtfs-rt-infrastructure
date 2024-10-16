@@ -1,5 +1,5 @@
 [Unit]
-After=syslog.target network.target
+After=syslog.target network.target nats-server.service
 
 [Service]
 ExecStart=/usr/bin/node cli.js AUS
