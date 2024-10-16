@@ -1,3 +1,9 @@
+(cors_for_all) {
+	@origin header Origin *
+	header @origin Access-Control-Allow-Origin "*"
+	header @origin Access-Control-Allow-Methods "OPTIONS,HEAD,GET"
+}
+
 {{ gtfs_rt_public_endpoints | join(', ') }} {
 	encode zstd gzip
 	route /* {
@@ -7,6 +13,9 @@
 			events {{ gtfs_rt_rate_limit_requests }}
 			window {{ gtfs_rt_rate_limit_window }}
 		}
+
+		import cors_for_all
+
 		reverse_proxy /* {
 			to http://localhost:{{ nats_consuming_gtfs_rt_server_internal_port }}
 		}
