@@ -93,6 +93,17 @@
     # todo: use systemd unit, tie it to gtfs-rt-server.service? – or configure rsyslog to keep cron logs
     # see also https://www.splendid-internet.de/blog/besser-als-cronjobs-timer-units-mit-systemd/#Und_was_sind_Timer_Units
 
+    - name: configure rsyslog to keep cron job logs
+      ansible.builtin.copy:
+        src: ../lib/rsyslog.d-enable-cron.conf
+        dest: /etc/rsyslog.d/60-enable-cron.conf
+    # Seems like we must restart rsyslog.service.
+    # see https://serverfault.com/a/943575/1107343
+    - name: restart rsyslog.service.
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: rsyslog
+
     - name: set up GTFS import cron job
       ansible.builtin.cron:
         name: 'gtfs-rt-feed: GTFS import'
