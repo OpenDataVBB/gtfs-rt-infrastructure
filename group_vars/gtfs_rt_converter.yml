@@ -13,7 +13,7 @@ postgresql_postgres_password: !vault |
           64333566323161613139306437366239373365323231616465333165663666353230
 
 # Redis
-redis_maxmemory: 1gb
+redis_maxmemory: 2gb
 # > Keeps most recently used keys; removes least recently used (LRU) keys
 redis_maxmemory_policy: allkeys-lru
 gtfs_rt_feed_redis_db: 1
@@ -21,7 +21,7 @@ gtfs_rt_feed_redis_db: 1
 # gtfs-rt-feed
 gtfs_rt_feed_git_ref: main # todo: pin?
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
-gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus + 2 }}'
+gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus * 1.2 | round }}' # todo: tweak?
 
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
