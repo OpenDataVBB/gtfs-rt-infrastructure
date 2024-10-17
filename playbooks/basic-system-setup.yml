@@ -5,6 +5,8 @@
     - role: geerlingguy.security
       vars:
         security_fail2ban_enabled: true
+        security_ssh_password_authentication: 'yes'
+        security_ssh_permit_root_login: 'yes'
       become: true
   tasks:
     # update all packages
