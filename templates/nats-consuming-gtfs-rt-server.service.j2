@@ -8,6 +8,7 @@ WorkingDirectory={{ nats_consuming_gtfs_rt_server_dir }}
 Environment=NODE_ENV=production
 Environment=HOSTNAME="{{ gtfs_rt_public_endpoints[0] }}"
 Environment=PORT={{ nats_consuming_gtfs_rt_server_internal_port }}
+Environment=MATCHING_CONSUMER_DURABLE_NAME=nats-consuming-gtfs-rt-server
 
 [Install]
 WantedBy=multi-user.target

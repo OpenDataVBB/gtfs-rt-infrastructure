@@ -11,6 +11,7 @@ Environment=REDIS_URL="redis:///{{ gtfs_rt_feed_redis_db }}"
 Environment=PGHOST=localhost
 Environment=PGUSER=postgres
 Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
+Environment=MATCHING_CONSUMER_DURABLE_NAME=gtfs-rt-feed
 Environment=MATCHING_CONCURRENCY="{{ gtfs_rt_feed_matching_concurrency }}"
 
 [Install]
