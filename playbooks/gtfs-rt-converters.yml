@@ -28,6 +28,20 @@
       become: true
       role: geerlingguy.postgresql
 
+    - name: install Prometheus
+      role: prometheus.prometheus.prometheus
+      vars:
+        prometheus_web_listen_address: 'localhost:9090' # only listen locally
+        prometheus_storage_retention: '120d'
+        prometheus_storage_retention_size: '20GB'
+        prometheus_scrape_configs:
+          - job_name: gtfs-rt-feed
+            static_configs:
+              - targets: ['localhost:{{ gtfs_rt_feed_metrics_server_port }}']
+          - job_name: nats-consuming-gtfs-rt-server
+            static_configs:
+              - targets: ['localhost:{{ nats_consuming_gtfs_rt_server_metrics_server_port }}']
+
   tasks:
     - name: set password of "postgres" user
       become: true

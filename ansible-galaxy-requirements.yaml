@@ -1,4 +1,7 @@
 ---
+collections:
+- name: prometheus.prometheus
+  version: '0.21.0'
 roles:
 - src: geerlingguy.security
   version: '2.2.0'
