@@ -54,6 +54,15 @@
           - job_name: prometheus-redis-exporter
             static_configs:
               - targets: ['localhost:9121']
+          - job_name: prometheus-node-exporter
+            static_configs:
+              - targets: ['localhost:9100']
+          - job_name: prometheus-systemd-exporter
+            static_configs:
+              - targets: ['localhost:9558']
+          - job_name: prometheus
+            static_configs:
+              - targets: ['localhost:9090']
     - name: install Prometheus PostgreSQL exporter
       role: prometheus.prometheus.postgres_exporter
       vars:
@@ -85,6 +94,33 @@
         redis_exporter_redis_only_metrics: true
         # default is `0.0.0.0:9121`
         redis_exporter_web_listen_address: 'localhost:9121'
+
+    # todo: move these to a general playbook
+    - name: install Prometheus node exporter
+      role: prometheus.prometheus.node_exporter
+      vars:
+        node_exporter_enabled_collectors:
+          # > Collectors are enabled by providing a `--collector.<name>` flag. Collectors that are enabled by default can be disabled by providing a `--no-collector.<name>` flag. To enable only some specific collector(s), use `--collector.disable-defaults --collector.<name> ...`.
+          # – https://github.com/prometheus/node_exporter/blob/v1.8.2/README.md#collectors
+          - disable-defaults
+          - cpu
+          - diskstats
+          - filesystem
+          - hwmon
+          - loadavg
+          - meminfo
+          - netdev
+          - systemd
+        # default is `0.0.0.0:9100`
+        systemd_exporter_web_listen_address: 'localhost:9100'
+    todo: remove in favor of Node Exporter's `systemd` collector – does this work?
+    see https://github.com/prometheus/node_exporter/blob/v1.8.2/collector/systemd_linux.go#L158-L174
+    - name: install Prometheus systemd exporter
+      role: prometheus.prometheus.systemd_exporter
+      vars:
+        systemd_exporter_enable_restart_count: true
+        # default is `0.0.0.0:9558`
+        systemd_exporter_web_listen_address: 'localhost:9558'
 
   tasks:
     - name: set password of "postgres" user
