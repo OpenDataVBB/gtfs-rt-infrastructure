@@ -41,6 +41,50 @@
           - job_name: nats-consuming-gtfs-rt-server
             static_configs:
               - targets: ['localhost:{{ nats_consuming_gtfs_rt_server_metrics_server_port }}']
+          - job_name: caddy
+            static_configs:
+              # https://caddyserver.com/docs/metrics
+              - targets: ['localhost:2019']
+          - job_name: prometheus-nats-exporter
+            static_configs:
+              - targets: ['localhost:7777']
+          - job_name: prometheus-postgres-exporter
+            static_configs:
+              - targets: ['localhost:9187']
+          - job_name: prometheus-redis-exporter
+            static_configs:
+              - targets: ['localhost:9121']
+    - name: install Prometheus PostgreSQL exporter
+      role: prometheus.prometheus.postgres_exporter
+      vars:
+        postgres_exporter_name: 'postgresql://postgres:{{ postgresql_postgres_password }}@localhost/postgres?host=/var/run/postgresql'
+        # Note: Some config values are modified via a systemd config override, see tasks below.
+        postgres_exporter_disabled_collectors:
+          - locks
+          - replication
+          - replication_slot
+          - stat_bgwriter
+          # The `stat_database` collector (enabled by default) exposes the database name as a label. Because postgis-gtfs-importer creates a new database on each import (gtfs_$timestamp_$hash), this creates a large number of time series.
+          # > CAUTION: Remember that every unique combination of key-value label pairs represents a new time series, which can dramatically increase the amount of data stored. Do not use labels to store dimensions with high cardinality (many different label values), such as user IDs, email addresses, or other unbounded sets of values.
+          # – https://prometheus.io/docs/practices/naming/
+          # todo: investigate if this is a problem!
+          # - stat_database
+          - stat_user_tables
+          - statio_user_tables
+          - wal
+        # default is `0.0.0.0:9187`
+        postgres_exporter_web_listen_address: 'localhost:9187'
+    - name: install Prometheus Redis exporter
+      role: prometheus.prometheus.redis_exporter
+      vars:
+        # todo: adapt gtfs-rt-feed's keys naming, then use `redis_exporter_check_key_groups` to get insights into key usage
+        # todo: adapt gtfs-rt-feed's keys naming to something more meaningful & self-explanatory!
+        redis_exporter_count_keys:
+          - '{{ gtfs_rt_feed_redis_db }}=*'
+        redis_exporter_incl_system_metrics: true
+        redis_exporter_redis_only_metrics: true
+        # default is `0.0.0.0:9121`
+        redis_exporter_web_listen_address: 'localhost:9121'
 
   tasks:
     - name: set password of "postgres" user
@@ -51,6 +95,20 @@
       package:
         name:
           - postgis
+    - name: create directory /etc/systemd/system/postgres_exporter.service.d
+      ansible.builtin.file:
+        path: /etc/systemd/system/postgres_exporter.service.d
+        state: directory
+      # become: true
+    - name: "Prometheus PostgreSQL exporter: put systemd config override to prevent scraping pg_settings"
+      ansible.builtin.copy:
+        src: ../lib/prometheus/postgres-exporter-disable-pg-settings.conf
+        dest: /etc/systemd/system/postgres_exporter.service.d/disable-pg-settings.conf
+    - name: systemd daemon-reload & restart systemd gtfs-rt-feed.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        state: restarted
+        name: postgres_exporter
 
     - name: install Redis
       package:
