@@ -133,10 +133,12 @@
           admin_user: admin
           admin_password: '{{ grafana_admin_password }}'
         grafana_datasources:
+          - uid: 'de29irtzi5gcga' # must match the `uid` in the dashboard files!
             name: 'prometheus localhost'
             type: prometheus
             access: proxy
             url: 'http://{{ prometheus_web_listen_address }}'
+        grafana_dashboards_dir: ../lib/grafana/dashboards
 
   tasks:
     - name: set password of "postgres" user
