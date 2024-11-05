@@ -31,7 +31,7 @@
     - name: install Prometheus
       role: prometheus.prometheus.prometheus
       vars:
-        prometheus_web_listen_address: '{{ prometheus_web_listen_address }}' # only listen locally
+        prometheus_web_listen_address: '{{ prometheus_listen_address }}' # only listen locally
         prometheus_storage_retention: '120d'
         prometheus_storage_retention_size: '20GB'
         prometheus_scrape_configs:
@@ -62,7 +62,7 @@
               - targets: ['localhost:9558']
           - job_name: prometheus
             static_configs:
-              - targets: ['{{ prometheus_web_listen_address }}']
+              - targets: ['{{ prometheus_listen_address }}']
     - name: install Prometheus PostgreSQL exporter
       role: prometheus.prometheus.postgres_exporter
       vars:
@@ -137,7 +137,7 @@
             name: 'prometheus localhost'
             type: prometheus
             access: proxy
-            url: 'http://{{ prometheus_web_listen_address }}'
+            url: 'http://{{ prometheus_listen_address }}'
         grafana_dashboards_dir: ../lib/grafana/dashboards
 
   tasks:

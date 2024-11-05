@@ -40,5 +40,5 @@ nats_consuming_gtfs_rt_server_internal_port: 3000
 # monitoring
 gtfs_rt_feed_metrics_server_port: 9091
 nats_consuming_gtfs_rt_server_metrics_server_port: 9092
-prometheus_web_listen_address: 'localhost:9090' # only listen locally
+prometheus_listen_address: 'localhost:9090' # only listen locally
 grafana_port: 8000
