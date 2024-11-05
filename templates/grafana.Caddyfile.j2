@@ -1,0 +1,12 @@
+{{ grafana_public_endpoints | join(', ') }} {
+	# todo: br
+	encode zstd gzip
+
+	basic_auth /* {
+		admin {{ grafana_admin_password_caddy_hashed }}
+	}
+
+	reverse_proxy /* {
+		to http://localhost:{{ grafana_port }}
+	}
+}

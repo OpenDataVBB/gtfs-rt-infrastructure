@@ -164,6 +164,16 @@
         state: restarted
         name: postgres_exporter
 
+    - name: put grafana.Caddyfile
+      ansible.builtin.template:
+        src: '../templates/grafana.Caddyfile.j2'
+        dest: /etc/caddy/grafana.Caddyfile
+        owner: 'www-data'
+    - name: reload Caddy config
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: caddy
+
     - name: install Redis
       package:
         name:
