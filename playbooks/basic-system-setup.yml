@@ -71,10 +71,10 @@
         regex: ^(# *)?RuntimeKeepFree\b
         line: RuntimeKeepFree={{ journald_runtime_keep_free }}
       become: true
-    - name: systemd daemon-reload, enable & restart journald
+    - name: systemd daemon-reload, enable & restart systemd-journald
       ansible.builtin.systemd_service:
         daemon_reload: true
         enabled: true
         state: restarted
-        name: journald
+        name: systemd-journald
       become: true
