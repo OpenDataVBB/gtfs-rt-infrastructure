@@ -31,7 +31,7 @@
     - name: install Prometheus
       role: prometheus.prometheus.prometheus
       vars:
-        prometheus_web_listen_address: 'localhost:9090' # only listen locally
+        prometheus_web_listen_address: '{{ prometheus_web_listen_address }}' # only listen locally
         prometheus_storage_retention: '120d'
         prometheus_storage_retention_size: '20GB'
         prometheus_scrape_configs:
@@ -62,7 +62,7 @@
               - targets: ['localhost:9558']
           - job_name: prometheus
             static_configs:
-              - targets: ['localhost:9090']
+              - targets: ['{{ prometheus_web_listen_address }}']
     - name: install Prometheus PostgreSQL exporter
       role: prometheus.prometheus.postgres_exporter
       vars:
@@ -121,6 +121,22 @@
         systemd_exporter_enable_restart_count: true
         # default is `0.0.0.0:9558`
         systemd_exporter_web_listen_address: 'localhost:9558'
+
+    - name: install Grafana
+      role: grafana.grafana.grafana
+      vars:
+        # todo: use the variable again – somehow this doesn't work :/
+        # grafana_port: '{{ grafana_port }}'
+        grafana_port: 8000
+        grafana_address: '127.0.0.1' # `localhost` doesn't work
+        grafana_security:
+          admin_user: admin
+          admin_password: '{{ grafana_admin_password }}'
+        grafana_datasources:
+            name: 'prometheus localhost'
+            type: prometheus
+            access: proxy
+            url: 'http://{{ prometheus_web_listen_address }}'
 
   tasks:
     - name: set password of "postgres" user
