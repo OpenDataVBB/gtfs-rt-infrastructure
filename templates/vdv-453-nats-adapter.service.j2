@@ -12,9 +12,9 @@ RuntimeMaxSec={{ vdv_453_nats_adapter_aus_subscription_ttl + 15 }}s
 Environment=VDV_454_AUS_SUBSCRIPTION_TTL={{ vdv_453_nats_adapter_aus_subscription_ttl }}
 
 Restart=always
-RestartSec=5s
-RestartMaxDelaySec=5m
-RestartSteps=20
+RestartSec=10s
+RestartMaxDelaySec=15m
+RestartSteps=30
 WorkingDirectory={{ vdv_453_nats_adapter_dir }}
 Environment=NODE_ENV=production
 Environment=VDV_453_LEITSTELLE="{{ vdv_453_our_leitstellenkennung }}"
