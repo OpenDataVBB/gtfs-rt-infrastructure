@@ -21,7 +21,7 @@ gtfs_rt_feed_redis_db: 1
 # gtfs-rt-feed
 gtfs_rt_feed_git_ref: main # todo: pin?
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
-gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus * 1.2 | round }}' # todo: tweak?
+gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus * 1.2 | round | int }}' # todo: tweak?
 
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
