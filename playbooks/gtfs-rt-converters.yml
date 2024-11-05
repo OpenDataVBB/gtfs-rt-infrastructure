@@ -129,6 +129,7 @@
         # grafana_port: '{{ grafana_port }}'
         grafana_port: 8000
         grafana_address: '127.0.0.1' # `localhost` doesn't work
+        grafana_url: '{{ grafana_public_endpoints[0] }}'
         grafana_security:
           admin_user: admin
           admin_password: '{{ grafana_admin_password }}'
