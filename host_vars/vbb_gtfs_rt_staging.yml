@@ -20,8 +20,8 @@ gtfs_rt_public_endpoints:
 
 # Note: We force HTTPS so that HTTP Basic Auth is secure.
 grafana_public_endpoints:
-- 'https://staging.vbb-gtfs-rt.jannisr.de:8080'
 - 'https://staging.gtfsrt.vbb.de:8080'
+- 'https://staging.vbb-gtfs-rt.jannisr.de:8080'
 grafana_admin_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           32393333616630306165613535393333343461666138333965383031376334653837613062303432
