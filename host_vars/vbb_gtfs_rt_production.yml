@@ -13,8 +13,8 @@ wireguard_addresses:
 
 # see also https://caddyserver.com/docs/caddyfile/concepts#addresses
 gtfs_rt_public_endpoints:
-- 'production.vbb-gtfs-rt.jannisr.de'
-- 'production.gtfsrt.vbb.de'
+- 'https://production.vbb-gtfs-rt.jannisr.de'
+- 'https://production.gtfsrt.vbb.de'
 - 'http://135.181.114.212:80' # todo: pull from ansible facts?
 - 'http://[2a01:4f9:4b:1ad7::2]:80' # todo: pull from ansible facts?
 
