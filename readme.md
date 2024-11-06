@@ -2,6 +2,11 @@
 
 This repo **configures the machines that the [VBB GTFS Realtime (GTFS-RT) feed](https://github.com/OpenDataVBB/gtfs-rt-feed) runs on** using [Ansible](https://docs.ansible.com/ansible/latest/index.html).
 
+> [!TIP]
+> If you're just looking for VBB's publicly deployed GTFS-RT feed:
+> - [actual GTFS-RT feed](https://production.gtfsrt.vbb.de) ([staging](https://staging.gtfsrt.vbb.de))
+> - [parsed in `gtfs-rt-inspector`](https://public-transport.github.io/gtfs-rt-inspector/?feedUrl=https%3A%2F%2Fproduction.gtfsrt.vbb.de&view=inspector) ([staging](https://public-transport.github.io/gtfs-rt-inspector/?feedUrl=https%3A%2F%2Fstaging.gtfsrt.vbb.de&view=inspector))
+
 ```mermaid
 flowchart TB
     subgraph external[ ]
