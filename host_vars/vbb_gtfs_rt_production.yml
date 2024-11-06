@@ -9,14 +9,19 @@ wireguard_private_key: !vault |
 
 wireguard_addresses:
   - '10.0.0.0/24'
+# wireguard_allowed_ips: '10.0.0.0/24'
 
 # see also https://caddyserver.com/docs/caddyfile/concepts#addresses
-# todo
-gtfs_rt_public_endpoints: []
+gtfs_rt_public_endpoints:
+- 'production.vbb-gtfs-rt.jannisr.de'
+- 'production.gtfsrt.vbb.de'
+- 'http://135.181.114.212:80' # todo: pull from ansible facts?
+- 'http://[2a01:4f9:4b:1ad7::2]:80' # todo: pull from ansible facts?
 
 # Note: We force HTTPS so that HTTP Basic Auth is secure.
-# todo
-grafana_public_endpoints: []
+grafana_public_endpoints:
+- 'https://production.gtfsrt.vbb.de:8080'
+- 'https://production.vbb-gtfs-rt.jannisr.de:8080'
 grafana_admin_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           32643832666361363938666633356665633466353530613139643832383361396335643863373433

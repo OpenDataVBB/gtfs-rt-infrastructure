@@ -10,8 +10,17 @@ all:
       ansible_host: 65.108.4.53
       ansible_user: root
     vbb_gtfs_rt_production:
-      # todo
+      ansible_host: 135.181.114.212
+      ansible_user: root
   children:
+    staging:
+      hosts:
+        vbb_gtfs_rt_staging:
+        vbb_datendrehscheibe_proxy_staging:
+    production:
+      hosts:
+        vbb_gtfs_rt_production:
+        vbb_datendrehscheibe_proxy_production:
     vdv_453_proxy:
       hosts:
         vbb_datendrehscheibe_proxy_staging:
@@ -30,7 +39,9 @@ all:
     wireguard_vpn:
       hosts:
         vbb_gtfs_rt_staging:
+        vbb_datendrehscheibe_proxy_staging:
         vbb_gtfs_rt_production:
+        vbb_datendrehscheibe_proxy_production:
       children:
         wireguard_vpn_staging:
           hosts:
