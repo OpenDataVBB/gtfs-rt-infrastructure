@@ -23,4 +23,10 @@
 			to http://localhost:{{ nats_consuming_gtfs_rt_server_internal_port }}
 		}
 	}
+
+	route /* {
+		file_server {
+			root {{ gtfs_rt_webroot }}
+		}
+	}
 }

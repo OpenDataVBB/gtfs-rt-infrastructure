@@ -1,0 +1,119 @@
+<!doctype HTML>
+<html lang="de" dir="lrt">
+<head>
+	<meta charset="utf-8">
+	<title>GTFS-Realtime-Feed des VBB</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<style>
+	body {
+		margin: 2rem auto 3rem auto;
+		padding: 0 1rem;
+		max-width: 40rem;
+		background-color: #fff;
+		/*	copied from the main VBB page*/
+		font-family: "Transit",sans-serif,Arial,-apple-system,BlinkMacSystemFont,"Segoe UI Emoji",Roboto,"Helvetica Neue","Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+		font-size: 1.25rem;
+		line-height: 1.7;
+		color: #383434;
+	}
+
+	h1, h2, h3, p {
+		margin: 1rem 0;
+	}
+
+	h1, h2, h3 {
+		font-weight: 700;
+	}
+	h1 {
+		font-size: 1.75rem;
+	}
+	h2 {
+		font-size: 1.5rem;
+	}
+	h3 {
+		font-size: 1.125rem;
+	}
+
+	a, a code {
+		text-decoration: none;
+		color: inherit;
+	}
+	a:hover {
+		text-decoration: underline;
+		color: #ad0000;
+	}
+	a code {
+		color: inherit;
+	}
+	a::before {
+		content: "";
+		display: inline-block;
+		width: 18px;
+		height: 15px;
+		margin-left: 2px;
+		margin-right: 2px;
+		margin-bottom: -1px;
+		background-position: 0 bottom;
+		background-size: contain;
+		background-repeat: no-repeat;
+		flex: 1 0 auto;
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><clipPath><path d="M0 0h100v80H0z"/></clipPath><path d="M68.253,67.8,92,44.047,68.253,20.3,61.111,27.38,74.236,39.041H31.99V49.053H74.236l-13.126,11.6ZM52.014,84.035V74.022h-50V14.01h50V4H-8V84.035Z" transform="translate(7.998 5.984)" fill="%23e10000"/></svg>');
+	}
+	a.no-link-icon::before {
+		display: none;
+	}
+
+	code, pre {
+		padding: .05em .2em;
+		background-color: #f8f8f8;
+		border: 1px solid #ddd;
+		border-radius: .15em;
+		/* https://www.client9.com/css-system-font-stack-monospace-v2/ */
+		font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+		font-size: 95%;
+		color: #111;
+	}
+	pre {
+		padding: .25em .3em;
+		font-size: 90%;
+		text-align: left;
+		line-height: 1.4;
+		overflow-x: scroll;
+	}
+	pre code {
+		padding: 0;
+		background-color: unset;
+		border: none;
+		border-radius: 0;
+		font-size: inherit;
+	}
+
+	#logo {
+		text-align: center;
+	}
+	#logo img {
+		height: 3rem;
+	}
+	</style>
+</head>
+<body>
+	<figure id="logo">
+		<a class="no-link-icon" href="https://vbb.de">
+			<img src="vbb-logo.svg" title="Verkehrsverbund Berlin-Brandenburg" alt="VBB logo" />
+		</a>
+	</figure>
+	<h1>VBB GTFS Realtime Feed</h1>
+	<p>
+		The VBB <a href="https://gtfs.org/documentation/realtime/reference/" referrerpolicy="no-referrer">GTFS Realtime</a> feed can be found at the following URL:
+		<br>
+		<a class="no-link-icon" href="{{ gtfs_rt_public_endpoints[0] }}/data"><code>{{ gtfs_rt_public_endpoints[0] }}/data</code></a>
+	</p>
+	<ul>
+		<li>It is licensed as <a href="https://creativecommons.org/licenses/by/4.0/" referrerpolicy="no-referrer">CC-BY 4.0</a>.</li>
+		<li>You can fetch it without authentication, up to a limit of {{ gtfs_rt_rate_limit_human_readable }}.</li>
+		<li>It has <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">CORS</a> enabled, so you can query it from any webpage.</li>
+		<li>It is served with an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag"><code>ETag</code></a> header, allowing clients to cache it.</li>
+		<li>The <a href="https://github.com/OpenDataVBB/gtfs-rt-infrastructure" referrerpolicy="no-referrer">code behind this</a> is open.</li>
+	</ul>
+</body>
+</html>

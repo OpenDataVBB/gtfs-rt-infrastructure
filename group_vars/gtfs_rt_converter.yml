@@ -1,6 +1,9 @@
 # see https://github.com/mholt/caddy-ratelimit/blob/12435ecef5dbb1b137eb68002b85d775a9d5cdb2/README.md
 gtfs_rt_rate_limit_requests: 60
 gtfs_rt_rate_limit_window: 1m
+gtfs_rt_rate_limit_human_readable: '60 requests per minute'
+
+gtfs_rt_webroot: '/var/www/gtfs-rt'
 
 # PostgreSQL
 # password for user `postgres`

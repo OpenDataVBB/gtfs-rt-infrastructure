@@ -283,6 +283,16 @@
         state: restarted
         name: nats-consuming-gtfs-rt-server
 
+    # todo: delete old/superfluous remote files -> mirror
+    - name: copy www files
+      ansible.builtin.copy:
+        src: '../files/www/{{ inventory_hostname }}/' # note the trailing slash
+        dest: '{{ gtfs_rt_webroot }}'
+    - name: put {{ gtfs_rt_webroot }}/index.html
+      ansible.builtin.template:
+        src: '../templates/www/index.html.j2'
+        dest: '{{ gtfs_rt_webroot }}/index.html'
+
     - name: put gtfs-rt.Caddyfile
       ansible.builtin.template:
         src: '../templates/gtfs-rt.Caddyfile.j2'

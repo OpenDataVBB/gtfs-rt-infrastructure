@@ -12,9 +12,10 @@ wireguard_addresses:
 # wireguard_allowed_ips: '10.0.0.0/24'
 
 # see also https://caddyserver.com/docs/caddyfile/concepts#addresses
+# Note: The first URL gets used for the explainer HTML page.
 gtfs_rt_public_endpoints:
-- 'https://production.vbb-gtfs-rt.jannisr.de'
 - 'https://production.gtfsrt.vbb.de'
+- 'https://production.vbb-gtfs-rt.jannisr.de'
 - 'http://135.181.114.212:80' # todo: pull from ansible facts?
 - 'http://[2a01:4f9:4b:1ad7::2]:80' # todo: pull from ansible facts?
 
