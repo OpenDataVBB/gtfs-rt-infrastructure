@@ -29,6 +29,110 @@
 			"fieldConfig": {
 				"defaults": {
 					"color": {
+						"fixedColor": "red",
+						"mode": "palette-classic-by-name"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 7,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"min": 0,
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
+					},
+					"unit": "percentunit"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 8,
+				"w": 12,
+				"x": 0,
+				"y": 0
+			},
+			"id": 14,
+			"options": {
+				"legend": {
+					"calcs": [],
+					"displayMode": "list",
+					"placement": "bottom",
+					"showLegend": false
+				},
+				"tooltip": {
+					"mode": "multi",
+					"sort": "asc"
+				}
+			},
+			"pluginVersion": "11.3.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"expr": "sum(rate(matching_successes_total{cached=\"1\"}[$__rate_interval])) without (cached) / sum(rate(matching_successes_total[$__rate_interval])) without (cached)",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": true,
+					"legendFormat": "{{label_name}}",
+					"range": true,
+					"refId": "matching successes: cache ratio",
+					"useBackend": false
+				}
+			],
+			"title": "matching successes: cache ratio",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
 						"mode": "palette-classic"
 					},
 					"custom": {
