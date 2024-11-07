@@ -6,7 +6,10 @@
 
 {{ gtfs_rt_public_endpoints | join(', ') }} {
 	encode zstd gzip
-	route /* {
+
+	route /data {
+		uri strip_prefix /data
+
 		# todo: higher rate limit for authenticated clients
 		rate_limit {
 			key {client_ip}
