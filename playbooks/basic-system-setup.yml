@@ -30,7 +30,12 @@
 
     # todo:
     # unattended upgrades
-    # sudo apt install -y net-tools
+
+    - name: install basic packages
+      ansible.builtin.apt:
+        name:
+          - mosh
+          - net-tools # provides `netstat`, among others
 
     - name: let UFW deny everything
       community.general.ufw:
@@ -41,11 +46,23 @@
         rule: limit
         name: OpenSSH
       become: true
+    - name: let UFW allow rate-limited Mosh
+      community.general.ufw:
+        rule: limit
+        name: mosh
+      become: true
     - name: let UFW always allow SSH from elm.jannisr.de
       community.general.ufw:
         rule: allow
         src: '{{ item }}'
         name: OpenSSH
+      become: true
+      loop: '{{ ssh_allowed_ips }}'
+    - name: let UFW always allow Mosh from elm.jannisr.de
+      community.general.ufw:
+        rule: allow
+        src: '{{ item }}'
+        name: mosh
       become: true
       loop: '{{ ssh_allowed_ips }}'
     - name: let UFW allow TCP on port 80
