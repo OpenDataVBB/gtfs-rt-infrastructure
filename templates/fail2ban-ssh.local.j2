@@ -1,0 +1,9 @@
+[DEFAULT]
+ignoreip = {{ ssh_allowed_ips | join(',') }}
+
+[sshd]
+enabled = true
+maxretry = 5
+findtime = 3h
+bantime = 3d
+banaction = ufw

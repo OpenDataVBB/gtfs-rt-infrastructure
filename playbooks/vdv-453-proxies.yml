@@ -8,26 +8,6 @@
         nodejs_version: '22.x'
       become: true
   tasks:
-    # configure firewall
-    - name: put fail2ban config
-      ansible.builtin.copy:
-        src: ../lib/fail2ban-jail.local
-        dest: /etc/fail2ban/jail.local
-      become: true
-    - name: reload & restart fail2ban
-      ansible.builtin.shell: |
-        fail2ban-client reload
-        fail2ban-client restart
-      become: true
-    - name: let UFW deny everything
-      community.general.ufw:
-        policy: deny
-      become: true
-    - name: let UFW allow rate-limited SSH
-      community.general.ufw:
-        rule: limit
-        name: OpenSSH
-      become: true
     - name: let UFW allow IPSec/IKEv2 connections on ens4 from {{ their_vpn_gateway_ip }}/32
       community.general.ufw:
         policy: allow
