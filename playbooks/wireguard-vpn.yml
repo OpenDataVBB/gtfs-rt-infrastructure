@@ -4,11 +4,51 @@
   roles:
     - role: githubixx.ansible_role_wireguard
       vars:
+        wireguard_port: '{{ wireguard_server_port }}'
         wireguard_interface_restart: true
+  tasks:
+    - name: let UFW allow UDP on port {{ wireguard_server_port }} (Wireguard)
+      community.general.ufw:
+        rule: allow
+        port: '{{ wireguard_server_port }}'
+        proto: 'udp'
+      become: true
+    - name: let UFW allow any incoming traffic on wg0 (Wireguard interface)
+      community.general.ufw:
+        rule: allow
+        direction: in
+        interface: wg0
+      become: true
+    - name: let UFW allow any outgoing traffic from wg0 (Wireguard interface)
+      community.general.ufw:
+        rule: allow
+        direction: out
+        interface: wg0
+      become: true
 
 - hosts: wireguard_vpn_production
   become: true
   roles:
     - role: githubixx.ansible_role_wireguard
       vars:
+        wireguard_port: '{{ wireguard_server_port }}'
         wireguard_interface_restart: true
+  tasks:
+    - name: let UFW allow UDP on port {{ wireguard_server_port }} (Wireguard)
+      community.general.ufw:
+        rule: allow
+        port: '{{ wireguard_server_port }}'
+        proto: 'udp'
+      become: true
+    - name: let UFW allow any incoming traffic on wg0 (Wireguard interface)
+      community.general.ufw:
+        rule: allow
+        direction: in
+        interface: wg0
+      become: true
+    - name: let UFW allow any outgoing traffic from wg0 (Wireguard interface)
+      community.general.ufw:
+        rule: allow
+        direction: out
+        interface: wg0
+      become: true
