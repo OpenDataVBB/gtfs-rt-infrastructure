@@ -684,7 +684,7 @@
 			"fieldConfig": {
 				"defaults": {
 					"color": {
-						"mode": "palette-classic"
+						"mode": "palette-classic-by-name"
 					},
 					"custom": {
 						"axisBorderShow": false,
@@ -704,8 +704,11 @@
 						},
 						"insertNulls": false,
 						"lineInterpolation": "linear",
+						"lineStyle": {
+							"fill": "solid"
+						},
 						"lineWidth": 1,
-						"pointSize": 5,
+						"pointSize": 0,
 						"scaleDistribution": {
 							"type": "linear"
 						},
@@ -719,17 +722,15 @@
 							"mode": "off"
 						}
 					},
+					"fieldMinMax": false,
 					"mappings": [],
+					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
 						"steps": [
 							{
 								"color": "green",
 								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
 							}
 						]
 					},
@@ -743,28 +744,33 @@
 				"x": 0,
 				"y": 24
 			},
-			"id": 6,
+			"id": 17,
 			"options": {
 				"legend": {
 					"calcs": [],
 					"displayMode": "list",
 					"placement": "bottom",
-					"showLegend": false
+					"showLegend": true
 				},
 				"tooltip": {
 					"mode": "multi",
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0",
+			"pluginVersion": "11.3.0+security-01",
 			"targets": [
 				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
 					"disableTextWrap": false,
 					"editorMode": "builder",
-					"expr": "rate(gnatsd_connz_in_msgs[$__rate_interval])",
+					"expr": "rate(nats_nr_of_msgs_sent_total[$__rate_interval])",
 					"fullMetaSearch": false,
-					"includeNullMetadata": true,
-					"legendFormat": "in",
+					"includeNullMetadata": false,
+					"instant": false,
+					"legendFormat": "out by {{job}} to {{topic_root}}.*",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -776,12 +782,12 @@
 					},
 					"disableTextWrap": false,
 					"editorMode": "builder",
-					"expr": "rate(gnatsd_connz_out_msgs[$__rate_interval])",
+					"expr": "rate(nats_nr_of_msgs_received_total[$__rate_interval])",
 					"fullMetaSearch": false,
 					"hide": false,
 					"includeNullMetadata": true,
 					"instant": false,
-					"legendFormat": "out",
+					"legendFormat": "in by {{job}} on {{stream}} {{topic_root}}.* redelivered={{redelivered}}",
 					"range": true,
 					"refId": "B",
 					"useBackend": false
@@ -936,7 +942,7 @@
 						"insertNulls": false,
 						"lineInterpolation": "linear",
 						"lineWidth": 1,
-						"pointSize": 5,
+						"pointSize": 1,
 						"scaleDistribution": {
 							"type": "linear"
 						},
@@ -1239,7 +1245,7 @@
 						"insertNulls": false,
 						"lineInterpolation": "linear",
 						"lineWidth": 1,
-						"pointSize": 5,
+						"pointSize": 1,
 						"scaleDistribution": {
 							"type": "linear"
 						},
