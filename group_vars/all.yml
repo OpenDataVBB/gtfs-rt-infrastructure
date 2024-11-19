@@ -7,3 +7,7 @@ journald_runtime_keep_free: 2G
 ssh_allowed_ips:
 - '54.37.75.136/32' # elm.jannisr.de
 - '5.57.42.0/24' # Planetary Networks: VBB GTFS-RT network
+
+# Note: Because the variable is used both in playbooks/{gtfs-rt-converters,vdv-453-proxies}.yml, this variable has to be defined for a group that includes *both* the respective (staging/production) `gtfs_rt_server` machine as well as the `vdv_453_proxy` machine.
+# todo: move it into group_vars/vdv_453_proxy.yml once the setup of vdv-453-nats-adapter's monitoring has been moved there (see also playbooks/gtfs-rt-converters.yml)
+vdv_453_nats_adapter_metrics_server_port: 9093

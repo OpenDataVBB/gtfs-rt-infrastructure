@@ -27,6 +27,7 @@ Environment=PORT="{{ vdv_453_nats_adapter_internal_port }}"
 Environment=NATS_SERVERS="{{ vdv_453_nats_adapter_nats_servers | join(',') }}"
 # todo: NATS_CLIENT_NAME
 # todo: let it resubscribe before expiry?
+Environment=METRICS_SERVER_PORT="{{ vdv_453_nats_adapter_metrics_server_port }}"
 
 [Install]
 WantedBy=multi-user.target

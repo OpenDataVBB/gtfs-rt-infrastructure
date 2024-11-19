@@ -54,6 +54,9 @@
           - job_name: nats-consuming-gtfs-rt-server
             static_configs:
               - targets: ['localhost:{{ nats_consuming_gtfs_rt_server_metrics_server_port }}']
+          - job_name: vdv-453-nats-adapter
+            static_configs:
+              - targets: ['{{ vdv_453_nats_adapter_address }}:{{ vdv_453_nats_adapter_metrics_server_port }}']
           - job_name: caddy
             static_configs:
               # https://caddyserver.com/docs/metrics
