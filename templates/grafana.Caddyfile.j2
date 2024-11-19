@@ -1,3 +1,5 @@
+# {{ ansible_managed }}
+
 {{ grafana_public_endpoints | join(', ') }} {
 	# todo: br
 	encode zstd gzip
