@@ -43,6 +43,18 @@
         state: enabled
       become: true
 
+    - name: allow SSH reverse tunnels on non-loopback interfaces (for debugging the VBB DDS)
+      when: inventory_hostname in groups["vdv_453_proxy_staging"]
+      ansible.builtin.copy:
+        src: '../lib/sshd-enable-gatewayports.conf'
+        dest: /etc/ssh/sshd_config.d/enable-gatewayports.conf
+      become: true
+    - name: reload systemd ssh.service
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: ssh
+      become: true
+
     # install & configure StrongSwan IPSec VPN
     - name: install StrongSwan IPSec VPN
       ansible.builtin.apt:
