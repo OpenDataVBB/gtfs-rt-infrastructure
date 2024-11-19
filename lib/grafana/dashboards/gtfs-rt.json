@@ -798,6 +798,123 @@
 			"fieldConfig": {
 				"defaults": {
 					"color": {
+						"mode": "continuous-BlYlRd"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 0,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "dashed"
+						}
+					},
+					"mappings": [],
+					"min": 0,
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							},
+							{
+								"color": "red",
+								"value": 1000
+							}
+						]
+					},
+					"unit": "none"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 8,
+				"w": 12,
+				"x": 12,
+				"y": 24
+			},
+			"id": 18,
+			"options": {
+				"legend": {
+					"calcs": [],
+					"displayMode": "list",
+					"placement": "bottom",
+					"showLegend": true
+				},
+				"tooltip": {
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "11.3.0+security-01",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"exemplar": false,
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"AUS_ISTFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed\"})",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "unmatched (AUS_ISTFAHRT_2 vs gtfs-rt-feed)",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"editorMode": "code",
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"GTFS_RT_2\"}) - max(nats_msg_seq{job=\"nats_consuming_gtfs_rt_server\"})",
+					"instant": false,
+					"key": "Q-460ae7f2-4a5c-45f8-8a2b-f58f1f51a1be-2",
+					"legendFormat": "matched (GTFS_RT_2 vs nats-consuming-gtfs-rt-server)",
+					"range": true,
+					"refId": "B"
+				}
+			],
+			"title": "NATS messages: backlog",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
 						"mode": "palette-classic-by-name"
 					},
 					"custom": {
@@ -857,7 +974,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 24
+				"y": 36
 			},
 			"id": 13,
 			"options": {
@@ -1159,7 +1276,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 40
+				"y": 36
 			},
 			"id": 10,
 			"options": {
@@ -1352,7 +1469,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 48
+				"y": 40
 			},
 			"id": 11,
 			"options": {
@@ -1688,7 +1805,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 56
+				"y": 60
 			},
 			"id": 15,
 			"options": {
@@ -1724,6 +1841,128 @@
 			],
 			"title": "VDV-454 IstFahrts per fetch",
 			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic-by-name"
+					},
+					"custom": {
+						"align": "auto",
+						"cellOptions": {
+							"type": "auto"
+						},
+						"inspect": false
+					},
+					"mappings": [
+						{
+							"options": {
+								"0": {
+									"color": "red",
+									"index": 1,
+									"text": "not ok"
+								},
+								"1": {
+									"color": "green",
+									"index": 0,
+									"text": "ok"
+								}
+							},
+							"type": "value"
+						}
+					],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": null
+							}
+						]
+					}
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 8,
+				"w": 12,
+				"x": 12,
+				"y": 56
+			},
+			"id": 16,
+			"options": {
+				"cellHeight": "sm",
+				"footer": {
+					"countRows": false,
+					"fields": "",
+					"reducer": [
+						"sum"
+					],
+					"show": false
+				},
+				"showHeader": true
+			},
+			"pluginVersion": "11.3.0+security-01",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"disableTextWrap": false,
+					"editorMode": "builder",
+					"exemplar": false,
+					"expr": "vdv_statusantwort_ok_timestamp_seconds * 1000",
+					"format": "table",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": true,
+					"legendFormat": "{{service}}",
+					"range": false,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "VDV-453 StatusAntwort.Status ok?",
+			"transformations": [
+				{
+					"id": "filterFieldsByName",
+					"options": {
+						"include": {
+							"names": [
+								"service",
+								"Value",
+								"status"
+							]
+						}
+					}
+				},
+				{
+					"id": "convertFieldType",
+					"options": {
+						"conversions": [
+							{
+								"destinationType": "time",
+								"targetField": "Value"
+							}
+						],
+						"fields": {}
+					}
+				},
+				{
+					"id": "renameByRegex",
+					"options": {
+						"regex": "Value",
+						"renamePattern": "reported"
+					}
+				}
+			],
+			"type": "table"
 		}
 	],
 	"preload": false,
