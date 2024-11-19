@@ -6,9 +6,22 @@
       become: true
       role: nats
       vars:
+        nats_server_name: '{{ inventory_hostname }}'
         nats_jetstream_enabled: true
+        # todo: make configurable
         nats_jetstream_max_mem: 2G
         nats_jetstream_max_file: 10G
+        # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/readme.md
+        # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/monitoring_jetstream.md
+        nats_exporter_export_gatewayz: false
+        nats_exporter_export_accountsz: false
+        nats_exporter_export_accstatsz: false
+        nats_exporter_export_leafz: false
+        nats_exporter_export_routez: false
+        nats_exporter_export_subz: false
+        nats_exporter_export_jsz:
+          # JetStream stream stats (e.g. first/last message sequence)
+          - streams
 
     - name: install Node.js from NodeSource's repo
       role: geerlingguy.nodejs
