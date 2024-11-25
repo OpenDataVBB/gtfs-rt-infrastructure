@@ -1,3 +1,19 @@
+# NATS setup: streams, consumers
+nats_aus_istfahrt_stream_name: AUS_ISTFAHRT_2
+nats_aus_istfahrt_stream_description: 'VDV-454 AUS IstFahrt messages'
+nats_aus_istfahrt_stream_subjects:
+  - 'aus.istfahrt.>'
+
+nats_aus_istfahrt_consumer_name: gtfs-rt-feed
+nats_aus_istfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
+nats_aus_istfahrt_consumer_deliver: new
+nats_aus_istfahrt_consumer_max_pending: 100
+nats_aus_istfahrt_consumer_max_deliver: 3
+nats_aus_istfahrt_consumer_backoff: linear
+nats_aus_istfahrt_consumer_backoff_steps: 2
+nats_aus_istfahrt_consumer_backoff_min: 1m
+nats_aus_istfahrt_consumer_backoff_max: 5m
+
 # see https://github.com/mholt/caddy-ratelimit/blob/12435ecef5dbb1b137eb68002b85d775a9d5cdb2/README.md
 gtfs_rt_rate_limit_requests: 60
 gtfs_rt_rate_limit_window: 1m

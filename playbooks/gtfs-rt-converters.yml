@@ -210,6 +210,31 @@
       ansible.builtin.apt:
         name: docker.io
 
+    # These follow gtfs-rt-feed's readme: https://github.com/OpenDataVBB/gtfs-rt-feed/blob/b4bf9f6f482c541edacd237db960e051cd017fe5/readme.md#create-nats-stream--consumer.
+    - name: ensure the NATS stream "{{ nats_aus_istfahrt_stream_name }}" is configured correctly
+      ansible.builtin.shell: |
+        nats stream add \
+          --defaults \
+          --subjects='{{ nats_aus_istfahrt_stream_subjects | join('\n') }}' \
+          --description='{{ nats_aus_istfahrt_stream_description }}' \
+          --ack --retention=limits --discard=old \
+          '{{ nats_aus_istfahrt_stream_name }}'
+    - name: ensure the NATS consumer "{{ nats_aus_istfahrt_consumer_name }}" for the "{{ nats_aus_istfahrt_stream_name }}" is configured correctly
+      ansible.builtin.shell: |
+        nats consumer add \
+          --defaults \
+          --pull --ack=explicit \
+          --deliver='{{ nats_aus_istfahrt_consumer_deliver }}' \
+          --max-pending='{{ nats_aus_istfahrt_consumer_max_pending }}' \
+          --max-deliver='{{ nats_aus_istfahrt_consumer_max_deliver }}' \
+          --backoff='{{ nats_aus_istfahrt_consumer_backoff }}' \
+          --backoff-steps='{{ nats_aus_istfahrt_consumer_backoff_steps }}' \
+          --backoff-min='{{ nats_aus_istfahrt_consumer_backoff_min }}' \
+          --backoff-max='{{ nats_aus_istfahrt_consumer_backoff_max }}' \
+          --description '{{ nats_aus_istfahrt_consumer_description }}' \
+          '{{ nats_aus_istfahrt_stream_name }}' \
+          '{{ nats_aus_istfahrt_consumer_name }}'
+
     - name: clone OpenDataVBB/gtfs-rt-feed:{{ gtfs_rt_feed_git_ref }}
       ansible.builtin.git:
         repo: 'https://github.com/OpenDataVBB/gtfs-rt-feed.git'
