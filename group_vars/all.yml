@@ -11,3 +11,5 @@ ssh_allowed_ips:
 # Note: Because the variable is used both in playbooks/{gtfs-rt-converters,vdv-453-proxies}.yml, this variable has to be defined for a group that includes *both* the respective (staging/production) `gtfs_rt_server` machine as well as the `vdv_453_proxy` machine.
 # todo: move it into group_vars/vdv_453_proxy.yml once the setup of vdv-453-nats-adapter's monitoring has been moved there (see also playbooks/gtfs-rt-converters.yml)
 vdv_453_nats_adapter_metrics_server_port: 9093
+
+prometheus_blackbox_export_port: 9115

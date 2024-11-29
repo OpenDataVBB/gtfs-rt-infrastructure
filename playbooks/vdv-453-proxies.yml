@@ -7,6 +7,21 @@
       vars:
         nodejs_version: '22.x'
       become: true
+
+    - name: install Prometheus blackbox exporter
+      role: prometheus.prometheus.blackbox_exporter
+      vars:
+        blackbox_exporter_configuration_modules:
+          ping_ipv4_5s:
+            prober: icmp
+            timeout: '5s'
+            icmp:
+              preferred_ip_protocol: 'ip4'
+              ip_protocol_fallback: false
+            # note: the target `{{ vdv_453_api_host }}` is specified via the Prometheus config
+        # default is `0.0.0.0:9115`
+        # todo: listen on Wireguard interface only?
+        systemd_exporter_web_listen_address: '0.0.0.0:{{ prometheus_blackbox_export_port }}'
   tasks:
     - name: let UFW allow IPSec/IKEv2 connections on ens4 from {{ their_vpn_gateway_ip }}/32
       community.general.ufw:

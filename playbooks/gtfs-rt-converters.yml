@@ -76,6 +76,25 @@
           - job_name: prometheus-systemd-exporter
             static_configs:
               - targets: ['localhost:9558']
+          - job_name: prometheus-blackbox-exporter
+            scrape_interval: 10s
+            # see also https://github.com/prometheus/blackbox_exporter/blob/v0.25.0/README.md#prometheus-configuration
+            metrics_path: /probe
+            params:
+              module: ['ping_ipv4_5s']
+            relabel_configs:
+              - source_labels: [__address__]
+                target_label: __param_target
+              - source_labels: [__param_target]
+                target_label: instance
+              - source_labels: [__param_module]
+                target_label: module
+              - target_label: __address__
+                # the blackbox exporter's real hostname:port
+                replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_blackbox_export_port }}'
+            static_configs:
+              - targets:
+                - '{{ vdv_453_api_host }}'
           - job_name: prometheus
             static_configs:
               - targets: ['{{ prometheus_listen_address }}']
