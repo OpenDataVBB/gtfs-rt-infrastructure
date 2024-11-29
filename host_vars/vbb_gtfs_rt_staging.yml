@@ -11,6 +11,10 @@ wireguard_addresses:
   - '10.0.0.0/24'
 # wireguard_allowed_ips: '10.0.0.0/24'
 
+# the VPN-internal address of vbb-datendrehscheibe-proxy-staging, as seen from vbb-gtfs-rt-staging
+# todo: don't hard-code this
+vdv_453_nats_adapter_address: '10.0.0.1'
+
 # see also https://caddyserver.com/docs/caddyfile/concepts#addresses
 # Note: The first URL gets used for the explainer HTML page.
 gtfs_rt_public_endpoints:
