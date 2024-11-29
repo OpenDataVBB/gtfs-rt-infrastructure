@@ -75,7 +75,9 @@
               - targets: ['localhost:9100']
           - job_name: prometheus-systemd-exporter
             static_configs:
-              - targets: ['localhost:9558']
+              - targets:
+                  - 'localhost:9558'
+                  - '{{ vdv_453_nats_adapter_address }}:9558'
           - job_name: prometheus-blackbox-exporter
             scrape_interval: 10s
             # see also https://github.com/prometheus/blackbox_exporter/blob/v0.25.0/README.md#prometheus-configuration
