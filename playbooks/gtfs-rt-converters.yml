@@ -10,7 +10,7 @@
         nats_jetstream_enabled: true
         # todo: make configurable
         nats_jetstream_max_mem: 2G
-        nats_jetstream_max_file: 10G
+        nats_jetstream_max_file: '{{ nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb + 1 }}G'
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/readme.md
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/monitoring_jetstream.md
         nats_exporter_export_gatewayz: false
@@ -244,6 +244,7 @@
           --subjects='{{ nats_aus_istfahrt_stream_subjects | join('\n') }}' \
           --description='{{ nats_aus_istfahrt_stream_description }}' \
           --ack --retention=limits --discard=old \
+          --max-bytes='{{ nats_aus_istfahrt_stream_max_size_gb }}G' \
           '{{ nats_aus_istfahrt_stream_name }}'
     - name: ensure the NATS consumer "{{ nats_aus_istfahrt_consumer_name }}" for the "{{ nats_aus_istfahrt_stream_name }}" is configured correctly
       ansible.builtin.shell: |
@@ -336,6 +337,7 @@
           --subjects='{{ nats_gtfs_rt_stream_subjects | join('\n') }}' \
           --description='{{ nats_gtfs_rt_stream_description }}' \
           --ack --retention=limits --discard=old \
+          --max-bytes='{{ nats_gtfs_rt_stream_max_size_gb }}G' \
           '{{ nats_gtfs_rt_stream_name }}'
     - name: ensure the NATS consumer "{{ nats_gtfs_rt_consumer_name }}" for the "{{ nats_gtfs_rt_stream_name }}" is configured correctly
       ansible.builtin.shell: |
