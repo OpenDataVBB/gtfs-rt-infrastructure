@@ -14,6 +14,21 @@ nats_aus_istfahrt_consumer_backoff_steps: 2
 nats_aus_istfahrt_consumer_backoff_min: 1m
 nats_aus_istfahrt_consumer_backoff_max: 5m
 
+nats_gtfs_rt_stream_name: GTFS_RT_2
+nats_gtfs_rt_stream_description: 'GTFS-Realtime FeedEntity messages'
+nats_gtfs_rt_stream_subjects:
+  - 'gtfsrt.>'
+
+nats_gtfs_rt_consumer_name: nats-consuming-gtfs-rt-server
+nats_gtfs_rt_consumer_description: 'OpenDataVBB/nats-consuming-gtfs-rt-server'
+nats_gtfs_rt_consumer_deliver: new
+nats_gtfs_rt_consumer_max_pending: 500
+nats_gtfs_rt_consumer_max_deliver: 3
+nats_gtfs_rt_consumer_backoff: linear
+nats_gtfs_rt_consumer_backoff_steps: 2
+nats_gtfs_rt_consumer_backoff_min: 15s
+nats_gtfs_rt_consumer_backoff_max: 1m
+
 # see https://github.com/mholt/caddy-ratelimit/blob/12435ecef5dbb1b137eb68002b85d775a9d5cdb2/README.md
 gtfs_rt_rate_limit_requests: 60
 gtfs_rt_rate_limit_window: 1m
