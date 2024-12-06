@@ -10,7 +10,7 @@ all:
       ansible_host: 65.108.4.53
       ansible_user: root
     vbb_gtfs_rt_production:
-      ansible_host: 135.181.114.212
+      ansible_host: 95.217.148.26
       ansible_user: root
   children:
     staging:

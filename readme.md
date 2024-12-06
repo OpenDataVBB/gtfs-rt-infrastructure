@@ -60,7 +60,4 @@ They are VPSes hosted at [Planetary Networks](https://www.planetary-networks.de)
 
 These machines convert VDV-453 data (sent by the respective `vdv_453_proxy` machine, see above), convert it into the GTFS-RT format, and serve the GTFS-RT feeds via HTTP.
 
-> [!TIP]
-> Currently, the production machine `vbb_gtfs_rt_production` does not exist yet.
-
 They are connected to their respective VDV-453 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel, letting them communicate via a [NATS message queue](https://nats.io).
