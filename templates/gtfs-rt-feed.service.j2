@@ -13,9 +13,11 @@ Environment=REDIS_URL="redis:///{{ gtfs_rt_feed_redis_db }}"
 Environment=PGHOST=localhost
 Environment=PGUSER=postgres
 Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
+Environment=PG_POOL_SIZE="{{ gtfs_rt_feed_db_pool_size }}"
 Environment=METRICS_SERVER_PORT="{{ gtfs_rt_feed_metrics_server_port }}"
 Environment=MATCHING_CONSUMER_DURABLE_NAME=gtfs-rt-feed
 Environment=MATCHING_CONCURRENCY="{{ gtfs_rt_feed_matching_concurrency }}"
+Environment=MATCHING_CACHING_TTL="{{ gtfs_rt_feed_matching_caching_ttl }}"
 
 [Install]
 WantedBy=multi-user.target

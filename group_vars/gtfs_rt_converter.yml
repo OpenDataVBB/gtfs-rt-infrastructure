@@ -57,7 +57,12 @@ gtfs_rt_feed_redis_db: 1
 # gtfs-rt-feed
 gtfs_rt_feed_git_ref: main # todo: pin?
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
-gtfs_rt_feed_matching_concurrency: '{{ ansible_processor_vcpus * 1.2 | round | int }}' # todo: tweak?
+# number of parallel PostgreSQL queries, effectively the concurrency of *uncached* matchings
+gtfs_rt_feed_db_pool_size: '{{ ansible_processor_vcpus * 1.2 | round | int }}' # todo: tweak?
+# number of FeedEntities from NATS getting matched, effectively the concurrency of cached & uncached matchings together
+gtfs_rt_feed_matching_concurrency: 50
+# Schedule days are usually longer than 24 hours: they start a 00:00, but some trips run well beyond 23:59.
+gtfs_rt_feed_matching_caching_ttl: 100800 # 1 day 4 hours, in seconds
 
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
