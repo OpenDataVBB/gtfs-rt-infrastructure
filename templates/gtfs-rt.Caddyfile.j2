@@ -8,7 +8,7 @@
 		handle @cors_preflight {
 				header Access-Control-Allow-Origin "*"
 				header Access-Control-Allow-Methods "OPTIONS,HEAD,GET"
-				header Access-Control-Allow-Headers "Content-Type"
+				header Access-Control-Allow-Headers "Cache-Control"
 				# Firefox caps this at 24 hours (86400 seconds). […] Chromium (starting in v76) caps at 2 hours (7200 seconds). The default value is 5 seconds.
 				header Access-Control-Max-Age "86400"
 				respond "" 204
@@ -17,7 +17,7 @@
 		handle @cors {
 				header Access-Control-Allow-Origin "*"
 				header Access-Control-Allow-Methods "OPTIONS,HEAD,GET"
-				header Access-Control-Expose-Headers "Link"
+				header Access-Control-Allow-Headers "Cache-Control"
 		}
 }
 
