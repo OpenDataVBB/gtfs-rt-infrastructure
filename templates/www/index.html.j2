@@ -109,6 +109,7 @@
 		<a class="no-link-icon" href="{{ gtfs_rt_public_endpoints[0] }}/data"><code>{{ gtfs_rt_public_endpoints[0] }}/data</code></a>
 	</p>
 	<ul>
+		<li>You can inspect the feed <a href="https://public-transport.github.io/gtfs-rt-inspector/?feedUrl={{ (gtfs_rt_public_endpoints[0] ~ '/data') | urlencode }}&feedSyncInterval=30&view=inspector">in a web-based GTFS-RT inspector</a>.</li>
 		<li>It is licensed as <a href="https://creativecommons.org/licenses/by/4.0/" referrerpolicy="no-referrer">CC-BY 4.0</a>.</li>
 		<li>You can fetch it without authentication, up to a limit of {{ gtfs_rt_rate_limit_human_readable }}.</li>
 		<li>It has <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">CORS</a> enabled, so you can query it from any webpage.</li>
