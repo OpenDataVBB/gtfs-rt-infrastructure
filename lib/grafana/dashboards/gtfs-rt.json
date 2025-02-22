@@ -716,7 +716,8 @@
 						"lineWidth": 1,
 						"pointSize": 0,
 						"scaleDistribution": {
-							"type": "linear"
+							"log": 10,
+							"type": "log"
 						},
 						"showPoints": "auto",
 						"spanNulls": false,
@@ -759,11 +760,12 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "multi",
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
@@ -833,7 +835,8 @@
 						"lineWidth": 1,
 						"pointSize": 0,
 						"scaleDistribution": {
-							"type": "linear"
+							"log": 10,
+							"type": "log"
 						},
 						"showPoints": "auto",
 						"spanNulls": false,
@@ -879,11 +882,12 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "single",
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
