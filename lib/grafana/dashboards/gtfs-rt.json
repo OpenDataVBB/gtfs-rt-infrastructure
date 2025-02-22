@@ -156,7 +156,8 @@
 						"lineWidth": 1,
 						"pointSize": 5,
 						"scaleDistribution": {
-							"type": "linear"
+							"log": 2,
+							"type": "log"
 						},
 						"showPoints": "auto",
 						"spanNulls": false,
@@ -201,11 +202,12 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "multi",
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"disableTextWrap": false,
@@ -335,11 +337,12 @@
 					"showLegend": false
 				},
 				"tooltip": {
-					"mode": "multi",
+					"hideZeros": false,
+					"mode": "single",
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
@@ -352,7 +355,7 @@
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": true,
-					"legendFormat": "__auto",
+					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -440,11 +443,12 @@
 					"showLegend": false
 				},
 				"tooltip": {
-					"mode": "multi",
+					"hideZeros": false,
+					"mode": "single",
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
@@ -457,7 +461,7 @@
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": true,
-					"legendFormat": "__auto",
+					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -545,11 +549,12 @@
 					"showLegend": false
 				},
 				"tooltip": {
-					"mode": "multi",
+					"hideZeros": false,
+					"mode": "single",
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
@@ -562,7 +567,7 @@
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": true,
-					"legendFormat": "__auto",
+					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -650,11 +655,12 @@
 					"showLegend": false
 				},
 				"tooltip": {
-					"mode": "multi",
+					"hideZeros": false,
+					"mode": "single",
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
@@ -667,7 +673,7 @@
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": true,
-					"legendFormat": "__auto",
+					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
