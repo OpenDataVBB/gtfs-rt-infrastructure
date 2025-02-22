@@ -1537,7 +1537,7 @@
 				"type": "prometheus",
 				"uid": "de29irtzi5gcga"
 			},
-			"description": "Essentially, this reflects the number of restarts/resets/crashes on their side.",
+			"description": "per minute, calculated with a 1 hour window",
 			"fieldConfig": {
 				"defaults": {
 					"color": {
@@ -1573,7 +1573,7 @@
 							"mode": "none"
 						},
 						"thresholdsStyle": {
-							"mode": "off"
+							"mode": "dashed"
 						}
 					},
 					"mappings": [],
@@ -1586,37 +1586,13 @@
 							},
 							{
 								"color": "red",
-								"value": 80
+								"value": 0.04
 							}
 						]
-					}
+					},
+					"unit": "epm"
 				},
-				"overrides": [
-					{
-						"__systemRef": "hideSeriesFrom",
-						"matcher": {
-							"id": "byNames",
-							"options": {
-								"mode": "exclude",
-								"names": [
-									"{instance=\"10.0.0.1:9093\", job=\"vdv-453-nats-adapter\", service=\"aus\"}"
-								],
-								"prefix": "All except:",
-								"readOnly": true
-							}
-						},
-						"properties": [
-							{
-								"id": "custom.hideFrom",
-								"value": {
-									"legend": false,
-									"tooltip": false,
-									"viz": true
-								}
-							}
-						]
-					}
-				]
+				"overrides": []
 			},
 			"gridPos": {
 				"h": 8,
@@ -1633,11 +1609,12 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "single",
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "11.5.2",
 			"targets": [
 				{
 					"datasource": {
@@ -1646,18 +1623,19 @@
 					},
 					"disableTextWrap": false,
 					"editorMode": "builder",
-					"expr": "changes(vdv_server_startdienstzst_seconds{service=~\".+\"}[$__interval])",
+					"exemplar": false,
+					"expr": "changes(vdv_server_startdienstzst_seconds[1h]) / 60",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"key": "Q-f8d27e6b-e155-407e-9cee-a77b64316d54-0",
-					"legendFormat": "{{service}}",
+					"legendFormat": "__auto",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
 				}
 			],
-			"title": "VDV API: StartDienstZst changes",
+			"title": "VDV API: restarts (StartDienstZst changes)",
 			"type": "timeseries"
 		},
 		{
