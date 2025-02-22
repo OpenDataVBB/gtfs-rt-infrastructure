@@ -1259,7 +1259,7 @@
 						}
 					},
 					"mappings": [],
-					"max": 12.1,
+					"max": 20.1,
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
