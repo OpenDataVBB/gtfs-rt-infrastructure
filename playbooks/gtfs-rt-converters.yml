@@ -10,7 +10,9 @@
         nats_jetstream_enabled: true
         # todo: make configurable
         nats_jetstream_max_mem: 2G
-        nats_jetstream_max_file: '{{ nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb + 1 }}G'
+        # for some reason, `max_file` needs much more than the sum of the streams' `max_bytes` 🤔🤔
+        # related: https://github.com/nats-io/nats-server/issues/4281#issuecomment-2586742483
+        nats_jetstream_max_file: '{{ nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb + 5 }}G'
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/readme.md
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/monitoring_jetstream.md
         nats_exporter_export_gatewayz: false
