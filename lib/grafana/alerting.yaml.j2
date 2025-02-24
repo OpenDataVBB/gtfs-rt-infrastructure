@@ -1,0 +1,201 @@
+contactPoints:
+  - orgId: 1
+    # note: has to match `groups[].rules[].notification_settings.receiver`
+    name: GTFS-RT alerts
+    receivers:
+      - uid: aedvenq6d52bkb
+        type: slack
+        settings:
+          url: '{{ alerts_public_transport_slack_webhook }}'
+        disableResolveMessage: false
+
+muteTimes:
+  - orgId: 1
+    name: 4am to 5am every night
+    time_intervals:
+      - times:
+          - start_time: "03:55"
+            end_time: "05:05"
+        location: Europe/Berlin
+
+groups:
+  - orgId: 1
+    name: every minute
+    folder: GTFS-RT
+    interval: 1m
+    rules:
+      - uid: bedyg4aetv4zkc
+        title: vbb_dds_restarts
+        condition: too_many_vdv_api_restarts
+        data:
+          - refId: vdv_api_restarts
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            datasourceUid: de29irtzi5gcga
+            model:
+              disableTextWrap: false
+              editorMode: builder
+              expr: changes(vdv_server_startdienstzst_seconds[1h]) / 60
+              fullMetaSearch: false
+              includeNullMetadata: true
+              instant: true
+              intervalMs: 15000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: vdv_api_restarts
+              useBackend: false
+          - refId: too_many_vdv_api_restarts
+            datasourceUid: __expr__
+            model:
+              conditions:
+                  - evaluator:
+                      params:
+                          - 0.04
+                      type: gt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                          - C
+                    reducer:
+                      params: []
+                      type: last
+                    type: query
+              datasource:
+                  type: __expr__
+                  uid: __expr__
+              expression: vdv_api_restarts
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: too_many_vdv_api_restarts
+              type: threshold
+        dashboardUid: be2c3frskfv9ce
+        panelId: 7
+        noDataState: Alerting
+        execErrState: Error
+        for: 1m
+        annotations:
+          __dashboardUid__: be2c3frskfv9ce
+          __panelId__: "7"
+          description: There have been too many StartDienstZst increases in the past 1h.
+          summary: VDV API is restarting too often
+        isPaused: false
+        notification_settings:
+          # note: has to match `contactPoints[].name`
+          receiver: GTFS-RT alerts
+      - uid: fedyhppyh9fk0a
+        title: vdv_api_no_recent_status_ok
+        condition: no_recent_status_ok
+        data:
+          - refId: seconds_since_last_status_ok
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: de29irtzi5gcga
+            model:
+              editorMode: code
+              expr: time() - vdv_statusantwort_ok_timestamp_seconds{service="aus",status="1"}
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: seconds_since_last_status_ok
+          - refId: no_recent_status_ok
+            datasourceUid: __expr__
+            model:
+              conditions:
+                  - evaluator:
+                      params:
+                          - 30
+                      type: gt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                          - C
+                    reducer:
+                      params: []
+                      type: last
+                    type: query
+              datasource:
+                  type: __expr__
+                  uid: __expr__
+              expression: seconds_since_last_status_ok
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: no_recent_status_ok
+              type: threshold
+        dashboardUid: be2c3frskfv9ce
+        panelId: 16
+        noDataState: Alerting
+        execErrState: Error
+        for: 1m
+        annotations:
+          __dashboardUid__: be2c3frskfv9ce
+          __panelId__: "16"
+          description: We haven't received a Status=ok from the VDV API in the past 30 seconds.
+          summary: no recent Status=ok from VDV API
+        isPaused: false
+        notification_settings:
+          # note: has to match `contactPoints[].name`
+          receiver: GTFS-RT alerts
+      - uid: dedyih0q93f28c
+        title: no_recent_aus_istfahrt_msgs
+        condition: no_recent_aus_istfahrt_msgs
+        data:
+          - refId: aus_istfahrt_msgs_rate
+            relativeTimeRange:
+              from: 900
+              to: 0
+            datasourceUid: de29irtzi5gcga
+            model:
+              disableTextWrap: false
+              editorMode: builder
+              expr: rate(nats_nr_of_msgs_sent_total{job="vdv-453-nats-adapter"}[1m])
+              fullMetaSearch: false
+              includeNullMetadata: true
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: aus_istfahrt_msgs_rate
+              useBackend: false
+          - refId: no_recent_aus_istfahrt_msgs
+            datasourceUid: __expr__
+            model:
+              conditions:
+                  - evaluator:
+                      params:
+                          - 0.1
+                      type: lt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                          - C
+                    reducer:
+                      params: []
+                      type: last
+                    type: query
+              datasource:
+                  type: __expr__
+                  uid: __expr__
+              expression: aus_istfahrt_msgs_rate
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: no_recent_aus_istfahrt_msgs
+              type: threshold
+        noDataState: Alerting
+        execErrState: Error
+        for: 1m
+        annotations:
+          description: The rate of VDV-454 AUS IstFahrt messages sent by vdv-453-nats-adapter to NATS is <0.1/s.
+          summary: no recent AUS IstFahrt messages fetched
+        isPaused: false
+        notification_settings:
+          # note: has to match `contactPoints[].name`
+          receiver: GTFS-RT alerts

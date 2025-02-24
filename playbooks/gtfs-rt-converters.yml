@@ -164,7 +164,7 @@
         # default is `0.0.0.0:9558`
         systemd_exporter_web_listen_address: 'localhost:9558'
 
-    - name: install Grafana
+    - name: install & configure Grafana
       role: grafana.grafana.grafana
       vars:
         # todo: use the variable again – somehow this doesn't work :/
@@ -182,6 +182,7 @@
             access: proxy
             url: 'http://{{ prometheus_listen_address }}'
         grafana_dashboards_dir: ../lib/grafana/dashboards
+        grafana_alert_resources: "{{ lookup('template', '../lib/grafana/alerting.yaml.j2') | from_yaml }}"
 
   tasks:
     - name: set password of "postgres" user
