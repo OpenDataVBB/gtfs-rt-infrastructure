@@ -204,7 +204,7 @@
       ansible.builtin.copy:
         src: ../lib/prometheus/postgres-exporter-disable-pg-settings.conf
         dest: /etc/systemd/system/postgres_exporter.service.d/disable-pg-settings.conf
-    - name: systemd daemon-reload & restart systemd gtfs-rt-feed.service
+    - name: systemd daemon-reload & restart systemd postgres_exporter.service
       ansible.builtin.systemd_service:
         daemon_reload: true
         state: restarted
