@@ -106,6 +106,8 @@
         content: |
           [Service]
           ExecStartPost=/bin/sh -c 'sleep 3; /usr/sbin/swanctl --load-all'
+          RuntimeMaxSec={{ vpn_service_restart_interval_seconds }}s
+          RuntimeRandomizedExtraSec={{ vpn_service_restart_interval_randomization_seconds }}s
       become: true
     - name: create directory /etc/swanctl/conf.d
       ansible.builtin.file:
