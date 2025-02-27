@@ -5,6 +5,8 @@ journald_runtime_max_use: 1G
 vdv_453_nats_adapter_git_ref: main # todo: pin?
 vdv_453_nats_adapter_dir: '/srv/vdv-453-nats-adapter'
 
+vdv_453_nats_adapter_log_level: info
+
 # > Port to listen on. VDV-453 requires the *client* to run an HTTP server that the VDV-453 API can call.
 # Note: VBB/HaCon has configured this port on their side, so we cannot just change it!
 vdv_453_nats_adapter_internal_port: 8080
