@@ -100,7 +100,7 @@
         path: /etc/systemd/system/strongswan-starter.service.d
         state: directory
       become: true
-    - name: patch strongswan-starter systemd service to load all connections
+    - name: patch strongswan-starter systemd service to load all connections & restart regularly
       ansible.builtin.copy:
         dest: /etc/systemd/system/strongswan-starter.service.d/override.conf
         content: |
@@ -109,6 +109,9 @@
           RuntimeMaxSec={{ vpn_service_restart_interval_seconds }}s
           RuntimeRandomizedExtraSec={{ vpn_service_restart_interval_randomization_seconds }}s
       become: true
+    - name: validate strongswan-starter.service(.d)
+      ansible.builtin.shell: |
+        systemd-analyze verify /etc/systemd/system/strongswan-starter.service
     - name: create directory /etc/swanctl/conf.d
       ansible.builtin.file:
         path: /etc/swanctl/conf.d

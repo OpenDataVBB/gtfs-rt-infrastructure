@@ -34,8 +34,13 @@
     - name: install basic packages
       ansible.builtin.apt:
         name:
+          - findutils # provides `find` & `xargs`, among others
+          - jq
           - mosh
           - net-tools # provides `netstat`, among others
+          - pv
+          - screen
+          - tree
 
     - name: let UFW deny everything
       community.general.ufw:
