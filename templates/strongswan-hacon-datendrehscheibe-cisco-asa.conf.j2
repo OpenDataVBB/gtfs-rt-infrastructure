@@ -19,6 +19,8 @@ connections {
 
 		children {
 			foo {
+				esp_proposals = aes256-sha256-modp2048,default
+
 				local_ts = {{ our_vpn_ip }}/32
 				remote_ts = {{ vdv_453_api_host }}/32
 

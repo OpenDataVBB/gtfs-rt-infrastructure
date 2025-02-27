@@ -15,6 +15,3 @@ vdv_453_nats_adapter_internal_port: 8080
 # see also templates/vdv-453-nats-adapter.service.j2 & templates/vdv-453-nats-adapter-run.sh.j2.
 # see also https://github.com/OpenDataVBB/vdv-453-nats-adapter/issues/2
 vdv_453_nats_adapter_aus_subscription_ttl: 86400 # 24 hours
-
-vpn_service_restart_interval_seconds: 18000 # 5 hours
-vpn_service_restart_interval_randomization_seconds: '{{ 60 }}' # 1 minute
