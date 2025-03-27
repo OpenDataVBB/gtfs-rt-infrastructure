@@ -1634,7 +1634,7 @@
 					"disableTextWrap": false,
 					"editorMode": "builder",
 					"exemplar": false,
-					"expr": "changes(vdv_server_startdienstzst_seconds[1h]) / 60",
+					"expr": "changes(vdv_server_startdienstzst_seconds[10m]) / 10",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": false,
