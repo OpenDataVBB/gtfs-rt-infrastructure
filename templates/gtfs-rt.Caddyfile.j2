@@ -46,4 +46,26 @@
 			root {{ gtfs_rt_webroot }}
 		}
 	}
+
+	# Because we hash the client IP below, we copy it into a separate field, which we then mask below.
+	log_append client_ip_masked {client_ip}
+	log {
+		format filter {
+			fields {
+				# > Strip 64 bits and you've identified a LAN subnet, not a user. Strip another 16 on top of that and y>
+				# https://stackoverflow.com/a/6098698/1072129
+				# > The IP-masking feature […] sets the last octet of IPv4 user IP addresses and the last 80 bits of IP>
+				# https://web.archive.org/web/20250321012321/https://support.google.com/analytics/answer/2763052?hl=en
+				client_ip_masked ip_mask 24 48 # keep bits: 18 with IPv4, 48 with IPv6
+
+				request>remote_ip hash
+				request>client_ip hash
+			}
+			wrap json
+		}
+		output file /var/log/caddy/gtfs-rt.log {
+			rotate_keep 1000
+			rotate_keep 365d
+		}
+	}
 }
