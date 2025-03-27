@@ -6,6 +6,9 @@ After=syslog.target network.target nats-server.service
 [Service]
 ExecStart=/usr/bin/node index.js
 Restart=always
+RestartSec=3s
+RestartMaxDelaySec=1m
+RestartSteps=10
 WorkingDirectory={{ gtfs_rt_feed_dir }}
 Environment=NODE_ENV=production
 Environment=HOSTNAME="{{ gtfs_rt_public_endpoints[0] }}"
