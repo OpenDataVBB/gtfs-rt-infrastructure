@@ -1,7 +1,3 @@
-# Apparently /proc/cpuinfo, which Ansible uses, returns a wrong number of "processing units" for some desktop-focused "asymmetric" CPUs with SMT-enabled and non-SMT-enabled cores.
-# This causes the `gtfs_rt_feed_db_pool_size` computation to be off.
-gtfs_rt_feed_db_pool_size: 20
-
 wireguard_private_key: !vault |
           $ANSIBLE_VAULT;1.1;AES256
           39633661633636383165626565346637326661393035623134646633313835356431613030643337
