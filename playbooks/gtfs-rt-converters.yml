@@ -195,6 +195,17 @@
       package:
         name:
           - postgis
+    - name: tweak PostgreSQL settings for matching performance
+      ansible.builtin.template:
+        src: '../templates/gtfs-rt.postgresql.conf'
+        dest: /etc/postgresql/{{ postgresql_major_version }}/main/conf.d/gtfs-rt.conf
+        owner: postgres
+        group: postgres
+    - name: reload PostgreSQL
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: postgresql
+
     - name: create directory /etc/systemd/system/postgres_exporter.service.d
       ansible.builtin.file:
         path: /etc/systemd/system/postgres_exporter.service.d

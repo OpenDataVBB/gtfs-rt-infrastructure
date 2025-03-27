@@ -39,6 +39,7 @@ gtfs_rt_rate_limit_human_readable: '60 requests per minute'
 gtfs_rt_webroot: '/var/www/gtfs-rt'
 
 # PostgreSQL
+postgresql_major_version: 16 # todo: detect from target!
 # password for user `postgres`
 postgresql_postgres_password: !vault |
           $ANSIBLE_VAULT;1.1;AES256
@@ -47,6 +48,11 @@ postgresql_postgres_password: !vault |
           32343262343935326531656535323233396333323330653535343365363132333964613337393436
           3438646362363964660a313361636561373237386238383663376163626630393863393233376137
           64333566323161613139306437366239373365323231616465333165663666353230
+# number of parallel PostgreSQL queries, effectively the concurrency of *uncached* matchings
+postgresql_max_connections: '{{ ansible_processor_nproc * 1.3 | round | int }}'
+postgresql_effective_cache_size: '23040MB'
+postgresql_shared_buffers: '7680MB'
+postgresql_maintenance_work_mem: '1920MB'
 
 # Redis
 redis_maxmemory: 2gb
