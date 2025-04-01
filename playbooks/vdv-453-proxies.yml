@@ -132,6 +132,29 @@
       ansible.builtin.shell: |
         ping -w3 -c1 -q "{{ vdv_453_api_host }}"
 
+    - name: install Redis
+      package:
+        name:
+          - redis
+      become: true
+    - name: configure Redis to use at most {{ redis_maxmemory }} memory
+      lineinfile:
+        path: /etc/redis/redis.conf
+        regex: ^(# *)?maxmemory\b
+        line: maxmemory {{ redis_maxmemory }}
+      become: true
+    - name: set Redis key eviction policy to {{ redis_maxmemory_policy }}
+      lineinfile:
+        path: /etc/redis/redis.conf
+        regex: ^(# *)?maxmemory-policy\b
+        line: maxmemory-policy {{ redis_maxmemory_policy }}
+      become: true
+    - name: restart redis-server.service.
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: redis-server
+      become: true
+
     - name: clone OpenDataVBB/vdv-453-nats-adapter:{{ vdv_453_nats_adapter_git_ref }}
       ansible.builtin.git:
         repo: 'https://github.com/OpenDataVBB/vdv-453-nats-adapter.git'

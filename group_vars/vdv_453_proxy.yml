@@ -2,6 +2,12 @@
 journald_system_max_use: 1G
 journald_runtime_max_use: 1G
 
+# Redis
+redis_maxmemory: 20mb # the machines have very little memory!
+# > Keeps most recently used keys; removes least recently used (LRU) keys
+redis_maxmemory_policy: allkeys-lru
+vdv_453_nats_adapter_redis_db: 1
+
 vdv_453_nats_adapter_git_ref: main # todo: pin?
 vdv_453_nats_adapter_dir: '/srv/vdv-453-nats-adapter'
 

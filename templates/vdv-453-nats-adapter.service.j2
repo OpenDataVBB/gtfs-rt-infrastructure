@@ -20,6 +20,7 @@ RestartSteps=30
 WorkingDirectory={{ vdv_453_nats_adapter_dir }}
 Environment=NODE_ENV=production
 Environment=LOG_LEVEL="{{ vdv_453_nats_adapter_log_level }}"
+Environment=REDIS_URL="redis:///{{ vdv_453_nats_adapter_redis_db }}"
 Environment=VDV_453_LEITSTELLE="{{ vdv_453_our_leitstellenkennung }}"
 Environment=VDV_453_THEIR_LEITSTELLE="{{ vdv_453_their_leitstellenkennung }}"
 Environment=VDV_453_ENDPOINT="http://{{ vdv_453_api_host }}:{{ vdv_453_api_port }}/"
