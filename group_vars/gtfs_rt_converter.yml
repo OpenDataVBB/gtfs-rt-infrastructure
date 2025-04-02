@@ -77,8 +77,7 @@ gtfs_rt_feed_gtfs_download_user_agent: '{{ inventory_hostname }} GTFS import'
 # We assume that it is executed using `sh`.
 # todo: make $GTFS_IMPORTER_DB_PREFIX configurable
 # todo: redirect logs, set up logrotate
-# todo: `systemctl daemon-reload && systemctl restart gtfs-rt-feed.service`
-gtfs_rt_feed_import_cmd: "export PGHOST=localhost PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' && env GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' GTFS_IMPORTER_VERBOSE=true {{ gtfs_rt_feed_dir }}/import.sh --docker && echo \"[Service]\\nEnvironment=PGDATABASE=$(psql -q --csv -t -h localhost -c 'SELECT db_name FROM latest_import')\" | sponge /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf"
+gtfs_rt_feed_import_cmd: "export PGHOST=localhost PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' && env GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' GTFS_IMPORTER_VERBOSE=true {{ gtfs_rt_feed_dir }}/import.sh --docker && echo \"[Service]\\nEnvironment=PGDATABASE=$(psql -q --csv -t -h localhost -c 'SELECT db_name FROM latest_import')\" | sponge /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf && systemctl daemon-reload && systemctl restart gtfs-rt-feed.service"
 
 # nats-consuming-gtfs-rt-server
 nats_consuming_gtfs_rt_server_git_ref: main # todo: pin?
