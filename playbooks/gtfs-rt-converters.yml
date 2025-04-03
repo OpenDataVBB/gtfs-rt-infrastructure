@@ -47,8 +47,8 @@
       role: prometheus.prometheus.prometheus
       vars:
         prometheus_web_listen_address: '{{ prometheus_listen_address }}' # only listen locally
-        prometheus_storage_retention: '120d'
-        prometheus_storage_retention_size: '20GB'
+        prometheus_storage_retention: '{{ prometheus_data_retention }}'
+        prometheus_storage_retention_size: '{{ prometheus_data_retention_size }}'
         prometheus_global:
           scrape_interval: 15s
         prometheus_scrape_configs:
