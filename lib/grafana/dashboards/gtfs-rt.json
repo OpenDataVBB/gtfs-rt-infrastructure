@@ -334,7 +334,7 @@
 					"calcs": [],
 					"displayMode": "list",
 					"placement": "bottom",
-					"showLegend": false
+					"showLegend": true
 				},
 				"tooltip": {
 					"hideZeros": false,
@@ -354,7 +354,7 @@
 					"expr": "matching_time_seconds{cached=\"0\", matched=\"1\"}",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
@@ -440,7 +440,7 @@
 					"calcs": [],
 					"displayMode": "list",
 					"placement": "bottom",
-					"showLegend": false
+					"showLegend": true
 				},
 				"tooltip": {
 					"hideZeros": false,
@@ -460,7 +460,7 @@
 					"expr": "matching_time_seconds{cached=\"1\", matched=\"1\"}",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
@@ -546,7 +546,7 @@
 					"calcs": [],
 					"displayMode": "list",
 					"placement": "bottom",
-					"showLegend": false
+					"showLegend": true
 				},
 				"tooltip": {
 					"hideZeros": false,
@@ -566,7 +566,7 @@
 					"expr": "matching_time_seconds{cached=\"0\", matched=\"0\"}",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
@@ -652,7 +652,7 @@
 					"calcs": [],
 					"displayMode": "list",
 					"placement": "bottom",
-					"showLegend": false
+					"showLegend": true
 				},
 				"tooltip": {
 					"hideZeros": false,
@@ -672,7 +672,7 @@
 					"expr": "matching_time_seconds{cached=\"1\", matched=\"0\"}",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "{{quantile}} quantile",
 					"range": true,
 					"refId": "A",
