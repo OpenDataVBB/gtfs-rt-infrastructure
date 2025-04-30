@@ -18,6 +18,17 @@ muteTimes:
             end_time: "08:00"
         location: Europe/Berlin
 
+# apiVersion: 1
+policies:
+  - orgId: 1
+    receiver: GTFS-RT alerts
+    group_by:
+      - grafana_folder
+      - alertname
+    group_wait: 30s
+    group_interval: 3m
+    repeat_interval: 1d
+
 groups:
   - orgId: 1
     name: every minute
