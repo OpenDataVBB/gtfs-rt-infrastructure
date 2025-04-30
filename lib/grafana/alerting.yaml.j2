@@ -63,7 +63,8 @@ groups:
               conditions:
                   - evaluator:
                       params:
-                          - 0.04
+                          # A few restarts are normal, we mainly target endless restart loops here.
+                          - 0.1
                       type: gt
                     operator:
                       type: and
@@ -159,13 +160,13 @@ groups:
         data:
           - refId: aus_istfahrt_msgs_rate
             relativeTimeRange:
-              from: 900
+              from: 3600
               to: 0
             datasourceUid: de29irtzi5gcga
             model:
               disableTextWrap: false
               editorMode: builder
-              expr: rate(nats_nr_of_msgs_sent_total{job="vdv-453-nats-adapter"}[1m])
+              expr: rate(nats_nr_of_msgs_sent_total{job="vdv-453-nats-adapter"}[1h])
               fullMetaSearch: false
               includeNullMetadata: true
               instant: true
@@ -204,7 +205,7 @@ groups:
         execErrState: Error
         for: 1m
         annotations:
-          description: The rate of VDV-454 AUS IstFahrt messages sent by vdv-453-nats-adapter to NATS is <0.1/s.
+          description: The average rate of VDV-454 AUS IstFahrt messages sent by vdv-453-nats-adapter to NATS has been below 0.1/s in the past hour.
           summary: no recent AUS IstFahrt messages fetched
         isPaused: false
         notification_settings:
