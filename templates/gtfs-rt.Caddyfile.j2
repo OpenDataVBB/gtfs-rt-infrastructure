@@ -64,8 +64,8 @@
 			wrap json
 		}
 		output file /var/log/caddy/gtfs-rt.log {
-			rotate_keep 1000
-			rotate_keep 365d
+			roll_keep 1000
+			roll_keep_for 365d
 		}
 	}
 }
