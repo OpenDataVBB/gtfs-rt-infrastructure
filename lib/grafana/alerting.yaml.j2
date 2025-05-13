@@ -213,3 +213,65 @@ groups:
         notification_settings:
           # note: has to match `contactPoints[].name`
           receiver: GTFS-RT alerts
+      - uid: hdtduwsznagjlv
+        title: not enough GTFS-RT messages
+        condition: not_enough_gtfs_rt_msgs_sent
+        data:
+          - refId: gtfs_rt_msgs_sent
+            relativeTimeRange:
+              from: 3600
+              to: 0
+            datasourceUid: de29irtzi5gcga
+            model:
+              disableTextWrap: false
+              editorMode: builder
+              expr: rate(nats_nr_of_msgs_sent_total{job="gtfs-rt-feed"}[1h])
+              fullMetaSearch: false
+              includeNullMetadata: true
+              instant: true
+              intervalMs: 15000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: gtfs_rt_msgs_sent
+              useBackend: false
+          - refId: not_enough_gtfs_rt_msgs_sent
+            datasourceUid: __expr__
+            model:
+              conditions:
+                  - evaluator:
+                      params:
+                          # A few restarts are normal, we mainly target endless restart loops here.
+                          - 0.1
+                      type: lt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                          - C
+                    reducer:
+                      params: []
+                      type: last
+                    type: query
+              datasource:
+                  type: __expr__
+                  uid: __expr__
+              expression: gtfs_rt_msgs_sent
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: not_enough_gtfs_rt_msgs_sent
+              type: threshold
+        dashboardUid: be2c3frskfv9ce
+        panelId: 17
+        noDataState: Alerting
+        execErrState: Error
+        for: 1m
+        annotations:
+          __dashboardUid__: be2c3frskfv9ce
+          __panelId__: "7"
+          description: There haven't been enough GTFS-RT messages sent to NATS by gtfs-rt-feed in the past 1h.
+          summary: gtfs-rt-feed doesn't send enough GTFS-RT messages
+        isPaused: false
+        notification_settings:
+          # note: has to match `contactPoints[].name`
+          receiver: GTFS-RT alerts
