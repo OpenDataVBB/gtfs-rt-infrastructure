@@ -169,14 +169,14 @@
     - name: install & configure Grafana
       role: grafana.grafana.grafana
       vars:
-        # todo: use the variable again – somehow this doesn't work :/
-        # grafana_port: '{{ grafana_port }}'
-        grafana_port: 8000
-        grafana_address: '127.0.0.1' # `localhost` doesn't work
-        grafana_url: '{{ grafana_public_endpoints[0] }}'
-        grafana_security:
-          admin_user: admin
-          admin_password: '{{ grafana_admin_password }}'
+        grafana_ini:
+          server:
+            http_addr: '{{ grafana_http_addr }}'
+            http_port: '{{ grafana_http_port }}'
+            root_url: '{{ grafana_public_endpoints[0] }}'
+          security:
+            admin_user: admin
+            admin_password: '{{ grafana_admin_password }}'
         grafana_datasources:
           - uid: 'de29irtzi5gcga' # must match the `uid` in the dashboard files!
             name: 'prometheus localhost'

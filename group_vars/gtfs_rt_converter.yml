@@ -94,4 +94,5 @@ nats_consuming_gtfs_rt_server_metrics_server_port: 9092
 prometheus_listen_address: 'localhost:9090' # only listen locally
 prometheus_data_retention: 1y
 prometheus_data_retention_size: 20GB
-grafana_port: 8000
+grafana_http_addr: '127.0.0.1' # `localhost` doesn't work
+grafana_http_port: 8000
