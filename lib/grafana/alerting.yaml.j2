@@ -241,8 +241,7 @@ groups:
               conditions:
                   - evaluator:
                       params:
-                          # A few restarts are normal, we mainly target endless restart loops here.
-                          - 0.1
+                          - 0.05
                       type: lt
                     operator:
                       type: and
