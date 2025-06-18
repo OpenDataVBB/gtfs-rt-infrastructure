@@ -3,7 +3,7 @@ nats_aus_istfahrt_stream_name: AUS_ISTFAHRT_2
 nats_aus_istfahrt_stream_description: 'VDV-454 AUS IstFahrt messages'
 nats_aus_istfahrt_stream_subjects:
   - 'aus.istfahrt.>'
-nats_aus_istfahrt_stream_max_size_gb: 10
+nats_aus_istfahrt_stream_max_size_gb: 20
 
 nats_aus_istfahrt_consumer_name: gtfs-rt-feed
 nats_aus_istfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
@@ -58,7 +58,7 @@ postgresql_shared_buffers: '7680MB'
 postgresql_maintenance_work_mem: '1920MB'
 
 # Redis
-redis_maxmemory: 2gb
+redis_maxmemory: 4gb
 # > Keeps most recently used keys; removes least recently used (LRU) keys
 redis_maxmemory_policy: allkeys-lru
 gtfs_rt_feed_redis_db: 1
