@@ -1,4 +1,20 @@
 # NATS setup: streams, consumers
+nats_ref_aus_sollfahrt_stream_name: REF_AUS_SOLLFAHRT_2
+nats_ref_aus_sollfahrt_stream_description: 'VDV-453 REF-AUS SollFahrt messages'
+nats_ref_aus_sollfahrt_stream_subjects:
+  - 'ref_aus.sollfahrt.>'
+nats_ref_aus_sollfahrt_stream_max_size_gb: 20
+
+nats_ref_aus_sollfahrt_consumer_name: gtfs-rt-feed
+nats_ref_aus_sollfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
+nats_ref_aus_sollfahrt_consumer_deliver: new
+nats_ref_aus_sollfahrt_consumer_max_pending: 100
+nats_ref_aus_sollfahrt_consumer_max_deliver: 3
+nats_ref_aus_sollfahrt_consumer_backoff: linear
+nats_ref_aus_sollfahrt_consumer_backoff_steps: 2
+nats_ref_aus_sollfahrt_consumer_backoff_min: 1m
+nats_ref_aus_sollfahrt_consumer_backoff_max: 5m
+
 nats_aus_istfahrt_stream_name: AUS_ISTFAHRT_2
 nats_aus_istfahrt_stream_description: 'VDV-454 AUS IstFahrt messages'
 nats_aus_istfahrt_stream_subjects:

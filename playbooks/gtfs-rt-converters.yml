@@ -12,7 +12,7 @@
         nats_jetstream_max_mem: 2G
         # for some reason, `max_file` needs much more than the sum of the streams' `max_bytes` 🤔🤔
         # related: https://github.com/nats-io/nats-server/issues/4281#issuecomment-2586742483
-        nats_jetstream_max_file: '{{ nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb + 5 }}G'
+        nats_jetstream_max_file: '{{ nats_ref_aus_istfahrt_stream_max_size_gb + nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb + 5 }}G'
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/readme.md
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/monitoring_jetstream.md
         nats_exporter_export_gatewayz: false
@@ -251,6 +251,30 @@
         name: docker.io
 
     # These follow gtfs-rt-feed's readme: https://github.com/OpenDataVBB/gtfs-rt-feed/blob/b4bf9f6f482c541edacd237db960e051cd017fe5/readme.md#create-nats-stream--consumer.
+    - name: ensure the NATS stream "{{ nats_ref_aus_sollfahrt_stream_name }}" is configured correctly
+      ansible.builtin.shell: |
+        nats stream add \
+          --defaults \
+          --subjects='{{ nats_ref_aus_sollfahrt_stream_subjects | join('\n') }}' \
+          --description='{{ nats_ref_aus_sollfahrt_stream_description }}' \
+          --ack --retention=limits --discard=old \
+          --max-bytes='{{ nats_ref_aus_sollfahrt_stream_max_size_gb }}G' \
+          '{{ nats_ref_aus_sollfahrt_stream_name }}'
+    - name: ensure the NATS consumer "{{ nats_ref_aus_sollfahrt_consumer_name }}" for the "{{ nats_ref_aus_sollfahrt_stream_name }}" is configured correctly
+      ansible.builtin.shell: |
+        nats consumer add \
+          --defaults \
+          --pull --ack=explicit \
+          --deliver='{{ nats_ref_aus_sollfahrt_consumer_deliver }}' \
+          --max-pending='{{ nats_ref_aus_sollfahrt_consumer_max_pending }}' \
+          --max-deliver='{{ nats_ref_aus_sollfahrt_consumer_max_deliver }}' \
+          --backoff='{{ nats_ref_aus_sollfahrt_consumer_backoff }}' \
+          --backoff-steps='{{ nats_ref_aus_sollfahrt_consumer_backoff_steps }}' \
+          --backoff-min='{{ nats_ref_aus_sollfahrt_consumer_backoff_min }}' \
+          --backoff-max='{{ nats_ref_aus_sollfahrt_consumer_backoff_max }}' \
+          --description '{{ nats_ref_aus_sollfahrt_consumer_description }}' \
+          '{{ nats_ref_aus_sollfahrt_stream_name }}' \
+          '{{ nats_ref_aus_sollfahrt_consumer_name }}'
     - name: ensure the NATS stream "{{ nats_aus_istfahrt_stream_name }}" is configured correctly
       ansible.builtin.shell: |
         nats stream add \

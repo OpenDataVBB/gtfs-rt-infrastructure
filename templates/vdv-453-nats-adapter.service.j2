@@ -7,11 +7,11 @@ After=syslog.target network.target nats-server.service
 # ExecStart=/usr/bin/node cli.js AUS
 # Here, we specify a hard limit on when the VDV-454 AUS subscription(s) should expire. This should actually be solved within vdv-453-nats-adapter!
 # see also https://github.com/OpenDataVBB/vdv-453-nats-adapter/issues/2
-# We use run.sh to pass in `--expires "$(date --iso-8601=seconds --date="@$(echo "{{ vdv_453_nats_adapter_aus_subscription_ttl }} + $(date '+%s')" | bc)")"`, which needs a real shell to be evaluated.
+# We use run.sh to pass in `--expires "$(date --iso-8601=seconds --date="@$(echo "{{ vdv_453_nats_adapter_subscription_ttl }} + $(date '+%s')" | bc)")"`, which needs a real shell to be evaluated.
 # We also tell systemd to force-restart the service after the subscription has expired.
 ExecStart={{ vdv_453_nats_adapter_dir }}/run.sh
-RuntimeMaxSec={{ vdv_453_nats_adapter_aus_subscription_ttl + 15 }}s
-Environment=VDV_454_AUS_SUBSCRIPTION_TTL={{ vdv_453_nats_adapter_aus_subscription_ttl }}
+RuntimeMaxSec={{ vdv_453_nats_adapter_subscription_ttl + 15 }}s
+Environment=VDV_454_SUBSCRIPTION_TTL={{ vdv_453_nats_adapter_subscription_ttl }}
 
 Restart=always
 RestartSec=10s

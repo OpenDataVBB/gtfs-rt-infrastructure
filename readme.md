@@ -9,32 +9,28 @@ This repo **configures the machines that the [VBB GTFS Realtime (GTFS-RT) feed](
 
 ```mermaid
 flowchart TB
-    subgraph external[ ]
-        vdv_453_api(VBB VDV-453 API):::external
-        consumers(consumers):::external
+    vdv_453_api(VBB VDV-453 API):::external
+    style vdv_453_api fill:#ffd9c2,stroke:#ff8e62
+    consumers(consumers):::external
+    style consumers fill:#ffd9c2,stroke:#ff8e62
+    subgraph nats[NATS JetStream]
+        direction TB
+        nats_ref_aus_sollfahrt["`*REF_AUS_SOLLFAHRT_2* stream`"]:::stream
+        nats_aus_istfahrt["`*AUS_ISTFAHRT_2* stream`"]:::stream
+        nats_gtfs_rt["`*GTFS_RT_2* stream`"]:::stream
+        classDef stream fill:#ffffde,stroke:#aaaa33
     end
-    style external fill:none,stroke:none
-    classDef external fill:#ffd9c2,stroke:#ff8e62
-    subgraph vdv_453_proxy["`*vdv_453_proxy* machine`"]
+    subgraph services[ ]
         vdv_453_nats_adapter(OpenDataVBB/vdv-453-nats-adapter)
+        gtfs_rt_feed(OpenDataVBB/gtfs-rt-feed)
+        nats_consuming_gtfs_rt_server(OpenDataVBB/nats-consuming-gtfs-rt-server)
     end
-    style vdv_453_proxy fill:none,stroke:#999999
-    subgraph gtfs_rt_converter["`*gtfs_rt_converter* machine`"]
-        subgraph nats[NATS JetStream]
-            nats_aus_istfahrt["`*AUS_ISTFAHRT_2* stream`"]:::stream
-            nats_gtfs_rt["`*GTFS_RT_2* stream`"]:::stream
-            classDef stream fill:#ffffde,stroke:#aaaa33
-        end
-        subgraph services[ ]
-            gtfs_rt_feed(OpenDataVBB/gtfs-rt-feed)
-            nats_consuming_gtfs_rt_server(OpenDataVBB/nats-consuming-gtfs-rt-server)
-        end
-        style services fill:none,stroke:none
-    end
-    style gtfs_rt_converter fill:none,stroke:#999999
+    style services fill:none,stroke:none
 
     vdv_453_api-- VDV-453/-454 data -->vdv_453_nats_adapter
+    vdv_453_nats_adapter-- "`VDV-453 *REF-AUS* *SollFahrt* messages`" -->nats_ref_aus_sollfahrt
     vdv_453_nats_adapter-- "`VDV-454 *AUS* *IstFahrt* messages`" -->nats_aus_istfahrt
+    nats_ref_aus_sollfahrt-- "`VDV-453 *REF-AUS* *SollFahrt* messages`" -->gtfs_rt_feed
     nats_aus_istfahrt-- "`VDV-454 *AUS* *IstFahrt* messages`" -->gtfs_rt_feed
     gtfs_rt_feed-- "`GTFS-RT messages`" -->nats_gtfs_rt
     nats_gtfs_rt-- "`GTFS-RT messages`" -->nats_consuming_gtfs_rt_server
@@ -58,6 +54,6 @@ They are VPSes hosted at [Planetary Networks](https://www.planetary-networks.de)
 > [!NOTE]
 > Ansible group: `gtfs_rt_converter`
 
-These machines convert VDV-453 data (sent by the respective `vdv_453_proxy` machine, see above), convert it into the GTFS-RT format, and serve the GTFS-RT feeds via HTTP.
+These machines convert VDV-453/VDV-454 data (sent by the respective `vdv_453_proxy` machine, see above), convert it into the GTFS-RT format, and serve the GTFS-RT feeds via HTTP.
 
-They are connected to their respective VDV-453 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel, letting them communicate via a [NATS message queue](https://nats.io).
+They are connected to their respective VDV-453/VDV-454 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel, letting them communicate via a [NATS message queue](https://nats.io).

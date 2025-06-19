@@ -17,10 +17,10 @@ vdv_453_nats_adapter_log_level: info
 # Note: VBB/HaCon has configured this port on their side, so we cannot just change it!
 vdv_453_nats_adapter_internal_port: 8080
 
-# For how long the VDV-454 AUS subscription(s) should be valid. Needs to be a plain number, in seconds!
+# For how long the VDV-453 REF-AUS & VDV-454 AUS subscriptions should be valid. Needs to be a plain number, in seconds!
 # see also templates/vdv-453-nats-adapter.service.j2 & templates/vdv-453-nats-adapter-run.sh.j2.
 # see also https://github.com/OpenDataVBB/vdv-453-nats-adapter/issues/2
-vdv_453_nats_adapter_aus_subscription_ttl: 43200 # 12 hours
+vdv_453_nats_adapter_subscription_ttl: 43200 # 12 hours
 
 vpn_service_restart_interval_seconds: 43260 # 12 hours + 1 minute
 vpn_service_restart_interval_randomization_seconds: '{{ 60 }}' # 1 minute
