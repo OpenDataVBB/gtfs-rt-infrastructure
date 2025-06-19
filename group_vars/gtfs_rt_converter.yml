@@ -52,7 +52,7 @@ postgresql_postgres_password: !vault |
 # - the concurrency of *uncached* matchings (defaults to `gtfs_rt_feed_db_pool_size`),
 # - plus the concurrency of *uncached* station weight lookups (defaults to `gtfs_rt_feed_db_pool_size`),
 # - plus some diagnostic connections (e.g. monitoring, manual debugging).
-postgresql_max_connections: '{{ gtfs_rt_feed_db_pool_size * 2 + 3 }}'
+postgresql_max_connections: '{{ gtfs_rt_feed_db_pool_size * 2 + 3 | string }}'
 postgresql_effective_cache_size: '23040MB'
 postgresql_shared_buffers: '7680MB'
 postgresql_maintenance_work_mem: '1920MB'
