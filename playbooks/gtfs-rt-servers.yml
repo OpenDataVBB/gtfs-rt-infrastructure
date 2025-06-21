@@ -1,0 +1,142 @@
+---
+- name: configure GTFS-RT servers
+  hosts: gtfs_rt_server
+
+  roles:
+    - name: install Node.js from NodeSource's repo
+      role: geerlingguy.nodejs
+      vars:
+        nodejs_version: '22.x'
+
+    # todo: put StandardOutput=null in the [Service] section to disable logging?
+    - name: install Caddy server
+      role: caddy_ansible.caddy_ansible
+      vars:
+        caddy_packages:
+          - 'github.com/mholt/caddy-ratelimit'
+        caddy_systemd_capabilities_enabled: true
+        caddy_config: "{{ lookup('template', '../templates/Caddyfile.j2') }}"
+
+    - name: install NATS CLI
+      role: nats
+      vars:
+        nats_server_enabled: false
+        nats_exporter_enabled: false
+
+  tasks:
+    # These follow nats-consuming-gtfs-rt-server's readme: https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server/blob/18030d9ffa67949ded3a155004ad9db5ab270bf1/readme.md#create-nats-stream--consumer.
+    - name: ensure the NATS stream "{{ nats_gtfs_rt_stream_name }}" is configured correctly
+      ansible.builtin.shell: |
+        nats \
+          -s 'nats://{{ nats_servers[0] }}:4222/' \
+          stream add \
+          --defaults \
+          --subjects='{{ nats_gtfs_rt_stream_subjects | join('\n') }}' \
+          --description='{{ nats_gtfs_rt_stream_description }}' \
+          --ack --retention=limits --discard=old \
+          --max-bytes='{{ nats_gtfs_rt_stream_max_size_gb }}G' \
+          '{{ nats_gtfs_rt_stream_name }}'
+    - name: ensure the NATS consumer "{{ nats_gtfs_rt_consumer_name }}" for the "{{ nats_gtfs_rt_stream_name }}" is configured correctly
+      ansible.builtin.shell: |
+        nats \
+          -s 'nats://{{ nats_servers[0] }}:4222/' \
+          consumer add \
+          --defaults \
+          --pull --ack=explicit \
+          --deliver='{{ nats_gtfs_rt_consumer_deliver }}' \
+          --max-pending='{{ nats_gtfs_rt_consumer_max_pending }}' \
+          --max-deliver='{{ nats_gtfs_rt_consumer_max_deliver }}' \
+          --backoff='{{ nats_gtfs_rt_consumer_backoff }}' \
+          --backoff-steps='{{ nats_gtfs_rt_consumer_backoff_steps }}' \
+          --backoff-min='{{ nats_gtfs_rt_consumer_backoff_min }}' \
+          --backoff-max='{{ nats_gtfs_rt_consumer_backoff_max }}' \
+          --description '{{ nats_gtfs_rt_consumer_description }}' \
+          '{{ nats_gtfs_rt_stream_name }}' \
+          '{{ nats_gtfs_rt_consumer_name }}'
+
+    - name: clone OpenDataVBB/nats-consuming-gtfs-rt-server:{{ nats_consuming_gtfs_rt_server_git_ref }}
+      ansible.builtin.git:
+        repo: 'https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server.git'
+        dest: /srv/nats-consuming-gtfs-rt-server
+        version: '{{ nats_consuming_gtfs_rt_server_git_ref }}'
+    - name: npm install
+      community.general.npm:
+        path: /srv/nats-consuming-gtfs-rt-server
+    - name: put systemd nats-consuming-gtfs-rt-server.service unit file
+      ansible.builtin.template:
+        src: '../templates/nats-consuming-gtfs-rt-server.service.j2'
+        dest: /etc/systemd/system/nats-consuming-gtfs-rt-server.service
+    - name: validate nats-consuming-gtfs-rt-server.service
+      ansible.builtin.shell: |
+        systemd-analyze verify /etc/systemd/system/nats-consuming-gtfs-rt-server.service
+    - name: systemd daemon-reload, enable & start systemd nats-consuming-gtfs-rt-server.service
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        state: restarted
+        name: nats-consuming-gtfs-rt-server
+
+    # todo: derive ports from `gtfs_rt_public_endpoints` here – but how?
+    - name: let UFW allow TCP on port 80
+      community.general.ufw:
+        rule: allow
+        port: '80'
+      become: true
+    - name: let UFW allow TCP on port 443
+      community.general.ufw:
+        rule: allow
+        port: '443'
+      become: true
+    - name: let UFW allow UDP on port 443 (HTTP/3)
+      community.general.ufw:
+        rule: allow
+        port: '443'
+        proto: 'udp'
+      become: true
+    - name: let UFW allow TCP on port 8080
+      community.general.ufw:
+        rule: allow
+        port: '8080'
+      become: true
+
+    # todo: delete old/superfluous remote files -> mirror
+    - name: copy www files
+      ansible.builtin.copy:
+        src: '../files/www/{{ inventory_hostname }}/' # note the trailing slash
+        dest: '{{ gtfs_rt_webroot }}'
+    - name: put {{ gtfs_rt_webroot }}/index.html
+      ansible.builtin.template:
+        src: '../templates/www/index.html.j2'
+        dest: '{{ gtfs_rt_webroot }}/index.html'
+
+    - name: put gtfs-rt.Caddyfile
+      ansible.builtin.template:
+        src: '../templates/gtfs-rt.Caddyfile.j2'
+        dest: /etc/caddy/gtfs-rt.Caddyfile
+        owner: 'www-data'
+    - name: validate Caddy config
+      ansible.builtin.shell: |
+        caddy validate -c /etc/caddy/Caddyfile
+    - name: reload Caddy config
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: caddy
+
+    # todo: expose read-only public dashboard behind caddy basic auth?
+    # see also https://grafana.com/docs/grafana/latest/dashboards/dashboard-public/
+    - name: expose gtfs_rt_converter Grafana using grafana.Caddyfile
+      ansible.builtin.template:
+        src: '../templates/grafana.Caddyfile.j2'
+        dest: /etc/caddy/grafana.Caddyfile
+        owner: 'www-data'
+    - name: reload Caddy config
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: caddy
+    - name: validate Caddy config
+      ansible.builtin.shell: |
+        caddy validate -c /etc/caddy/Caddyfile
+    - name: reload Caddy config
+      ansible.builtin.systemd_service:
+        state: reloaded
+        name: caddy

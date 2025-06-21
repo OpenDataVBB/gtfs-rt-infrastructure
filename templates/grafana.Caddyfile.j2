@@ -9,6 +9,6 @@
 	}
 
 	reverse_proxy /* {
-		to http://grafana_http_addr:{{ grafana_http_port }}
+		to http://{{ gtfs_rt_converter_address }}:{{ grafana_http_port }}
 	}
 }

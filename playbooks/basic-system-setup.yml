@@ -9,6 +9,33 @@
         security_ssh_permit_root_login: 'yes'
         security_fail2ban_custom_configuration_template: '../templates/fail2ban-ssh.local.j2'
       become: true
+
+    - name: install Prometheus node exporter
+      role: prometheus.prometheus.node_exporter
+      vars:
+        node_exporter_enabled_collectors:
+          # > Collectors are enabled by providing a `--collector.<name>` flag. Collectors that are enabled by default can be disabled by providing a `--no-collector.<name>` flag. To enable only some specific collector(s), use `--collector.disable-defaults --collector.<name> ...`.
+          # – https://github.com/prometheus/node_exporter/blob/v1.8.2/README.md#collectors
+          - disable-defaults
+          - cpu
+          - diskstats
+          - filesystem
+          - hwmon
+          - loadavg
+          - meminfo
+          - netdev
+          - systemd
+        # default is `0.0.0.0:9100`
+        node_exporter_web_listen_address: "{{ wireguard_addresses.0.split('/')[0] }}:{{ prometheus_node_exporter_port }}"
+
+    # todo: remove in favor of Node Exporter's `systemd` collector – does this work?
+    # see https://github.com/prometheus/node_exporter/blob/v1.8.2/collector/systemd_linux.go#L158-L174
+    - name: install Prometheus systemd exporter
+      role: prometheus.prometheus.systemd_exporter
+      vars:
+        systemd_exporter_enable_restart_count: true
+        # default is `0.0.0.0:9558`
+        systemd_exporter_web_listen_address: "{{ wireguard_addresses.0.split('/')[0] }}:{{ prometheus_systemd_exporter_port }}"
   tasks:
     # update all packages
     - name: apt update
@@ -74,27 +101,6 @@
         name: mosh
       become: true
       loop: '{{ ssh_allowed_ips }}'
-    - name: let UFW allow TCP on port 80
-      community.general.ufw:
-        rule: allow
-        port: '80'
-      become: true
-    - name: let UFW allow TCP on port 443
-      community.general.ufw:
-        rule: allow
-        port: '443'
-      become: true
-    - name: let UFW allow UDP on port 443 (HTTP/3)
-      community.general.ufw:
-        rule: allow
-        port: '443'
-        proto: 'udp'
-      become: true
-    - name: let UFW allow TCP on port 8080
-      community.general.ufw:
-        rule: allow
-        port: '8080'
-      become: true
     - name: enable UFW
       community.general.ufw:
         state: enabled
@@ -103,6 +109,7 @@
     - name: set hostname
       ansible.builtin.hostname:
         name: "{{ inventory_hostname | replace('_','-') }}"
+      become: true
 
     - name: configure journald to persist logs
       lineinfile:

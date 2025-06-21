@@ -3,7 +3,6 @@ nats_ref_aus_sollfahrt_stream_name: REF_AUS_SOLLFAHRT_2
 nats_ref_aus_sollfahrt_stream_description: 'VDV-453 REF-AUS SollFahrt messages'
 nats_ref_aus_sollfahrt_stream_subjects:
   - 'ref_aus.sollfahrt.>'
-nats_ref_aus_sollfahrt_stream_max_size_gb: 20
 
 nats_ref_aus_sollfahrt_consumer_name: gtfs-rt-feed
 nats_ref_aus_sollfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
@@ -19,7 +18,6 @@ nats_aus_istfahrt_stream_name: AUS_ISTFAHRT_2
 nats_aus_istfahrt_stream_description: 'VDV-454 AUS IstFahrt messages'
 nats_aus_istfahrt_stream_subjects:
   - 'aus.istfahrt.>'
-nats_aus_istfahrt_stream_max_size_gb: 20
 
 nats_aus_istfahrt_consumer_name: gtfs-rt-feed
 nats_aus_istfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
@@ -30,29 +28,6 @@ nats_aus_istfahrt_consumer_backoff: linear
 nats_aus_istfahrt_consumer_backoff_steps: 2
 nats_aus_istfahrt_consumer_backoff_min: 1m
 nats_aus_istfahrt_consumer_backoff_max: 5m
-
-nats_gtfs_rt_stream_name: GTFS_RT_2
-nats_gtfs_rt_stream_description: 'GTFS-Realtime FeedEntity messages'
-nats_gtfs_rt_stream_subjects:
-  - 'gtfsrt.>'
-nats_gtfs_rt_stream_max_size_gb: 5
-
-nats_gtfs_rt_consumer_name: nats-consuming-gtfs-rt-server
-nats_gtfs_rt_consumer_description: 'OpenDataVBB/nats-consuming-gtfs-rt-server'
-nats_gtfs_rt_consumer_deliver: new
-nats_gtfs_rt_consumer_max_pending: 500
-nats_gtfs_rt_consumer_max_deliver: 3
-nats_gtfs_rt_consumer_backoff: linear
-nats_gtfs_rt_consumer_backoff_steps: 2
-nats_gtfs_rt_consumer_backoff_min: 15s
-nats_gtfs_rt_consumer_backoff_max: 1m
-
-# see https://github.com/mholt/caddy-ratelimit/blob/12435ecef5dbb1b137eb68002b85d775a9d5cdb2/README.md
-gtfs_rt_rate_limit_requests: 60
-gtfs_rt_rate_limit_window: 1m
-gtfs_rt_rate_limit_human_readable: '60 requests per minute'
-
-gtfs_rt_webroot: '/var/www/gtfs-rt'
 
 # PostgreSQL
 postgresql_major_version: 16 # todo: detect from target!
@@ -98,17 +73,10 @@ gtfs_rt_feed_gtfs_download_user_agent: '{{ inventory_hostname }} GTFS import'
 # todo: redirect logs, set up logrotate
 gtfs_rt_feed_import_cmd: "export PGHOST=localhost PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' && env GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' GTFS_IMPORTER_VERBOSE=true {{ gtfs_rt_feed_dir }}/import.sh --docker && echo \"[Service]\\nEnvironment=PGDATABASE=$(psql -q --csv -t -h localhost -c 'SELECT db_name FROM latest_import')\" | sponge /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf && systemctl daemon-reload && systemctl restart gtfs-rt-feed.service"
 
-# nats-consuming-gtfs-rt-server
-nats_consuming_gtfs_rt_server_git_ref: main # todo: pin?
-nats_consuming_gtfs_rt_server_dir: '/srv/nats-consuming-gtfs-rt-server'
-# todo: bind only locally? or put behind firewall?
-nats_consuming_gtfs_rt_server_internal_port: 3000
-
 # monitoring
 gtfs_rt_feed_metrics_server_port: 9091
-nats_consuming_gtfs_rt_server_metrics_server_port: 9092
 prometheus_listen_address: 'localhost:9090' # only listen locally
 prometheus_data_retention: 1y
 prometheus_data_retention_size: 20GB
-grafana_http_addr: '127.0.0.1' # `localhost` doesn't work
-grafana_http_port: 8000
+# We listen on the machine's Wireguard interface to make Grafana accessible to the other machines.
+grafana_http_addr: '10.0.0.0'

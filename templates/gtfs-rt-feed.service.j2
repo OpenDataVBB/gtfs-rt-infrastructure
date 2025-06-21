@@ -11,7 +11,6 @@ RestartMaxDelaySec=1m
 RestartSteps=10
 WorkingDirectory={{ gtfs_rt_feed_dir }}
 Environment=NODE_ENV=production
-Environment=HOSTNAME="{{ gtfs_rt_public_endpoints[0] }}"
 Environment=REDIS_URL="redis:///{{ gtfs_rt_feed_redis_db }}"
 Environment=PGHOST=localhost
 Environment=PGUSER=postgres

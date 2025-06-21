@@ -68,8 +68,3 @@ vdv_453_their_leitstellenkennung: !vault |
           34613238363539383763373235613334373764613161616164323164656138346266613163373837
           3839323439336133640a613939613164353131313864646630323631376630303936303462646233
           6563
-
-vdv_453_nats_adapter_nats_servers:
-  # todo: make this lookup generic across staging/production/etc!
-  # todo: process all .wireguard_addresses?
-  - "{{ hostvars.vbb_gtfs_rt_production.wireguard_addresses.0 | ansible.utils.nthhost(0) }}"

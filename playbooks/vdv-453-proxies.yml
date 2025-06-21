@@ -23,13 +23,13 @@
         # todo: listen on Wireguard interface only?
         systemd_exporter_web_listen_address: '0.0.0.0:{{ prometheus_blackbox_exporter_port }}'
 
-    - name: install Prometheus systemd exporter
-      role: prometheus.prometheus.systemd_exporter
+    - name: install NATS CLI
+      role: nats
       vars:
-        systemd_exporter_enable_restart_count: true
-        # default is `0.0.0.0:9558`
-        # todo: listen on Wireguard interface only?
-        systemd_exporter_web_listen_address: '0.0.0.0:{{ prometheus_systemd_exporter_port }}'
+        nats_server_enabled: false
+        nats_exporter_enabled: false
+      become: true
+
   tasks:
     - name: let UFW allow IPSec/IKEv2 connections on ens4 from {{ their_vpn_gateway_ip }}/32
       community.general.ufw:

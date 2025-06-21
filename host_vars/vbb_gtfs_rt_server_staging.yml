@@ -1,0 +1,27 @@
+wireguard_private_key: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          61656336666131383630663964306137356631333761613661313837303763613731396661333738
+          3764373631613761356665353635333966343633663733340a393035386662623861393038613330
+          39303530313830316137656236346230306630393465636134343935333633303432343466313931
+          6365363635636635380a623738653133626337316238376433643833663938303036343535306435
+          66363461633164373462326438663130356461626561636135353464366164333934666530393335
+          3138313462373265613766353933383833643163633965323135
+
+wireguard_addresses:
+  - '10.0.0.2/24'
+# wireguard_allowed_ips: '10.0.0.0/24'
+
+# todo: don't hard-code these
+# the VPN-internal address of gtfs-rt-converter-staging, as seen from gtfs-rt-server-staging
+gtfs_rt_converter_address: '10.0.0.0'
+# the VPN-internal address of gtfs-rt-server-staging
+gtfs_rt_server_address: '10.0.0.2'
+
+# see also https://caddyserver.com/docs/caddyfile/concepts#addresses
+# Note: The first URL gets used for the explainer HTML page.
+gtfs_rt_public_endpoints:
+- 'https://staging.gtfsrt.vbb.de'
+- 'https://staging.vbb-gtfs-rt.jannisr.de'
+- 'http://65.108.4.53:80' # todo: pull from ansible facts?
+- 'http://[2a01:4f9:6a:5367::2]:80' # todo: pull from ansible facts?
+

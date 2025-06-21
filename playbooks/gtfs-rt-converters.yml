@@ -1,9 +1,9 @@
 ---
-- name: configure GTFS-RT converters/servers
+- name: configure GTFS-RT converters
   hosts: gtfs_rt_converter
+  become: true
   roles:
     - name: deploy NATS message queue
-      become: true
       role: nats
       vars:
         nats_server_name: '{{ inventory_hostname }}'
@@ -12,7 +12,7 @@
         nats_jetstream_max_mem: 2G
         # for some reason, `max_file` needs much more than the sum of the streams' `max_bytes` 🤔🤔
         # related: https://github.com/nats-io/nats-server/issues/4281#issuecomment-2586742483
-        nats_jetstream_max_file: '{{ nats_ref_aus_istfahrt_stream_max_size_gb + nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb + 5 }}G'
+        nats_jetstream_max_file: '{{ (nats_ref_aus_sollfahrt_stream_max_size_gb + nats_aus_istfahrt_stream_max_size_gb + nats_gtfs_rt_stream_max_size_gb) * 1.5 | round | int }}G'
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/readme.md
         # see https://github.com/nats-io/nats.docs/blob/66c6bcc/running-a-nats-service/nats_admin/monitoring/monitoring_jetstream.md
         nats_exporter_export_gatewayz: false
@@ -30,18 +30,9 @@
       vars:
         nodejs_version: '22.x'
 
-    # todo: put StandardOutput=null in the [Service] section to disable logging?
-    - name: install Caddy server
-      role: caddy_ansible.caddy_ansible
-      vars:
-        caddy_packages:
-          - 'github.com/mholt/caddy-ratelimit'
-        caddy_systemd_capabilities_enabled: true
-        caddy_config: "{{ lookup('template', '../templates/Caddyfile.j2') }}"
-
     - name: install PostgreSQL
-      become: true
-      role: geerlingguy.postgresql
+      # role: geerlingguy.postgresql
+      role: ansible-role-postgresql
 
     - name: install Prometheus
       role: prometheus.prometheus.prometheus
@@ -59,7 +50,7 @@
           - job_name: nats-consuming-gtfs-rt-server
             scrape_interval: 5s
             static_configs:
-              - targets: ['localhost:{{ nats_consuming_gtfs_rt_server_metrics_server_port }}']
+              - targets: ['{{ gtfs_rt_server_address }}:{{ nats_consuming_gtfs_rt_server_metrics_server_port }}']
           - job_name: vdv-453-nats-adapter
             scrape_interval: 5s
             static_configs:
@@ -67,7 +58,8 @@
           - job_name: caddy
             static_configs:
               # https://caddyserver.com/docs/metrics
-              - targets: ['localhost:2019']
+              - targets:
+                - '{{ gtfs_rt_server_address }}:{{ gtfs_rt_server_caddy_metrics_server_port }}'
           - job_name: prometheus-nats-exporter
             static_configs:
               - targets: ['localhost:7777']
@@ -79,12 +71,16 @@
               - targets: ['localhost:9121']
           - job_name: prometheus-node-exporter
             static_configs:
-              - targets: ['localhost:9100']
+              - targets:
+                  - '{{ vdv_453_nats_adapter_address }}:{{ prometheus_node_exporter_port }}'
+                  - '{{ gtfs_rt_converter_address }}:{{ prometheus_node_exporter_port }}'
+                  - '{{ gtfs_rt_server_address }}:{{ prometheus_node_exporter_port }}'
           - job_name: prometheus-systemd-exporter
             static_configs:
               - targets:
-                  - 'localhost:9558'
-                  - '{{ vdv_453_nats_adapter_address }}:9558'
+                  - '{{ vdv_453_nats_adapter_address }}:{{ prometheus_systemd_exporter_port }}'
+                  - '{{ gtfs_rt_converter_address }}:{{ prometheus_systemd_exporter_port }}'
+                  - '{{ gtfs_rt_server_address }}:{{ prometheus_systemd_exporter_port }}'
           - job_name: prometheus-blackbox-exporter
             scrape_interval: 10s
             # see also https://github.com/prometheus/blackbox_exporter/blob/v0.25.0/README.md#prometheus-configuration
@@ -100,9 +96,8 @@
                 target_label: module
               - target_label: __address__
                 # the blackbox exporter's real hostname:port
+                # Note: We ping *from* the `vdv_453_nats_adapter_address` machine.
                 replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_blackbox_exporter_port }}'
-                # the systemd exporter's real hostname:port
-                replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_systemd_exporter_port }}'
             static_configs:
               - targets:
                 - '{{ vdv_453_api_host }}'
@@ -141,33 +136,7 @@
         # default is `0.0.0.0:9121`
         redis_exporter_web_listen_address: 'localhost:9121'
 
-    # todo: move these to a general playbook
-    - name: install Prometheus node exporter
-      role: prometheus.prometheus.node_exporter
-      vars:
-        node_exporter_enabled_collectors:
-          # > Collectors are enabled by providing a `--collector.<name>` flag. Collectors that are enabled by default can be disabled by providing a `--no-collector.<name>` flag. To enable only some specific collector(s), use `--collector.disable-defaults --collector.<name> ...`.
-          # – https://github.com/prometheus/node_exporter/blob/v1.8.2/README.md#collectors
-          - disable-defaults
-          - cpu
-          - diskstats
-          - filesystem
-          - hwmon
-          - loadavg
-          - meminfo
-          - netdev
-          - systemd
-        # default is `0.0.0.0:9100`
-        node_exporter_web_listen_address: 'localhost:9100'
-    # todo: remove in favor of Node Exporter's `systemd` collector – does this work?
-    # see https://github.com/prometheus/node_exporter/blob/v1.8.2/collector/systemd_linux.go#L158-L174
-    - name: install Prometheus systemd exporter
-      role: prometheus.prometheus.systemd_exporter
-      vars:
-        systemd_exporter_enable_restart_count: true
-        # default is `0.0.0.0:9558`
-        systemd_exporter_web_listen_address: 'localhost:9558'
-
+    # todo: as of 2025-07-18 it doesn't work with Ubuntu 25
     - name: install & configure Grafana
       role: grafana.grafana.grafana
       vars:
@@ -190,7 +159,6 @@
 
   tasks:
     - name: set password of "postgres" user
-      become: true
       ansible.builtin.shell: |
         sudo -u postgres psql -c "ALTER USER postgres PASSWORD '{{ postgresql_postgres_password }}'"
     - name: install PostGIS
@@ -212,7 +180,6 @@
       ansible.builtin.file:
         path: /etc/systemd/system/postgres_exporter.service.d
         state: directory
-      # become: true
     - name: "Prometheus PostgreSQL exporter: put systemd config override to prevent scraping pg_settings"
       ansible.builtin.copy:
         src: ../lib/prometheus/postgres-exporter-disable-pg-settings.conf
@@ -222,16 +189,6 @@
         daemon_reload: true
         state: restarted
         name: postgres_exporter
-
-    - name: put grafana.Caddyfile
-      ansible.builtin.template:
-        src: '../templates/grafana.Caddyfile.j2'
-        dest: /etc/caddy/grafana.Caddyfile
-        owner: 'www-data'
-    - name: reload Caddy config
-      ansible.builtin.systemd_service:
-        state: reloaded
-        name: caddy
 
     # todo: use geerlingguy.redis once it supports Redis v8 – currently it only uses the stock Ubuntu sources, which have v7
     # https://github.com/geerlingguy/ansible-role-redis
@@ -355,7 +312,6 @@
           SELECT FROM pg_database WHERE datname = '{{ gtfs_rt_feed_gtfs_importer_db }}'\
         )\
         \gexec" | sudo -u postgres psql
-      become: true
     - name: run GTFS import manually
       ansible.builtin.shell: '{{ gtfs_rt_feed_import_cmd }}'
 
@@ -388,78 +344,3 @@
         enabled: true
         state: restarted
         name: gtfs-rt-feed
-    - name: reload Caddy config
-      ansible.builtin.systemd_service:
-        state: reloaded
-        name: caddy
-
-    # These follow gtfs-rt-feed's readme: https://github.com/OpenDataVBB/gtfs-rt-feed/blob/b4bf9f6f482c541edacd237db960e051cd017fe5/readme.md#create-nats-stream--consumer.
-    - name: ensure the NATS stream "{{ nats_gtfs_rt_stream_name }}" is configured correctly
-      ansible.builtin.shell: |
-        nats stream add \
-          --defaults \
-          --subjects='{{ nats_gtfs_rt_stream_subjects | join('\n') }}' \
-          --description='{{ nats_gtfs_rt_stream_description }}' \
-          --ack --retention=limits --discard=old \
-          --max-bytes='{{ nats_gtfs_rt_stream_max_size_gb }}G' \
-          '{{ nats_gtfs_rt_stream_name }}'
-    - name: ensure the NATS consumer "{{ nats_gtfs_rt_consumer_name }}" for the "{{ nats_gtfs_rt_stream_name }}" is configured correctly
-      ansible.builtin.shell: |
-        nats consumer add \
-          --defaults \
-          --pull --ack=explicit \
-          --deliver='{{ nats_gtfs_rt_consumer_deliver }}' \
-          --max-pending='{{ nats_gtfs_rt_consumer_max_pending }}' \
-          --max-deliver='{{ nats_gtfs_rt_consumer_max_deliver }}' \
-          --backoff='{{ nats_gtfs_rt_consumer_backoff }}' \
-          --backoff-steps='{{ nats_gtfs_rt_consumer_backoff_steps }}' \
-          --backoff-min='{{ nats_gtfs_rt_consumer_backoff_min }}' \
-          --backoff-max='{{ nats_gtfs_rt_consumer_backoff_max }}' \
-          --description '{{ nats_gtfs_rt_consumer_description }}' \
-          '{{ nats_gtfs_rt_stream_name }}' \
-          '{{ nats_gtfs_rt_consumer_name }}'
-
-    - name: clone OpenDataVBB/nats-consuming-gtfs-rt-server:{{ nats_consuming_gtfs_rt_server_git_ref }}
-      ansible.builtin.git:
-        repo: 'https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server.git'
-        dest: /srv/nats-consuming-gtfs-rt-server
-        version: '{{ nats_consuming_gtfs_rt_server_git_ref }}'
-    - name: npm install
-      community.general.npm:
-        path: /srv/nats-consuming-gtfs-rt-server
-    - name: put systemd nats-consuming-gtfs-rt-server.service unit file
-      ansible.builtin.template:
-        src: '../templates/nats-consuming-gtfs-rt-server.service.j2'
-        dest: /etc/systemd/system/nats-consuming-gtfs-rt-server.service
-    - name: validate nats-consuming-gtfs-rt-server.service
-      ansible.builtin.shell: |
-        systemd-analyze verify /etc/systemd/system/nats-consuming-gtfs-rt-server.service
-    - name: systemd daemon-reload, enable & start systemd nats-consuming-gtfs-rt-server.service
-      ansible.builtin.systemd_service:
-        daemon_reload: true
-        enabled: true
-        state: restarted
-        name: nats-consuming-gtfs-rt-server
-
-    # todo: delete old/superfluous remote files -> mirror
-    - name: copy www files
-      ansible.builtin.copy:
-        src: '../files/www/{{ inventory_hostname }}/' # note the trailing slash
-        dest: '{{ gtfs_rt_webroot }}'
-    - name: put {{ gtfs_rt_webroot }}/index.html
-      ansible.builtin.template:
-        src: '../templates/www/index.html.j2'
-        dest: '{{ gtfs_rt_webroot }}/index.html'
-
-    - name: put gtfs-rt.Caddyfile
-      ansible.builtin.template:
-        src: '../templates/gtfs-rt.Caddyfile.j2'
-        dest: /etc/caddy/gtfs-rt.Caddyfile
-        owner: 'www-data'
-    - name: validate Caddy config
-      ansible.builtin.shell: |
-        caddy validate -c /etc/caddy/Caddyfile
-    - name: reload Caddy config
-      ansible.builtin.systemd_service:
-        state: reloaded
-        name: caddy

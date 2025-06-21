@@ -26,7 +26,7 @@ Environment=VDV_453_THEIR_LEITSTELLE="{{ vdv_453_their_leitstellenkennung }}"
 Environment=VDV_453_ENDPOINT="http://{{ vdv_453_api_host }}:{{ vdv_453_api_port }}/"
 # > Port to listen on. VDV-453 requires the *client* to run an HTTP server that the VDV-453 API can call.
 Environment=PORT="{{ vdv_453_nats_adapter_internal_port }}"
-Environment=NATS_SERVERS="{{ vdv_453_nats_adapter_nats_servers | join(',') }}"
+Environment=NATS_SERVERS="{{ nats_servers | join(',') }}"
 # todo: NATS_CLIENT_NAME
 # todo: let it resubscribe before expiry?
 Environment=METRICS_SERVER_PORT="{{ vdv_453_nats_adapter_metrics_server_port }}"

@@ -1,26 +1,29 @@
 all:
+  # Note: Production doesn't have separate machines for gtfs_rt_converter & gtfs_rt_server.
   hosts:
     vbb_datendrehscheibe_proxy_staging:
       ansible_host: 5.57.42.101
       ansible_user: ubuntu
+    vbb_gtfs_rt_converter_staging:
+    vbb_gtfs_rt_server_staging:
+      ansible_host: 188.34.197.118
+      ansible_user: root
     vbb_datendrehscheibe_proxy_production:
       ansible_host: 5.57.42.201
       ansible_user: ubuntu
-    vbb_gtfs_rt_staging:
-      ansible_host: 65.108.4.53
-      ansible_user: root
     vbb_gtfs_rt_production:
       ansible_host: 95.217.148.26
       ansible_user: root
   children:
     staging:
       hosts:
-        vbb_gtfs_rt_staging:
         vbb_datendrehscheibe_proxy_staging:
+        vbb_gtfs_rt_converter_staging:
+        vbb_gtfs_rt_server_staging:
     production:
       hosts:
-        vbb_gtfs_rt_production:
         vbb_datendrehscheibe_proxy_production:
+        vbb_gtfs_rt_production:
     vdv_453_proxy:
       hosts:
         vbb_datendrehscheibe_proxy_staging:
@@ -34,20 +37,40 @@ all:
             vbb_datendrehscheibe_proxy_production:
     gtfs_rt_converter:
       hosts:
-        vbb_gtfs_rt_staging:
+        vbb_gtfs_rt_converter_staging:
         vbb_gtfs_rt_production:
+      children:
+        gtfs_rt_converter_staging:
+          hosts:
+            vbb_gtfs_rt_converter_staging:
+        gtfs_rt_converter_production:
+          hosts:
+            vbb_gtfs_rt_production:
+    gtfs_rt_server:
+      hosts:
+        vbb_gtfs_rt_server_staging:
+        vbb_gtfs_rt_production:
+      children:
+        gtfs_rt_server_staging:
+          hosts:
+            vbb_gtfs_rt_server_staging:
+        gtfs_rt_server_production:
+          hosts:
+            vbb_gtfs_rt_production:
     wireguard_vpn:
       hosts:
-        vbb_gtfs_rt_staging:
         vbb_datendrehscheibe_proxy_staging:
-        vbb_gtfs_rt_production:
+        vbb_gtfs_rt_converter_staging:
+        vbb_gtfs_rt_server_staging:
         vbb_datendrehscheibe_proxy_production:
+        vbb_gtfs_rt_production:
       children:
         wireguard_vpn_staging:
           hosts:
-            vbb_gtfs_rt_staging:
             vbb_datendrehscheibe_proxy_staging:
+            vbb_gtfs_rt_converter_staging:
+            vbb_gtfs_rt_server_staging:
         wireguard_vpn_production:
           hosts:
-            vbb_gtfs_rt_production:
             vbb_datendrehscheibe_proxy_production:
+            vbb_gtfs_rt_production:

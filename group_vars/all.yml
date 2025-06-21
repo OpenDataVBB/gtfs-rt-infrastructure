@@ -8,8 +8,22 @@ ssh_allowed_ips:
 - '38.242.207.74/32' # chestnut.jannisr.de
 - '5.57.42.0/24' # Planetary Networks: VBB GTFS-RT network
 
-# Note: Because the variable is used both in playbooks/{gtfs-rt-converters,vdv-453-proxies}.yml, this variable has to be defined for a group that includes *both* the respective (staging/production) `gtfs_rt_server` machine as well as the `vdv_453_proxy` machine.
-# todo: move it into group_vars/vdv_453_proxy.yml once the setup of vdv-453-nats-adapter's monitoring has been moved there (see also playbooks/gtfs-rt-converters.yml)
-vdv_453_nats_adapter_metrics_server_port: 9093
+nats_servers:
+  # todo: process all .wireguard_addresses?
+  - "{{ hostvars.vbb_gtfs_rt_converter_staging.wireguard_addresses.0.split('/')[0] }}"
 
-prometheus_blackbox_export_port: 9115
+nats_ref_aus_sollfahrt_stream_max_size_gb: 20
+nats_aus_istfahrt_stream_max_size_gb: 20
+nats_gtfs_rt_stream_max_size_gb: 5
+
+# Note: Because these variable are used both in the playbook configuring monitoring on the respective `gtfs_rt_converter` machine *and* in the playbook configuring the monitored machine, they have to be defined for a group that includes *both*.
+# todo: refactor the monitoring setup
+vdv_453_nats_adapter_metrics_server_port: 9093
+nats_consuming_gtfs_rt_server_metrics_server_port: 9092
+gtfs_rt_server_caddy_metrics_server_port: 9019
+
+prometheus_node_exporter_port: 9100
+prometheus_blackbox_exporter_port: 9115
+prometheus_systemd_exporter_port: 9558
+
+grafana_http_port: 8000

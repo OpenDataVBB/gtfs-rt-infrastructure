@@ -1269,7 +1269,7 @@
 						}
 					},
 					"mappings": [],
-					"max": 20.1,
+					"max": {{ ansible_processor_nproc + 0.1 }},
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
