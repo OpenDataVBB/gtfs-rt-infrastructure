@@ -21,15 +21,15 @@
             # note: the target `{{ vdv_453_api_host }}` is specified via the Prometheus config
         # default is `0.0.0.0:9115`
         # todo: listen on Wireguard interface only?
-        systemd_exporter_web_listen_address: '0.0.0.0:{{ prometheus_blackbox_export_port }}'
+        systemd_exporter_web_listen_address: '0.0.0.0:{{ prometheus_blackbox_exporter_port }}'
 
     - name: install Prometheus systemd exporter
       role: prometheus.prometheus.systemd_exporter
       vars:
         systemd_exporter_enable_restart_count: true
+        # default is `0.0.0.0:9558`
         # todo: listen on Wireguard interface only?
-        # # default is `0.0.0.0:9558`
-        # systemd_exporter_web_listen_address: '10.0.0.2:9558'
+        systemd_exporter_web_listen_address: '0.0.0.0:{{ prometheus_systemd_exporter_port }}'
   tasks:
     - name: let UFW allow IPSec/IKEv2 connections on ens4 from {{ their_vpn_gateway_ip }}/32
       community.general.ufw:

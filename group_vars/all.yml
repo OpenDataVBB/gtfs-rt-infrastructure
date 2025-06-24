@@ -5,7 +5,7 @@ journald_runtime_keep_free: 2G
 
 # Always allow SSH/Mosh connections from these IPs.
 ssh_allowed_ips:
-- '54.37.75.136/32' # elm.jannisr.de
+- '38.242.207.74/32' # chestnut.jannisr.de
 - '5.57.42.0/24' # Planetary Networks: VBB GTFS-RT network
 
 # Note: Because the variable is used both in playbooks/{gtfs-rt-converters,vdv-453-proxies}.yml, this variable has to be defined for a group that includes *both* the respective (staging/production) `gtfs_rt_server` machine as well as the `vdv_453_proxy` machine.

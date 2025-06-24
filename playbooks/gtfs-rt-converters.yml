@@ -100,7 +100,9 @@
                 target_label: module
               - target_label: __address__
                 # the blackbox exporter's real hostname:port
-                replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_blackbox_export_port }}'
+                replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_blackbox_exporter_port }}'
+                # the systemd exporter's real hostname:port
+                replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_systemd_exporter_port }}'
             static_configs:
               - targets:
                 - '{{ vdv_453_api_host }}'
