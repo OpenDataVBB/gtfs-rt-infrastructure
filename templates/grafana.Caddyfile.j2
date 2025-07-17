@@ -9,6 +9,6 @@
 	}
 
 	reverse_proxy /* {
-		to http://localhost:{{ grafana_port }}
+		to http://grafana_http_addr:{{ grafana_http_port }}
 	}
 }
