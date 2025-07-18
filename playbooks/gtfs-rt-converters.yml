@@ -233,10 +233,24 @@
         state: reloaded
         name: caddy
 
-    - name: install Redis
-      package:
-        name:
-          - redis
+    # todo: use geerlingguy.redis once it supports Redis v8 – currently it only uses the stock Ubuntu sources, which have v7
+    # https://github.com/geerlingguy/ansible-role-redis
+    - name: install Redis v8
+      block:
+      - name: install Redis PPA signing key
+        ansible.builtin.shell: |
+          curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /etc/apt/keyrings/redis-archive-keyring.gpg
+      - name: add Redis repository to APT sources
+        ansible.builtin.apt_repository:
+          repo: 'deb [signed-by=/etc/apt/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb {{ ansible_distribution_release }} main'
+          state: present
+      - name: install Redis package
+        package:
+          name:
+            - redis
+          # force upgrade from stock Ubuntu version
+          state: latest
+      become: true
     - name: configure Redis to use at most {{ redis_maxmemory }} memory
       lineinfile:
         path: /etc/redis/redis.conf
