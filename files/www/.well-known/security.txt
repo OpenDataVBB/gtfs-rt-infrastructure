@@ -4,4 +4,4 @@ Contact: https://vbb.de
 Contact: mailto:api@vbb.de
 Preferred-Languages: de, en
 Policy: https://www.vbb.de/kontakt/
-Expires: 2024-12-31T23:59:00+01:00
+Expires: 2025-12-31T23:59:00+01:00
