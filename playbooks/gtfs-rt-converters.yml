@@ -261,6 +261,11 @@
         path: /etc/redis/redis.conf
         regex: ^(# *)?maxmemory-policy\b
         line: maxmemory-policy {{ redis_maxmemory_policy }}
+    - name: restart redis-server.service.
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: redis-server
+      become: true
 
     - name: install Docker (required for GTFS Schedule import)
       ansible.builtin.apt:
