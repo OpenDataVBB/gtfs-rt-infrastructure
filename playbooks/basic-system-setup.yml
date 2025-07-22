@@ -28,6 +28,12 @@
     #     upgrade: dist
     #   become: true
 
+    # todo: timedatectl set-ntp true
+    - name: set timezone to Europe/Berlin
+      become: true
+      community.general.timezone:
+        name: Europe/Berlin
+
     - name: install basic packages
       ansible.builtin.apt:
         name:
