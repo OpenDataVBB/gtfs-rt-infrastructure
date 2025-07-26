@@ -274,3 +274,61 @@ groups:
         notification_settings:
           # note: has to match `contactPoints[].name`
           receiver: GTFS-RT alerts
+      - uid: 0eb0e2abd0177a
+        title: 'no Recent GTFS Schedule data imports'
+        condition: no_recent_gtfs_schedule_import
+        data:
+          - refId: seconds_since_last_gtfs_schedule_import
+            relativeTimeRange:
+              from: 300
+              to: 0
+            datasourceUid: de29irtzi5gcga
+            model:
+              editorMode: code
+              expr: time() - gtfs_data_imported_timestamp_seconds
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: seconds_since_last_gtfs_schedule_import
+          - refId: no_recent_gtfs_schedule_import
+            datasourceUid: __expr__
+            model:
+              conditions:
+                  - evaluator:
+                      params:
+                          # 8 days, the VBB GTFS is usually updated every Friday
+                          - 691200
+                      type: gt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                          - C
+                    reducer:
+                      params: []
+                      type: last
+                    type: query
+              datasource:
+                  type: __expr__
+                  uid: __expr__
+              expression: seconds_since_last_gtfs_schedule_import
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: no_recent_status_ok
+              type: threshold
+        dashboardUid: be2c3frskfv9ce
+        panelId: 20
+        noDataState: Alerting
+        execErrState: Error
+        for: 1m
+        annotations:
+          __dashboardUid__: be2c3frskfv9ce
+          __panelId__: "20"
+          description: gtfs-rt-feed hasn't imported new GTFS Schedule data for 8 days
+          summary: no recent GTFS Schedule data import
+        isPaused: false
+        notification_settings:
+          # note: has to match `contactPoints[].name`
+          receiver: GTFS-RT alerts
