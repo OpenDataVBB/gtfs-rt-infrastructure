@@ -286,18 +286,42 @@
     - name: npm install
       community.general.npm:
         path: '{{ gtfs_rt_feed_dir }}'
-    - name: put systemd gtfs-rt-feed.service unit file
-      ansible.builtin.template:
-        src: '../templates/gtfs-rt-feed.service.j2'
-        dest: /etc/systemd/system/gtfs-rt-feed.service
     # GTFS import writes into `gtfs-rt-feed.service.d/pgdatabase.conf`.
     - name: create directory /etc/systemd/system/gtfs-rt-feed.service.d
       ansible.builtin.file:
         path: /etc/systemd/system/gtfs-rt-feed.service.d
         state: directory
-    - name: validate gtfs-rt-feed.service
+
+    - name: put gtfs-rt-feed-* systemd unit files
+      ansible.builtin.template:
+        src: '../templates/{{ item }}.j2'
+        dest: '/etc/systemd/system/{{ item }}'
+      loop:
+        - gtfs-rt-feed.service
+        - gtfs-rt-feed-gtfs-import.service
+        - gtfs-rt-feed-gtfs-import.timer
+        - gtfs-rt-feed-pgdatabase-conf-watcher.path
+        - gtfs-rt-feed-restarter.service
+    - name: validate gtfs-rt-feed-* systemd unit files
       ansible.builtin.shell: |
-        systemd-analyze verify /etc/systemd/system/gtfs-rt-feed.service
+        systemd-analyze verify /etc/systemd/system/{{ item }}
+      loop:
+        - gtfs-rt-feed.service
+        - gtfs-rt-feed-gtfs-import.service
+        - gtfs-rt-feed-gtfs-import.timer
+        - gtfs-rt-feed-pgdatabase-conf-watcher.path
+        - gtfs-rt-feed-restarter.service
+    - name: enable gtfs-rt-feed-* systemd units
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        name: '{{ item }}'
+      loop:
+        - gtfs-rt-feed.service
+        - gtfs-rt-feed-gtfs-import.service
+        - gtfs-rt-feed-gtfs-import.timer
+        - gtfs-rt-feed-pgdatabase-conf-watcher.path
+        - gtfs-rt-feed-restarter.service
 
     - name: create "{{ gtfs_rt_feed_gtfs_importer_db }}" database
       # todo: use community.postgresql.postgresql_db instead?
@@ -312,35 +336,12 @@
           SELECT FROM pg_database WHERE datname = '{{ gtfs_rt_feed_gtfs_importer_db }}'\
         )\
         \gexec" | sudo -u postgres psql
+
     - name: run GTFS import manually
-      ansible.builtin.shell: '{{ gtfs_rt_feed_import_cmd }}'
+      ansible.builtin.shell: |
+        systemctl restart --wait gtfs-rt-feed-gtfs-import.service
 
-    # todo: use systemd unit, tie it to gtfs-rt-server.service? – or configure rsyslog to keep cron logs
-    # see also https://www.splendid-internet.de/blog/besser-als-cronjobs-timer-units-mit-systemd/#Und_was_sind_Timer_Units
-
-    - name: configure rsyslog to keep cron job logs
-      ansible.builtin.copy:
-        src: ../lib/rsyslog.d-enable-cron.conf
-        dest: /etc/rsyslog.d/60-enable-cron.conf
-    # Seems like we must restart rsyslog.service.
-    # see https://serverfault.com/a/943575/1107343
-    - name: restart rsyslog.service.
+    - name: restart gtfs-rt-feed.service systemd unit
       ansible.builtin.systemd_service:
         state: restarted
-        name: rsyslog
-
-    - name: set up GTFS import cron job
-      ansible.builtin.cron:
-        name: 'gtfs-rt-feed: GTFS import'
-        user: root # todo: use `www-data` instead?
-        cron_file: gtfs-rt-feed-gtfs-import
-        job: '{{ gtfs_rt_feed_import_cmd }}'
-        # every hour
-        minute: '3'
-
-    - name: systemd daemon-reload, enable & restart systemd gtfs-rt-feed.service
-      ansible.builtin.systemd_service:
-        daemon_reload: true
-        enabled: true
-        state: restarted
-        name: gtfs-rt-feed
+        name: gtfs-rt-feed.service

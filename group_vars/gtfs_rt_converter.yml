@@ -67,11 +67,6 @@ gtfs_rt_feed_matching_caching_ttl: 100800 # 1 day 4 hours, in seconds
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
 gtfs_rt_feed_gtfs_download_user_agent: '{{ inventory_hostname }} GTFS import'
-# This command imports the GTFS data into a database. It then writes a systemd override config file setting $PGDATABASE.
-# We assume that it is executed using `sh`.
-# todo: make $GTFS_IMPORTER_DB_PREFIX configurable
-# todo: redirect logs, set up logrotate
-gtfs_rt_feed_import_cmd: "export PGHOST=localhost PGUSER=postgres PGPASSWORD='{{ postgresql_postgres_password }}' PGDATABASE='{{ gtfs_rt_feed_gtfs_importer_db }}' && env GTFS_DOWNLOAD_USER_AGENT='{{ gtfs_rt_feed_gtfs_download_user_agent }}' GTFS_IMPORTER_VERBOSE=true {{ gtfs_rt_feed_dir }}/import.sh --docker && echo \"[Service]\\nEnvironment=PGDATABASE=$(psql -q --csv -t -h localhost -c 'SELECT db_name FROM latest_import')\" | sponge /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf && systemctl daemon-reload && systemctl restart gtfs-rt-feed.service"
 
 # monitoring
 gtfs_rt_feed_metrics_server_port: 9091
