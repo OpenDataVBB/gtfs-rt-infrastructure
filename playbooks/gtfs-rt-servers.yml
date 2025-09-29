@@ -69,6 +69,7 @@
     - name: npm install
       community.general.npm:
         path: /srv/nats-consuming-gtfs-rt-server
+        state: latest # upgrade packages, too
     - name: put systemd nats-consuming-gtfs-rt-server.service unit file
       ansible.builtin.template:
         src: '../templates/nats-consuming-gtfs-rt-server.service.j2'

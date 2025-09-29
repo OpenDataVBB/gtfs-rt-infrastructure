@@ -171,6 +171,7 @@
     - name: npm install
       community.general.npm:
         path: '{{ vdv_453_nats_adapter_dir }}'
+        state: latest # upgrade packages, too
       become: true
     - name: copy temporary wrapper script {{ vdv_453_nats_adapter_dir }}/run.sh
       ansible.builtin.copy:

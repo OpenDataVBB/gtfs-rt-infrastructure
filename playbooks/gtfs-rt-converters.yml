@@ -297,6 +297,7 @@
     - name: npm install
       community.general.npm:
         path: '{{ gtfs_rt_feed_dir }}'
+        state: latest # upgrade packages, too
       become_user: 'www-data'
     # GTFS import writes into `gtfs-rt-feed.service.d/pgdatabase.conf`.
     - name: create directory /etc/systemd/system/gtfs-rt-feed.service.d
