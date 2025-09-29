@@ -290,9 +290,11 @@
         repo: 'https://github.com/OpenDataVBB/gtfs-rt-feed.git'
         dest: '{{ gtfs_rt_feed_dir }}'
         version: '{{ gtfs_rt_feed_git_ref }}'
+      become_user: 'www-data'
     - name: npm install
       community.general.npm:
         path: '{{ gtfs_rt_feed_dir }}'
+      become_user: 'www-data'
     # GTFS import writes into `gtfs-rt-feed.service.d/pgdatabase.conf`.
     - name: create directory /etc/systemd/system/gtfs-rt-feed.service.d
       ansible.builtin.file:
