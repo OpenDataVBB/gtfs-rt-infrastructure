@@ -25,10 +25,11 @@
           # JetStream stream stats (e.g. first/last message sequence)
           - streams
 
-    - name: install Node.js from NodeSource's repo
-      role: geerlingguy.nodejs
-      vars:
-        nodejs_version: '22.x'
+    # geerlingguy.nodejs currently fails with Ansible >=2.19, see https://github.com/geerlingguy/ansible-role-nodejs/pull/171.
+    # - name: install Node.js from NodeSource's repo
+    #   role: geerlingguy.nodejs
+    #   vars:
+    #     nodejs_version: '22.x'
 
     - name: install PostgreSQL
       # role: geerlingguy.postgresql
@@ -277,6 +278,12 @@
           --description '{{ nats_aus_istfahrt_consumer_description }}' \
           '{{ nats_aus_istfahrt_stream_name }}' \
           '{{ nats_aus_istfahrt_consumer_name }}'
+
+    # note: we temporarily do this instead of using geerlingguy.nodejs, see above
+    - name: install Node.js
+      package:
+        name:
+          - nodejs
 
     - name: clone OpenDataVBB/gtfs-rt-feed:{{ gtfs_rt_feed_git_ref }}
       ansible.builtin.git:

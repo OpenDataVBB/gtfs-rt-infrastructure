@@ -3,10 +3,11 @@
   hosts: gtfs_rt_server
 
   roles:
-    - name: install Node.js from NodeSource's repo
-      role: geerlingguy.nodejs
-      vars:
-        nodejs_version: '22.x'
+    # geerlingguy.nodejs currently fails with Ansible >=2.19, see https://github.com/geerlingguy/ansible-role-nodejs/pull/171.
+    # - name: install Node.js from NodeSource's repo
+    #   role: geerlingguy.nodejs
+    #   vars:
+    #     nodejs_version: '22.x'
 
     # todo: put StandardOutput=null in the [Service] section to disable logging?
     - name: install Caddy server
@@ -53,6 +54,12 @@
           --description '{{ nats_gtfs_rt_consumer_description }}' \
           '{{ nats_gtfs_rt_stream_name }}' \
           '{{ nats_gtfs_rt_consumer_name }}'
+
+    # note: we temporarily do this instead of using geerlingguy.nodejs, see above
+    - name: install Node.js
+      package:
+        name:
+          - nodejs
 
     - name: clone OpenDataVBB/nats-consuming-gtfs-rt-server:{{ nats_consuming_gtfs_rt_server_git_ref }}
       ansible.builtin.git:
