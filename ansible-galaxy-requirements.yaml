@@ -1,18 +1,15 @@
 ---
 collections:
 - name: prometheus.prometheus
-  version: '0.26.2'
-# temporarily use my fork to support Ubuntu 25
-# https://stackoverflow.com/a/63118089/1072129
-- name: git+https://github.com/derhuerst/grafana-ansible-collection.git
-  type: git
-  version: ubuntu-25-fix-apt-key
+  version: '0.27.3'
+- name: grafana.grafana
+  version: '6.0.2'
 roles:
 - src: geerlingguy.security
   version: '2.4.0'
 - name: githubixx.ansible_role_wireguard
   src: https://github.com/githubixx/ansible-role-wireguard.git
-  version: '17.1.0'
+  version: '18.1.0'
 - name: nats
   src: https://github.com/derhuerst/ansible-role-nats.git
   version: main
