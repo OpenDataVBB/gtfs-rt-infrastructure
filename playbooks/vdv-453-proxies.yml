@@ -6,7 +6,7 @@
     # - name: install Node.js from NodeSource's repo
     #   role: geerlingguy.nodejs
     #   vars:
-    #     nodejs_version: '22.x'
+    #     nodejs_version: '24.x'
     #   become: true
 
     - name: install Prometheus blackbox exporter
