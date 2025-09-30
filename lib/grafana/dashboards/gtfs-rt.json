@@ -95,7 +95,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -190,7 +190,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"disableTextWrap": false,
@@ -316,7 +316,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -413,7 +413,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -510,7 +510,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -607,7 +607,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -707,7 +707,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -829,7 +829,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -953,7 +953,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1047,7 +1047,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1141,7 +1141,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1236,7 +1236,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1305,7 +1305,7 @@
 				},
 				"showHeader": true
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1400,7 +1400,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1529,7 +1529,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.5.2",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1624,7 +1624,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1723,7 +1723,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.0",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1819,7 +1819,7 @@
 				},
 				"showHeader": true
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -1948,7 +1948,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.1",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -2022,7 +2022,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "11.3.1",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
@@ -2116,7 +2116,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "11.3.0+security-01",
+			"pluginVersion": "12.0.2+security-01",
 			"targets": [
 				{
 					"datasource": {
