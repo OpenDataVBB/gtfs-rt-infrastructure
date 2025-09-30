@@ -897,13 +897,30 @@
 					"disableTextWrap": false,
 					"editorMode": "code",
 					"exemplar": false,
-					"expr": "max(jetstream_stream_last_seq{stream_name=\"AUS_ISTFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed\"})",
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"AUS_ISTFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed\", topic_root=\"aus\"})",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": false,
 					"legendFormat": "unmatched (AUS_ISTFAHRT_2 vs gtfs-rt-feed)",
 					"range": true,
 					"refId": "A",
+					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"disableTextWrap": false,
+					"editorMode": "code",
+					"exemplar": false,
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"REF_AUS_SOLLFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed\", topic_root=\"ref_aus\"})",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "unmatched (REF_AUS_SOLLFAHRT_2 vs gtfs-rt-feed)",
+					"range": true,
+					"refId": "B",
 					"useBackend": false
 				},
 				{
@@ -1639,7 +1656,7 @@
 					"includeNullMetadata": true,
 					"instant": false,
 					"key": "Q-f8d27e6b-e155-407e-9cee-a77b64316d54-0",
-					"legendFormat": "__auto",
+					"legendFormat": "{{service}}",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -1755,11 +1772,11 @@
 				"type": "prometheus",
 				"uid": "de29irtzi5gcga"
 			},
-			"description": "The number of VDV-454 AUS IstFahrts returned for each single series of consecutive DatenAbrufenAnfrages with WeitereDaten=true.\n\nhttps://github.com/OpenDataVBB/vdv-453-client/blob/cf076ee6ba071e6e82fee129c0fca0495a76dc7d/index.js#L1031-L1033",
+			"description": "The number of VDV-454 REF-AUS SollFahrts and AUS IstFahrts returned for each single series of consecutive DatenAbrufenAnfrages with WeitereDaten=true.\n\nhttps://github.com/OpenDataVBB/vdv-453-client/blob/4eb1a181ff26267d07fbeca6c9b8f0fa4cb4d3b6/index.js#L1376-L1378\nhttps://github.com/OpenDataVBB/vdv-453-client/blob/4eb1a181ff26267d07fbeca6c9b8f0fa4cb4d3b6/index.js#L1509-L1511",
 			"fieldConfig": {
 				"defaults": {
 					"color": {
-						"mode": "palette-classic"
+						"mode": "palette-classic-by-name"
 					},
 					"custom": {
 						"axisBorderShow": false,
@@ -1777,15 +1794,18 @@
 							"tooltip": false,
 							"viz": false
 						},
-						"insertNulls": false,
+						"insertNulls": 3600000,
 						"lineInterpolation": "linear",
+						"lineStyle": {
+							"fill": "solid"
+						},
 						"lineWidth": 1,
-						"pointSize": 5,
+						"pointSize": 4,
 						"scaleDistribution": {
 							"log": 10,
 							"type": "log"
 						},
-						"showPoints": "auto",
+						"showPoints": "never",
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -1796,11 +1816,13 @@
 						}
 					},
 					"mappings": [],
+					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
 						"steps": [
 							{
-								"color": "green"
+								"color": "green",
+								"value": 0
 							},
 							{
 								"color": "red",
@@ -1838,18 +1860,32 @@
 						"uid": "de29irtzi5gcga"
 					},
 					"disableTextWrap": false,
-					"editorMode": "builder",
-					"expr": "vdv_aus_istfahrts_total{datensatz_alle=\"false\"}",
+					"editorMode": "code",
+					"expr": "vdv_aus_istfahrts_total{datensatz_alle=\"false\",quantile=~\"0.(05|5|95)\"}",
 					"fullMetaSearch": false,
+					"hide": false,
 					"includeNullMetadata": true,
-					"instant": true,
-					"legendFormat": "{{quantile}}",
+					"instant": false,
+					"legendFormat": "IstFahrts d…_alle={{datensatz_alle}} {{quantile}}",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"editorMode": "code",
+					"expr": "vdv_ref_aus_sollfahrts_total{datensatz_alle=\"false\",quantile=~\"0.(05|5|95)\"}",
+					"hide": false,
+					"instant": false,
+					"legendFormat": "SollFahrts d…_alle={{datensatz_alle}} {{quantile}}",
+					"range": true,
+					"refId": "B"
 				}
 			],
-			"title": "VDV-454 IstFahrts per fetch",
+			"title": "VDV SollFahrts/IstFahrts per fetch",
 			"type": "timeseries"
 		},
 		{
