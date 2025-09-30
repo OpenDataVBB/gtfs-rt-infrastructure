@@ -69,16 +69,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "percentunit"
 				},
@@ -99,6 +90,7 @@
 					"showLegend": false
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "multi",
 					"sort": "asc"
 				}
@@ -115,7 +107,7 @@
 					"expr": "sum(rate(matching_successes_total{cached=\"1\"}[$__rate_interval])) without (cached) / sum(rate(matching_successes_total[$__rate_interval])) without (cached)",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "{{label_name}}",
 					"range": true,
 					"refId": "matching successes: cache ratio",
@@ -172,16 +164,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "ops"
 				},
@@ -307,16 +290,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "s"
 				},
@@ -413,16 +387,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "s"
 				},
@@ -519,16 +484,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "s"
 				},
@@ -625,16 +581,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "s"
 				},
@@ -734,12 +681,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							}
-						]
+						"steps": []
 					},
 					"unit": "mps"
 				},
@@ -929,12 +871,12 @@
 						"uid": "de29irtzi5gcga"
 					},
 					"editorMode": "code",
-					"expr": "max(jetstream_stream_last_seq{stream_name=\"GTFS_RT_2\"}) - max(nats_msg_seq{job=\"nats_consuming_gtfs_rt_server\"})",
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"GTFS_RT_2\"}) - max(nats_msg_seq{job=\"nats-consuming-gtfs-rt-server\"})",
 					"instant": false,
 					"key": "Q-460ae7f2-4a5c-45f8-8a2b-f58f1f51a1be-2",
 					"legendFormat": "matched (GTFS_RT_2 vs nats-consuming-gtfs-rt-server)",
 					"range": true,
-					"refId": "B"
+					"refId": "C"
 				}
 			],
 			"title": "NATS messages: backlog",
@@ -986,16 +928,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					}
 				},
 				"overrides": []
@@ -1015,6 +948,7 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "multi",
 					"sort": "desc"
 				}
@@ -1031,8 +965,8 @@
 					"expr": "redis_db_keys{db=\"db1\"}",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
 					"legendFormat": "__auto",
+					"instant": false,
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -1087,12 +1021,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							}
-						]
+						"steps": []
 					},
 					"unit": "bytes"
 				},
@@ -1113,6 +1042,7 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "multi",
 					"sort": "desc"
 				}
@@ -1129,7 +1059,7 @@
 					"expr": "redis_memory_used_rss_bytes",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "__auto",
 					"range": true,
 					"refId": "A",
@@ -1186,16 +1116,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "bytes"
 				},
@@ -1290,16 +1211,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "percentunit"
 				},
@@ -1367,12 +1279,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							}
-						]
+						"steps": []
 					},
 					"unit": "bool_on_off"
 				},
@@ -1468,16 +1375,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "eps"
 				},
@@ -1606,18 +1504,8 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 0.04
-							}
-						]
-					},
-					"unit": "epm"
+						"steps": []
+					}
 				},
 				"overrides": []
 			},
@@ -1711,16 +1599,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					},
 					"unit": "cps"
 				},
@@ -1819,16 +1698,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": 0
-							},
-							{
-								"color": "red",
-								"value": 80
-							}
-						]
+						"steps": []
 					}
 				},
 				"overrides": []
@@ -1848,6 +1718,7 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "single",
 					"sort": "none"
 				}
@@ -1924,11 +1795,7 @@
 					],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green"
-							}
-						]
+						"steps": []
 					}
 				},
 				"overrides": []
@@ -2056,16 +1923,7 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							},
-							{
-								"color": "red",
-								"value": 120
-							}
-						]
+						"steps": []
 					},
 					"unit": "s"
 				},
@@ -2136,12 +1994,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "red",
-								"value": null
-							}
-						]
+						"steps": []
 					},
 					"unit": "bool_yes_no"
 				},
@@ -2238,12 +2091,7 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": [
-							{
-								"color": "green",
-								"value": null
-							}
-						]
+						"steps": []
 					},
 					"unit": "decbytes"
 				},
