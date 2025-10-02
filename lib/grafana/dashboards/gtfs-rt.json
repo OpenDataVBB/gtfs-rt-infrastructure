@@ -1462,7 +1462,7 @@
 				"type": "prometheus",
 				"uid": "de29irtzi5gcga"
 			},
-			"description": "per minute, calculated with a 1 hour window",
+			"description": "per minute, calculated with a $__interval window",
 			"fieldConfig": {
 				"defaults": {
 					"color": {
@@ -1539,7 +1539,7 @@
 					"disableTextWrap": false,
 					"editorMode": "builder",
 					"exemplar": false,
-					"expr": "changes(vdv_server_startdienstzst_seconds[10m]) / 10",
+					"expr": "changes(vdv_server_startdienstzst_seconds[$__interval])",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": false,
@@ -1550,7 +1550,7 @@
 					"useBackend": false
 				}
 			],
-			"title": "VDV API: restarts (StartDienstZst changes)",
+			"title": "VDV API: restarts/m (StartDienstZst changes) within $__interval",
 			"type": "timeseries"
 		},
 		{
