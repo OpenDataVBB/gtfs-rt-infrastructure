@@ -47,7 +47,7 @@ groups:
             model:
               disableTextWrap: false
               editorMode: builder
-              expr: changes(vdv_server_startdienstzst_seconds[1h]) / 60
+              expr: changes(vdv_server_startdienstzst_seconds[10m]) / 10
               fullMetaSearch: false
               includeNullMetadata: true
               instant: true
@@ -64,7 +64,7 @@ groups:
                   - evaluator:
                       params:
                           # A few restarts are normal, we mainly target endless restart loops here.
-                          - 0.2
+                          - 0.35
                       type: gt
                     operator:
                       type: and
@@ -144,11 +144,11 @@ groups:
         panelId: 19
         noDataState: Alerting
         execErrState: Error
-        for: 1m
+        for: 3m
         annotations:
           __dashboardUid__: be2c3frskfv9ce
           __panelId__: "16"
-          description: We haven't received a Status=ok from the VDV API in the past 30 seconds.
+          description: We haven't received a Status=ok from the VDV API in the past 60 seconds.
           summary: no recent Status=ok from VDV API
         isPaused: false
         notification_settings:
@@ -298,8 +298,8 @@ groups:
               conditions:
                   - evaluator:
                       params:
-                          # 8 days, the VBB GTFS is usually updated every Friday
-                          - 691200
+                          # 12 days, the VBB GTFS is usually updated every Friday
+                          - 1036800
                       type: gt
                     operator:
                       type: and
@@ -326,7 +326,7 @@ groups:
         annotations:
           __dashboardUid__: be2c3frskfv9ce
           __panelId__: "20"
-          description: gtfs-rt-feed hasn't imported new GTFS Schedule data for 8 days
+          description: gtfs-rt-feed hasn't imported new GTFS Schedule data for 12 days
           summary: no recent GTFS Schedule data import
         isPaused: false
         notification_settings:
