@@ -18,7 +18,7 @@
 		color: #383434;
 	}
 
-	h1, h2, h3, p {
+	h1, h2, h3, p, ul, ol, figure, figure figcaption {
 		margin: 1rem 0;
 	}
 
@@ -28,7 +28,7 @@
 	h1 {
 		font-size: 1.75rem;
 	}
-	h2 {
+	h2, figure figcaption {
 		font-size: 1.5rem;
 	}
 	h3 {
@@ -64,6 +64,12 @@
 		display: none;
 	}
 
+	figure.warning {
+		background-color: #ffd322;
+		outline: 1px solid #f79f1f;
+		padding: 1px 1rem;
+	}
+
 	code, pre {
 		padding: .05em .2em;
 		background-color: #f8f8f8;
@@ -91,6 +97,7 @@
 
 	#logo {
 		text-align: center;
+		border: none;
 	}
 	#logo img {
 		height: 3rem;
@@ -109,6 +116,14 @@
 		<br>
 		<a class="no-link-icon" href="{{ gtfs_rt_public_endpoints[0] }}/data"><code>{{ gtfs_rt_public_endpoints[0] }}/data</code></a>
 	</p>
+	<figure class="warning">
+		<figcaption>Maintenance Works</figcaption>
+		<p>Due to maintenance works on the data source behind this feed, it may be unavailable and/or outdated in the following time periods:</p>
+		<ul>
+			<li><time datetime="2025-11-03T22:00+01:00">2025-11-03 22:00</time> until about <time datetime="2025-11-04T00:00+01:00">24:00</time></li>
+			<li><time datetime="2025-11-10T22:00+01:00">2025-11-10 22:00</time> until about <time datetime="2025-11-11T00:00+01:00">24:00</time></li>
+		</ul>
+	</figure>
 	<ul>
 		<li>You can inspect the feed <a href="https://public-transport.github.io/gtfs-rt-inspector/?feedUrl={{ (gtfs_rt_public_endpoints[0] ~ '/data') | urlencode }}&feedSyncInterval=30&view=inspector">in a web-based GTFS-RT inspector</a>.</li>
 		<li>It is licensed as <a href="https://creativecommons.org/licenses/by/4.0/" referrerpolicy="no-referrer">CC-BY 4.0</a>.</li>
