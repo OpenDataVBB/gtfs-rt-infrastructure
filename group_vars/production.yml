@@ -1,3 +1,5 @@
+gtfs_rt_public_endpoint_name: 'VBB GTFS-RT Feed'
+
 # VPN-internal IP & port of (their) VBB Datendrehscheibe
 # These need to be defined for *all* hosts in `staging` because `gtfs_rt_converter` machines need them too.
 vdv_453_api_host: !vault |

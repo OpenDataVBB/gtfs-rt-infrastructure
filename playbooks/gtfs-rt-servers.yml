@@ -116,6 +116,10 @@
       ansible.builtin.template:
         src: '../templates/www/index.html.j2'
         dest: '{{ gtfs_rt_webroot }}/index.html'
+    - name: put {{ gtfs_rt_webroot }}/news.atom.xml
+      ansible.builtin.template:
+        src: '../templates/www/news.atom.xml.j2'
+        dest: '{{ gtfs_rt_webroot }}/news.atom.xml'
 
     - name: put gtfs-rt.Caddyfile
       ansible.builtin.template:
