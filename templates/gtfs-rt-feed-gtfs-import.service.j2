@@ -6,7 +6,7 @@ After=syslog.target network.target postgresql.service
 PartOf=gtfs-rt-feed.service
 
 [Service]
-ExecStart=/usr/local/bin/gtfs-rt-feed-gtfs-import /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf
+ExecStart=/usr/local/bin/gtfs-rt-feed-gtfs-import '/etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase@$db_name.conf' '{{ gtfs_rt_number_of_schedule_feed_variants }}'
 Environment=PGHOST=localhost
 Environment=PGUSER=postgres
 Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
