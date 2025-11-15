@@ -1,7 +1,11 @@
 ---
 collections:
-- name: prometheus.prometheus
-  version: '0.27.4'
+# temporarily use kuba-orlik's fork until https://github.com/prometheus-community/ansible/pull/668/files is merged
+# - name: prometheus.prometheus
+  # version: '0.27.4'
+- name: https://github.com/kuba-orlik/prometheus-ansible.git
+  type: git
+  version: 03adce6
 - name: grafana.grafana
   version: '6.0.6'
 roles:
