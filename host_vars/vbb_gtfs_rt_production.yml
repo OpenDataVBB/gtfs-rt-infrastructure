@@ -12,13 +12,11 @@ wireguard_addresses:
 # wireguard_allowed_ips: '10.0.0.0/24'
 
 # todo: don't hard-code these
-# the VPN-internal address of gtfs-rt-converter-staging, as seen from gtfs-rt-server-staging
+# In the production system, vbb_gtfs_rt_converter_production (running Prometheus) and vbb_gtfs_rt_server_production (running nats-consuming-gtfs-rt-server) are on the same machine.
 gtfs_rt_converter_address: '10.0.0.0'
+gtfs_rt_server_address: '10.0.0.0'
 # the VPN-internal address of vbb_datendrehscheibe_proxy_production, as seen from vbb_gtfs_rt_production
 vdv_453_nats_adapter_address: '10.0.0.1'
-# In the production system, vbb_gtfs_rt_converter_production (running Prometheus) and vbb_gtfs_rt_server_production (running nats-consuming-gtfs-rt-server) are on the same machine.
-gtfs_rt_converter_address: 'localhost'
-gtfs_rt_server_address: 'localhost'
 
 # see also https://caddyserver.com/docs/caddyfile/concepts#addresses
 # Note: The first URL gets used for the explainer HTML page.
