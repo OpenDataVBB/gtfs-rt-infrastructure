@@ -8,7 +8,7 @@ redis_maxmemory: 20mb # the machines have very little memory!
 redis_maxmemory_policy: allkeys-lru
 vdv_453_nats_adapter_redis_db: 1
 
-vdv_453_nats_adapter_git_ref: main # todo: pin?
+vdv_453_nats_adapter_git_ref: '2.0.1'
 vdv_453_nats_adapter_dir: '/srv/vdv-453-nats-adapter'
 
 vdv_453_nats_adapter_log_level: info
