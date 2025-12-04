@@ -7,6 +7,9 @@ set -x # remove
 expires_iso8601="$(date --iso-8601=seconds --date="@$(echo "$VDV_454_SUBSCRIPTION_TTL + $(date '+%s')" | bc)")"
 
 node cli.js \
-    --ref-aus-expires "$expires_iso8601" \
     --aus-expires "$expires_iso8601" \
-    REF_AUS AUS
+    AUS
+# We skip REF-AUS fetching for now because either VBB's endpoint or vdv-453-nats-adapter is buggy.
+# todo: fix this!
+#    --ref-aus-expires "$expires_iso8601" \
+#    REF_AUS AUS
