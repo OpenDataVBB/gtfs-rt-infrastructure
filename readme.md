@@ -57,3 +57,12 @@ They are VPSes hosted at [Planetary Networks](https://www.planetary-networks.de)
 These machines convert VDV-453/VDV-454 data (sent by the respective `vdv_453_proxy` machine, see above), convert it into the GTFS-RT format, and serve the GTFS-RT feeds via HTTP.
 
 They are connected to their respective VDV-453/VDV-454 proxy machine via a [Wireguard](https://www.wireguard.com) tunnel, letting them communicate via a [NATS message queue](https://nats.io).
+
+## Running
+
+It is strongly recommended that you run this code with the Ansible version specified in `requirements.txt`. 
+
+```shell
+uv pip install -r requirements.txt
+# or use pip
+```
