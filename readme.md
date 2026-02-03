@@ -7,11 +7,6 @@ This repo **configures the machines that the [VBB GTFS Realtime (GTFS-RT) feed](
 > - [actual GTFS-RT feed](https://production.gtfsrt.vbb.de) ([staging](https://staging.gtfsrt.vbb.de))
 > - [parsed in `gtfs-rt-inspector`](https://public-transport.github.io/gtfs-rt-inspector/?feedUrl=https%3A%2F%2Fproduction.gtfsrt.vbb.de%2Fdata&view=inspector) ([staging](https://public-transport.github.io/gtfs-rt-inspector/?feedUrl=https%3A%2F%2Fstaging.gtfsrt.vbb.de%2Fdata&view=inspector))
 
-> [!WARNING]
-> Due to maintenance works on the data source behind this feed, it may be unavailable and/or outdated in the following time periods:
-> - <time datetime="2025-11-03T22:00+01:00">2025-11-03 22:00</time> until about <time datetime="2025-11-04T00:00+01:00">24:00</time>
-> - <time datetime="2025-11-10T22:00+01:00">2025-11-10 22:00</time> until about <time datetime="2025-11-11T00:00+01:00">24:00</time>
-
 ```mermaid
 flowchart TB
     vdv_453_api(VBB VDV-453 API):::external
