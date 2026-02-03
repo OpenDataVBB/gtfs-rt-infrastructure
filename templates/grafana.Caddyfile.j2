@@ -5,7 +5,7 @@
 	encode zstd gzip
 
 	basic_auth /* {
-		admin {{ grafana_admin_password_caddy_hashed }}
+		{{ grafana_basic_auth_user }} {{ grafana_basic_auth_password_caddy_hashed }}
 	}
 
 	reverse_proxy /* {
