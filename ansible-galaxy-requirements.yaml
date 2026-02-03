@@ -10,19 +10,19 @@ collections:
   version: '6.0.6'
 roles:
 - src: geerlingguy.security
-  version: '2.4.0'
+  version: '3.0.0'
 - name: githubixx.ansible_role_wireguard
   src: https://github.com/githubixx/ansible-role-wireguard.git
-  version: '18.1.0'
+  version: '19.0.0'
 - name: nats
   src: https://github.com/derhuerst/ansible-role-nats.git
   version: main
 - src: geerlingguy.nodejs
-  version: '7.0.0'
+  version: '7.1.0'
 - src: caddy_ansible.caddy_ansible
   version: v3.2.0
 - src: geerlingguy.postgresql
-  # temporarily use my fork to support Ubuntu 25
+  # temporarily use my fork to support Ubuntu 25 until https://github.com/geerlingguy/ansible-role-postgresql/pull/284 is merged
   # version: '4.0.1'
   src: https://github.com/derhuerst/ansible-role-postgresql.git
   version: 'ubuntu-25'
