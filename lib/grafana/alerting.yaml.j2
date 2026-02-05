@@ -83,13 +83,13 @@ groups:
               maxDataPoints: 43200
               refId: too_many_vdv_api_restarts
               type: threshold
-        dashboardUid: be2c3frskfv9ce
+        dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
         panelId: 15
         noDataState: Alerting
         execErrState: Error
         for: 1m
         annotations:
-          __dashboardUid__: be2c3frskfv9ce
+          __dashboardUid__: '{{ grafana_dashboards_gtfs_rt_uid }}'
           __panelId__: "7"
           description: There have been too many StartDienstZst increases in the past 1h.
           summary: VDV API is restarting too often
@@ -140,13 +140,13 @@ groups:
               maxDataPoints: 43200
               refId: no_recent_status_ok
               type: threshold
-        dashboardUid: be2c3frskfv9ce
+        dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
         panelId: 19
         noDataState: Alerting
         execErrState: Error
         for: 3m
         annotations:
-          __dashboardUid__: be2c3frskfv9ce
+          __dashboardUid__: '{{ grafana_dashboards_gtfs_rt_uid }}'
           __panelId__: "16"
           description: We haven't received a Status=ok from the VDV API in the past 60 seconds.
           summary: no recent Status=ok from VDV API
@@ -201,7 +201,7 @@ groups:
               maxDataPoints: 43200
               refId: no_recent_aus_istfahrt_msgs
               type: threshold
-        dashboardUid: be2c3frskfv9ce
+        dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
         panelId: 17
         noDataState: Alerting
         execErrState: Error
@@ -260,13 +260,13 @@ groups:
               maxDataPoints: 43200
               refId: not_enough_gtfs_rt_msgs_sent
               type: threshold
-        dashboardUid: be2c3frskfv9ce
+        dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
         panelId: 17
         noDataState: Alerting
         execErrState: Error
         for: 1m
         annotations:
-          __dashboardUid__: be2c3frskfv9ce
+          __dashboardUid__: '{{ grafana_dashboards_gtfs_rt_uid }}'
           __panelId__: "7"
           description: There haven't been enough GTFS-RT messages sent to NATS by gtfs-rt-feed in the past 1h.
           summary: gtfs-rt-feed doesn't send enough GTFS-RT messages
@@ -318,13 +318,13 @@ groups:
               maxDataPoints: 43200
               refId: no_recent_status_ok
               type: threshold
-        dashboardUid: be2c3frskfv9ce
+        dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
         panelId: 20
         noDataState: Alerting
         execErrState: Error
         for: 1m
         annotations:
-          __dashboardUid__: be2c3frskfv9ce
+          __dashboardUid__: '{{ grafana_dashboards_gtfs_rt_uid }}'
           __panelId__: "20"
           description: gtfs-rt-feed hasn't imported new GTFS Schedule data for 12 days
           summary: no recent GTFS Schedule data import

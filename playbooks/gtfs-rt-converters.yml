@@ -197,6 +197,7 @@
           password: '{{ grafana_user_vbb_password }}'
           preferences:
             language: '{{ grafana_user_vbb_language }}'
+            homeDashboardUID: '{{ grafana_dashboards_gtfs_rt_uid }}'
       retries: 1
 
     - name: set password of "postgres" user
