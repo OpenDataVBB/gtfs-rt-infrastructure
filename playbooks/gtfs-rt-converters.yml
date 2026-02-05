@@ -150,6 +150,12 @@
           security:
             admin_user: admin
             admin_password: '{{ grafana_admin_password }}'
+            # Note: This limit also applies to the admin account! We quickly run into the default limit of 5 when running Ansible with mismatching passwords.
+            brute_force_login_protection_max_attempts: 15
+            # # Grafana is behind HTTP Basic Auth, so we can disable this.
+            # disable_brute_force_login_protection: true
+          users:
+            allow_sign_up: false
         grafana_datasources:
           - uid: 'de29irtzi5gcga' # must match the `uid` in the dashboard files!
             name: 'prometheus localhost'
