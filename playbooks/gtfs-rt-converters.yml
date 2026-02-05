@@ -166,6 +166,39 @@
         grafana_alert_resources: "{{ lookup('template', '../lib/grafana/alerting.yaml.j2') | from_yaml }}"
 
   tasks:
+    - name: configure Grafana users
+      community.grafana.grafana_user:
+        # access to the Grafana API
+        url: 'http://{{ gtfs_rt_converter_address }}:{{ grafana_http_port }}/'
+        url_username: admin
+        url_password: '{{ grafana_admin_password }}'
+        # the Grafana user to be configured
+        login: '{{ item.login }}'
+        password: '{{ item.password }}'
+        name: '{{ item.name }}'
+        email: '{{ item.email }}'
+        is_admin: false
+      loop:
+        - { login: 'vbb', password: '{{ grafana_user_vbb_password }}', name: 'VBB', email: '{{ grafana_user_vbb_email }}' }
+        - { login: 'marzieh', password: '{{ grafana_user_marzieh_password }}', name: 'Marzieh', email: '{{ grafana_user_marzieh_email }}' }
+      retries: 1
+    - name: configure Grafana user preferences
+      shell: |
+        set -eu
+        curl -fsSL \
+          'http://{{ gtfs_rt_converter_address }}:{{ grafana_http_port }}/api/user/preferences' \
+          --user "$auth" \
+          -X PATCH -H 'Content-Type: application/json' --data "$preferences_json"
+      environment:
+        auth: '{{ item.login }}:{{ item.password }}'
+        preferences_json: '{{ item.preferences | to_json }}'
+      loop:
+        - login: 'vbb'
+          password: '{{ grafana_user_vbb_password }}'
+          preferences:
+            language: '{{ grafana_user_vbb_language }}'
+      retries: 1
+
     - name: set password of "postgres" user
       ansible.builtin.shell: |
         sudo -u postgres psql -c "ALTER USER postgres PASSWORD '{{ postgresql_postgres_password }}'"

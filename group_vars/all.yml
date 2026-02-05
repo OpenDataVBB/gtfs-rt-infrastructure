@@ -27,3 +27,4 @@ prometheus_blackbox_exporter_port: 9115
 prometheus_systemd_exporter_port: 9558
 
 grafana_http_port: 8000
+grafana_user_vbb_language: 'de-DE' # locale
