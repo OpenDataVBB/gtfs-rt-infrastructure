@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=launch gtfs-rt-metrics-service-gtfs-import.service 1 hour after it has deactivated
+
+[Timer]
+Unit=gtfs-rt-metrics-service-gtfs-import.service
+OnUnitInactiveSec=1h
+AccuracySec=10m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=restarts gtfs-rt-metrics-service.service on changes to its pgdatabase.conf config file.
+
+[Path]
+PathChanged={{ gtfs_rt_metrics_service_dir }}/gtfs/vbb.gtfs.duckdb
+Unit=gtfs-rt-metrics-service-restarter.service
+
+[Install]
+WantedBy=multi-user.target

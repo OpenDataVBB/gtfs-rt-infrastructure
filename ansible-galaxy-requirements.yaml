@@ -26,3 +26,5 @@ roles:
   # version: '4.0.1'
   src: https://github.com/derhuerst/ansible-role-postgresql.git
   version: 'ubuntu-25'
+- src: https://github.com/andrewrothstein/ansible-duckdb.git
+  version: '8caaff1'

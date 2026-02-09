@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=import GTFS Schedule data into a DuckDB, restart gtfs-rt-metrics-service
+After=syslog.target network.target postgresql.service
+PartOf=gtfs-rt-metrics-service.service
+
+[Service]
+ExecStart=/srv/gtfs-rt-metrics-service/import.sh
+Environment=HOME=%h
+Environment=GTFS_DOWNLOAD_USER_AGENT='{{ inventory_hostname }} GTFS import'
+Environment=GTFS_IMPORTER_DB_PREFIX={{ gtfs_rt_metrics_service_db_prefix }}
+# todo: remove?
+Environment=GTFS_IMPORTER_VERBOSE=true
+
+[Install]
+WantedBy=multi-user.target

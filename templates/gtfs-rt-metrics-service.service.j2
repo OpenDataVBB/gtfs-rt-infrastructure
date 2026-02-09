@@ -11,6 +11,7 @@ Environment=HOME=%h
 Environment=NODE_ENV=production
 Environment=PORT={{ gtfs_rt_metrics_service_port }}
 Environment=GTFS_RT_FETCH_INTERVAL={{ gtfs_rt_metrics_service_fetch_interval }}
+Environment=GTFS_IMPORTER_DB_PREFIX={{ gtfs_rt_metrics_service_db_prefix }}
 
 [Install]
 WantedBy=multi-user.target

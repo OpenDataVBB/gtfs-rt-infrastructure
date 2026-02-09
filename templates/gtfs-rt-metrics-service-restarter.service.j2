@@ -1,0 +1,12 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=reloads systemd and restarts gtfs-rt-metrics-service.service once
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl restart gtfs-rt-metrics-service.service
+
+[Install]
+WantedBy=multi-user.target

@@ -24,6 +24,11 @@
         nats_server_enabled: false
         nats_exporter_enabled: false
 
+    - name: install DuckDB
+      # todo: use official Duckdb Ubuntu package once available, see https://github.com/duckdb/duckdb/issues/17091
+      # role: andrewrothstein.duckdb
+      role: ansible-duckdb
+
   tasks:
     # These follow nats-consuming-gtfs-rt-server's readme: https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server/blob/18030d9ffa67949ded3a155004ad9db5ab270bf1/readme.md#create-nats-stream--consumer.
     - name: ensure the NATS stream "{{ nats_gtfs_rt_stream_name }}" is configured correctly
@@ -84,6 +89,36 @@
         state: restarted
         name: nats-consuming-gtfs-rt-server
 
+    # - name: install Docker (required for GTFS Schedule import)
+    #   ansible.builtin.apt:
+    #     name: docker.io
+    - name: install curl-mirror
+      ansible.builtin.get_url:
+        # todo: keep updated somehow
+        url: 'https://gist.github.com/derhuerst/745cf09fe5f3ea2569948dd215bbfe1a/raw/27aa4919b5676abda8f9e0d90c3ec43d0d63f3d7/mirror.mjs'
+        dest: /usr/local/bin/curl-mirror
+        mode: '+x'
+
+    - name: install Task (https://taskfile.dev)
+      block:
+      # This follows Cloudsmith's instructions.
+      # see https://cloudsmith.io/~task/repos/task/setup/#formats-deb
+      - name: install Task PPA signing key
+        ansible.builtin.shell: |
+          curl -fsSL 'https://dl.cloudsmith.io/public/task/task/gpg.046FD1186CA342F0.key' | gpg --dearmor >/etc/apt/keyrings/cloudsmith-task.gpg
+      - name: add Task repository to APT sources
+        ansible.builtin.apt_repository:
+          # from https://dl.cloudsmith.io/public/task/task/config.deb.txt?distro=ubuntu&codename=xenial&component=main
+          repo: 'deb [signed-by=/etc/apt/keyrings/cloudsmith-task.gpg] https://dl.cloudsmith.io/public/task/task/deb/ubuntu {{ ansible_facts["distribution_release"] }} main'
+          state: present
+      - name: install Task package
+        package:
+          name:
+            - task
+          # force upgrade from stock Ubuntu version
+          state: latest
+      become: true
+
     - name: clone OpenDataVBB/gtfs-rt-metrics-service:{{ gtfs_rt_metrics_service_git_ref }}
       ansible.builtin.git:
         repo: 'https://github.com/OpenDataVBB/gtfs-rt-metrics-service.git'
@@ -93,6 +128,10 @@
       community.general.npm:
         path: '{{ gtfs_rt_metrics_service_dir }}'
         state: latest # upgrade packages, too
+    - name: npm install
+      community.general.npm:
+        path: '{{ gtfs_rt_metrics_service_dir }}/duckdb-gtfs-importer'
+        state: latest # upgrade packages, too
 
     - name: put gtfs-rt-metrics-service-* systemd unit files
       ansible.builtin.template:
@@ -100,11 +139,19 @@
         dest: '/etc/systemd/system/{{ item }}'
       loop:
         - gtfs-rt-metrics-service.service
+        - gtfs-rt-metrics-service-gtfs-import.service
+        - gtfs-rt-metrics-service-gtfs-import.timer
+        - gtfs-rt-metrics-service-gtfs-duckdb-watcher.path
+        - gtfs-rt-metrics-service-restarter.service
     - name: validate gtfs-rt-metrics-service-* systemd unit files
       ansible.builtin.shell: |
         systemd-analyze verify /etc/systemd/system/{{ item }}
       loop:
         - gtfs-rt-metrics-service.service
+        - gtfs-rt-metrics-service-gtfs-import.service
+        - gtfs-rt-metrics-service-gtfs-import.timer
+        - gtfs-rt-metrics-service-gtfs-duckdb-watcher.path
+        - gtfs-rt-metrics-service-restarter.service
     - name: enable gtfs-rt-metrics-service-* systemd units
       ansible.builtin.systemd_service:
         daemon_reload: true
@@ -112,6 +159,14 @@
         name: '{{ item }}'
       loop:
         - gtfs-rt-metrics-service.service
+        - gtfs-rt-metrics-service-gtfs-import.service
+        - gtfs-rt-metrics-service-gtfs-import.timer
+        - gtfs-rt-metrics-service-gtfs-duckdb-watcher.path
+        - gtfs-rt-metrics-service-restarter.service
+
+    - name: run GTFS import manually
+      ansible.builtin.shell: |
+        systemctl restart --wait gtfs-rt-metrics-service-gtfs-import.service
 
     - name: restart gtfs-rt-metrics-service.service systemd unit
       ansible.builtin.systemd_service:
