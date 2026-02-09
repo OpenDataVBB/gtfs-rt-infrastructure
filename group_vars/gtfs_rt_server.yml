@@ -25,3 +25,9 @@ nats_consuming_gtfs_rt_server_git_ref: main # todo: pin?
 nats_consuming_gtfs_rt_server_dir: '/srv/nats-consuming-gtfs-rt-server'
 # todo: bind only locally? or put behind firewall?
 nats_consuming_gtfs_rt_server_internal_port: 3000
+
+# gtfs-rt-metrics-server
+gtfs_rt_metrics_service_git_ref: main # todo: pin?
+gtfs_rt_metrics_service_fetch_interval: 10 # in seconds
+gtfs_rt_metrics_service_dir: /srv/gtfs-rt-metrics-service
+gtfs_rt_metrics_service_db_prefix: vbb

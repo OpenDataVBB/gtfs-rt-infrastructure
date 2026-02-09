@@ -84,6 +84,40 @@
         state: restarted
         name: nats-consuming-gtfs-rt-server
 
+    - name: clone OpenDataVBB/gtfs-rt-metrics-service:{{ gtfs_rt_metrics_service_git_ref }}
+      ansible.builtin.git:
+        repo: 'https://github.com/OpenDataVBB/gtfs-rt-metrics-service.git'
+        dest: '{{ gtfs_rt_metrics_service_dir }}'
+        version: '{{ gtfs_rt_metrics_service_git_ref }}'
+    - name: npm install
+      community.general.npm:
+        path: '{{ gtfs_rt_metrics_service_dir }}'
+        state: latest # upgrade packages, too
+
+    - name: put gtfs-rt-metrics-service-* systemd unit files
+      ansible.builtin.template:
+        src: '../templates/{{ item }}.j2'
+        dest: '/etc/systemd/system/{{ item }}'
+      loop:
+        - gtfs-rt-metrics-service.service
+    - name: validate gtfs-rt-metrics-service-* systemd unit files
+      ansible.builtin.shell: |
+        systemd-analyze verify /etc/systemd/system/{{ item }}
+      loop:
+        - gtfs-rt-metrics-service.service
+    - name: enable gtfs-rt-metrics-service-* systemd units
+      ansible.builtin.systemd_service:
+        daemon_reload: true
+        enabled: true
+        name: '{{ item }}'
+      loop:
+        - gtfs-rt-metrics-service.service
+
+    - name: restart gtfs-rt-metrics-service.service systemd unit
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: gtfs-rt-metrics-service.service
+
     # todo: derive ports from `gtfs_rt_public_endpoints` here – but how?
     - name: let UFW allow TCP on port 80
       community.general.ufw:

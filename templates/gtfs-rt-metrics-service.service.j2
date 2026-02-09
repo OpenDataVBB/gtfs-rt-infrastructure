@@ -1,0 +1,16 @@
+# {{ ansible_managed }}
+
+[Unit]
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/node cli.js 'http://localhost:{{ nats_consuming_gtfs_rt_server_internal_port }}/'
+Restart=always
+WorkingDirectory={{ gtfs_rt_metrics_service_dir }}
+Environment=HOME=%h
+Environment=NODE_ENV=production
+Environment=PORT={{ gtfs_rt_metrics_service_port }}
+Environment=GTFS_RT_FETCH_INTERVAL={{ gtfs_rt_metrics_service_fetch_interval }}
+
+[Install]
+WantedBy=multi-user.target
