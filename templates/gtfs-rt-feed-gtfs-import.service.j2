@@ -6,7 +6,7 @@ After=syslog.target network.target postgresql.service
 PartOf=gtfs-rt-feed.service
 
 [Service]
-ExecStart=/bin/bash -eux -o pipefail -c '/srv/gtfs-rt-feed/import.sh && echo -e "[Service]\\nEnvironment=PGDATABASE=$(psql -q --csv -t -c \'SELECT db_name FROM latest_successful_imports ORDER BY imported_at DESC LIMIT 1\')" | sponge /etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf'
+ExecStart=/usr/local/bin/gtfs-rt-feed-gtfs-import '/etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase@$db_name.conf' '{{ gtfs_rt_number_of_schedule_feed_variants }}'
 Environment=PGHOST=localhost
 Environment=PGUSER=postgres
 Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
