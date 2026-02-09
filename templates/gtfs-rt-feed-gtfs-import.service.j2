@@ -11,7 +11,7 @@ Environment=PGHOST=localhost
 Environment=PGUSER=postgres
 Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
 Environment=PGDATABASE='gtfs_importer'
-Environment=GTFS_DOWNLOAD_USER_AGENT='vbb_gtfs_rt_production GTFS import'
+Environment=GTFS_DOWNLOAD_USER_AGENT='{{ inventory_hostname }} GTFS import'
 Environment=GTFS_IMPORTER_VERBOSE=true
 
 [Install]

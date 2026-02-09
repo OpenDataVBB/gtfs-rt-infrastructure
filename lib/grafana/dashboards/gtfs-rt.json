@@ -1153,7 +1153,7 @@
 					"expr": "pg_database_size_bytes{datname=~\"gtfs_\\\\d.*\"}",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
-					"instant": true,
+					"instant": false,
 					"legendFormat": "{{datname}}",
 					"range": true,
 					"refId": "A",

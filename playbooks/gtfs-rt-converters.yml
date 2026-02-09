@@ -245,7 +245,7 @@
           curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /etc/apt/keyrings/redis-archive-keyring.gpg
       - name: add Redis repository to APT sources
         ansible.builtin.apt_repository:
-          repo: 'deb [signed-by=/etc/apt/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb {{ ansible_distribution_release }} main'
+          repo: 'deb [signed-by=/etc/apt/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb {{ ansible_facts["distribution_release"] }} main'
           state: present
       - name: install Redis package
         package:

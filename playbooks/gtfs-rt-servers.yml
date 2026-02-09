@@ -3,11 +3,10 @@
   hosts: gtfs_rt_server
 
   roles:
-    # geerlingguy.nodejs currently fails with Ansible >=2.19, see https://github.com/geerlingguy/ansible-role-nodejs/pull/171.
-    # - name: install Node.js from NodeSource's repo
-    #   role: geerlingguy.nodejs
-    #   vars:
-    #     nodejs_version: '24.x'
+    - name: install Node.js from NodeSource's repo
+      role: geerlingguy.nodejs
+      vars:
+        nodejs_version: '24.x'
 
     # todo: put StandardOutput=null in the [Service] section to disable logging?
     - name: install Caddy server
@@ -230,10 +229,6 @@
         src: '../templates/grafana.Caddyfile.j2'
         dest: /etc/caddy/grafana.Caddyfile
         owner: 'www-data'
-    - name: reload Caddy config
-      ansible.builtin.systemd_service:
-        state: reloaded
-        name: caddy
     - name: validate Caddy config
       ansible.builtin.shell: |
         caddy validate -c /etc/caddy/Caddyfile
