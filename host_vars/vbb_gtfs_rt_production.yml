@@ -15,6 +15,7 @@ wireguard_addresses:
 # In the production system, vbb_gtfs_rt_converter_production (running Prometheus) and vbb_gtfs_rt_server_production (running nats-consuming-gtfs-rt-server) are on the same machine.
 gtfs_rt_converter_address: '10.0.0.0'
 gtfs_rt_server_address: '10.0.0.0'
+gtfs_rt_metrics_service_address: '10.0.0.0'
 # the VPN-internal address of vbb_datendrehscheibe_proxy_production, as seen from vbb_gtfs_rt_production
 vdv_453_nats_adapter_address: '10.0.0.1'
 

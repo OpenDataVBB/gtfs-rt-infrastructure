@@ -56,6 +56,10 @@
             scrape_interval: 5s
             static_configs:
               - targets: ['{{ vdv_453_nats_adapter_address }}:{{ vdv_453_nats_adapter_metrics_server_port }}']
+          - job_name: gtfs-rt-metrics-service
+            scrape_interval: 5s
+            static_configs:
+              - targets: ['{{ gtfs_rt_metrics_service_address }}:{{ gtfs_rt_metrics_service_port }}']
           - job_name: caddy
             static_configs:
               # https://caddyserver.com/docs/metrics
