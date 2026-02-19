@@ -339,7 +339,13 @@
         path: '{{ gtfs_rt_feed_dir }}'
         state: latest # upgrade packages, too
       become_user: 'www-data'
-    # GTFS import writes into `gtfs-rt-feed.service.d/pgdatabase.conf`.
+
+    - name: put gtfs-rt-feed-gtfs-import executable
+      ansible.builtin.copy:
+        src: ../lib/gtfs-rt-feed-gtfs-import.mjs
+        dest: /usr/local/bin/gtfs-rt-feed-gtfs-import
+        mode: '+x'
+    # gtfs-rt-feed-gtfs-import writes into `gtfs-rt-feed.service.d/pgdatabase.conf`.
     - name: create directory /etc/systemd/system/gtfs-rt-feed.service.d
       ansible.builtin.file:
         path: /etc/systemd/system/gtfs-rt-feed.service.d
