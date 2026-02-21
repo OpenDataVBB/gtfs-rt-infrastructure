@@ -66,3 +66,16 @@ It is strongly recommended that you run this code with the Ansible version speci
 uv pip install -r requirements.txt
 # or use pip
 ```
+
+Then, install [Ansible Galaxy](https://galaxy.ansible.com/) dependencies:
+
+```shell
+ansible-galaxy collection install -r ansible-galaxy-requirements.yaml
+ansible-galaxy role install -r ansible-galaxy-requirements.yaml
+```
+
+Then, deploy using `ansible-playbook`. Make sure you familiarize yourself with the groups of machines in [the inventory](ansible-inventory.yml).
+
+```shell
+ansible-playbook -i ansible-inventory.yml -l "$env" playbooks/all.yml
+```
