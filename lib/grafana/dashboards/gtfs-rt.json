@@ -720,7 +720,7 @@
 					"fullMetaSearch": false,
 					"includeNullMetadata": false,
 					"instant": false,
-					"legendFormat": "out by {{job}} to {{topic_root}}.*",
+					"legendFormat": "out by {{job}} to {{subject_root}}.*",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
