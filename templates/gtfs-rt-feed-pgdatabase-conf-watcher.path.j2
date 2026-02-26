@@ -1,10 +1,10 @@
 # {{ ansible_managed }}
 
 [Unit]
-Description=restarts gtfs-rt-feed.service on changes to its pgdatabase.conf config file.
+Description=restarts gtfs-rt-feed-gtfs-matching-service.service on changes to its pgdatabase.conf config file.
 
 [Path]
-PathChanged=/etc/systemd/system/gtfs-rt-feed.service.d/pgdatabase.conf
+PathChanged={{ gtfs_rt_feed_gtfs_matching_service_pgdatabase_conf_path }}
 Unit=gtfs-rt-feed-restarter.service
 
 [Install]

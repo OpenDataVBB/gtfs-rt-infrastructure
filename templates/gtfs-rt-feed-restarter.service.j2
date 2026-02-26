@@ -1,12 +1,12 @@
 # {{ ansible_managed }}
 
 [Unit]
-Description=reloads systemd and restarts gtfs-rt-feed.service once
+Description=reloads systemd and restarts gtfs-rt-feed-gtfs-matching-service.service once
 After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/sh -eux -c 'systemctl daemon-reload && systemctl restart gtfs-rt-feed.service'
+ExecStart=/bin/sh -eux -c 'systemctl daemon-reload && systemctl restart gtfs-rt-feed-gtfs-matching-service.service'
 
 [Install]
 WantedBy=multi-user.target

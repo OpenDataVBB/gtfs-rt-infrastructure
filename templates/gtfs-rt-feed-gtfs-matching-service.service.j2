@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=gtfs-rt-feed's gtfs-matching-service
+After=syslog.target network.target nats-server.service redis.service
+
+[Service]
+ExecStart=/usr/bin/node gtfs-matching-service.js
+Restart=always
+RestartSec=3s
+RestartMaxDelaySec=1m
+RestartSteps=10
+WorkingDirectory={{ gtfs_rt_feed_dir }}
+Environment=NODE_ENV=production
+Environment=REDIS_URL="redis:///{{ gtfs_rt_feed_gtfs_matching_service_redis_db }}"
+Environment=PGHOST=localhost
+Environment=PGUSER=postgres
+Environment=PGPASSWORD="{{ postgresql_postgres_password }}"
+Environment=PG_POOL_SIZE="{{ gtfs_rt_feed_gtfs_matching_service_db_pool_size }}"
+Environment=METRICS_SERVER_PORT="{{ gtfs_rt_feed_gtfs_matching_service_metrics_server_port }}"
+Environment=MATCHING_CONSUMER_NAME="gtfs-rt-feed:gtfs-matching-service"
+Environment=MATCHING_CONCURRENCY="{{ gtfs_rt_feed_gtfs_matching_service_matching_concurrency }}"
+Environment=MATCHING_CACHING_TTL="{{ gtfs_rt_feed_gtfs_matching_service_matching_caching_ttl }}"
+
+[Install]
+WantedBy=multi-user.target

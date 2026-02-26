@@ -40,10 +40,10 @@ postgresql_postgres_password: !vault |
           3438646362363964660a313361636561373237386238383663376163626630393863393233376137
           64333566323161613139306437366239373365323231616465333165663666353230
 # number of parallel PostgreSQL queries, effectively
-# - the concurrency of *uncached* matchings (defaults to `gtfs_rt_feed_db_pool_size`),
-# - plus the concurrency of *uncached* station weight lookups (defaults to `gtfs_rt_feed_db_pool_size`),
+# - the concurrency of *uncached* matchings (defaults to `gtfs_rt_feed_gtfs_matching_service_db_pool_size`),
+# - plus the concurrency of *uncached* station weight lookups (defaults to `gtfs_rt_feed_gtfs_matching_service_db_pool_size`),
 # - plus some diagnostic connections (e.g. monitoring, manual debugging).
-postgresql_max_connections: '{{ gtfs_rt_feed_db_pool_size * 2 + 3 }}'
+postgresql_max_connections: '{{ gtfs_rt_feed_gtfs_matching_service_db_pool_size * 2 + 3 }}'
 postgresql_effective_cache_size: '23040MB'
 postgresql_shared_buffers: '7680MB'
 postgresql_maintenance_work_mem: '1920MB'
@@ -52,24 +52,27 @@ postgresql_maintenance_work_mem: '1920MB'
 redis_maxmemory: 4gb
 # > Keeps most recently used keys; removes least recently used (LRU) keys
 redis_maxmemory_policy: allkeys-lru
-gtfs_rt_feed_redis_db: 1
 
 # gtfs-rt-feed
-gtfs_rt_feed_git_ref: main # todo: pin?
+gtfs_rt_feed_git_ref: '2026-02-03'
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
+
+# gtfs-rt-feed: gtfs-matching-service
+gtfs_rt_feed_gtfs_matching_service_redis_db: 1
+gtfs_rt_feed_gtfs_matching_service_metrics_server_port: 9091
 # number of parallel PostgreSQL queries, effectively the concurrency of *uncached* matchings
-gtfs_rt_feed_db_pool_size: '{{ ansible_processor_nproc * 1.2 | round | int }}' # todo: tweak?
+gtfs_rt_feed_gtfs_matching_service_db_pool_size: '{{ ansible_processor_nproc * 1.2 | round | int }}' # todo: tweak?
+gtfs_rt_feed_gtfs_matching_service_pgdatabase_conf_path: '/etc/systemd/system/gtfs-rt-feed-gtfs-matching-service.service.d/pgdatabase.conf'
 # number of FeedEntities from NATS getting matched, effectively the concurrency of cached & uncached matchings together
-gtfs_rt_feed_matching_concurrency: 50
+gtfs_rt_feed_gtfs_matching_service_matching_concurrency: 50
 # Schedule days are usually longer than 24 hours: they start a 00:00, but some trips run well beyond 23:59.
-gtfs_rt_feed_matching_caching_ttl: 100800 # 1 day 4 hours, in seconds
+gtfs_rt_feed_gtfs_matching_service_matching_caching_ttl: 100800 # 1 day 4 hours, in seconds
 
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
 gtfs_rt_feed_gtfs_download_user_agent: '{{ inventory_hostname }} GTFS import'
 
 # monitoring
-gtfs_rt_feed_metrics_server_port: 9091
 prometheus_listen_address: 'localhost:9090' # only listen locally
 prometheus_data_retention: 1y
 prometheus_data_retention_size: 20GB

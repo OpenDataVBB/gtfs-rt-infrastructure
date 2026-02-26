@@ -44,10 +44,10 @@
         prometheus_global:
           scrape_interval: 15s
         prometheus_scrape_configs:
-          - job_name: gtfs-rt-feed
+          - job_name: 'gtfs-rt-feed:gtfs-matching-service'
             scrape_interval: 5s
             static_configs:
-              - targets: ['localhost:{{ gtfs_rt_feed_metrics_server_port }}']
+              - targets: ['localhost:{{ gtfs_rt_feed_gtfs_matching_service_metrics_server_port }}']
           - job_name: nats-consuming-gtfs-rt-server
             scrape_interval: 5s
             static_configs:
@@ -137,7 +137,7 @@
         # todo: adapt gtfs-rt-feed's keys naming, then use `redis_exporter_check_key_groups` to get insights into key usage
         # todo: adapt gtfs-rt-feed's keys naming to something more meaningful & self-explanatory!
         redis_exporter_count_keys:
-          - '{{ gtfs_rt_feed_redis_db }}=*'
+          - '{{ gtfs_rt_feed_gtfs_matching_service_redis_db }}=*'
         redis_exporter_incl_system_metrics: true
         redis_exporter_redis_only_metrics: true
         # default is `0.0.0.0:9121`
@@ -344,10 +344,10 @@
         path: '{{ gtfs_rt_feed_dir }}'
         state: latest # upgrade packages, too
       become_user: 'www-data'
-    # GTFS import writes into `gtfs-rt-feed.service.d/pgdatabase.conf`.
-    - name: create directory /etc/systemd/system/gtfs-rt-feed.service.d
+    # GTFS import writes into `{{ gtfs_rt_feed_gtfs_matching_service_pgdatabase_conf_path }}`.
+    - name: create directory /etc/systemd/system/gtfs-rt-feed-gtfs-matching-service.service.d
       ansible.builtin.file:
-        path: /etc/systemd/system/gtfs-rt-feed.service.d
+        path: '{{ gtfs_rt_feed_gtfs_matching_service_pgdatabase_conf_path | dirname }}'
         state: directory
 
     - name: put gtfs-rt-feed-* systemd unit files
@@ -355,7 +355,7 @@
         src: '../templates/{{ item }}.j2'
         dest: '/etc/systemd/system/{{ item }}'
       loop:
-        - gtfs-rt-feed.service
+        - gtfs-rt-feed-gtfs-matching-service.service
         - gtfs-rt-feed-gtfs-import.service
         - gtfs-rt-feed-gtfs-import.timer
         - gtfs-rt-feed-pgdatabase-conf-watcher.path
@@ -364,7 +364,7 @@
       ansible.builtin.shell: |
         systemd-analyze verify /etc/systemd/system/{{ item }}
       loop:
-        - gtfs-rt-feed.service
+        - gtfs-rt-feed-gtfs-matching-service.service
         - gtfs-rt-feed-gtfs-import.service
         - gtfs-rt-feed-gtfs-import.timer
         - gtfs-rt-feed-pgdatabase-conf-watcher.path
@@ -375,7 +375,7 @@
         enabled: true
         name: '{{ item }}'
       loop:
-        - gtfs-rt-feed.service
+        - gtfs-rt-feed-gtfs-matching-service.service
         - gtfs-rt-feed-gtfs-import.service
         - gtfs-rt-feed-gtfs-import.timer
         - gtfs-rt-feed-pgdatabase-conf-watcher.path
@@ -399,7 +399,9 @@
       ansible.builtin.shell: |
         systemctl restart --wait gtfs-rt-feed-gtfs-import.service
 
-    - name: restart gtfs-rt-feed.service systemd unit
+    - name: restart gtfs-rt-feed-*.service systemd units
       ansible.builtin.systemd_service:
         state: restarted
-        name: gtfs-rt-feed.service
+        name: '{{ item }}'
+      loop:
+        - gtfs-rt-feed-gtfs-matching-service.service

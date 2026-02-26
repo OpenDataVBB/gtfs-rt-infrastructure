@@ -59,7 +59,10 @@ flowchart TB
                 classDef stream fill:#ffffde,stroke:#aaaa33
             end
             style nats fill:none
-            gtfs_rt_feed(gtfs-rt-feed service)
+            subgraph services
+                gtfs_matching_service(gtfs-matching-service)
+            end
+            style services fill:none,stroke:none
             gtfs_db[(PostgreSQL DB with GTFS Schedule data)]
             gtfs_rt_converter_redis[(Redis)]
         end
@@ -74,12 +77,12 @@ flowchart TB
     vdv_453_api<-- 2-way communication via HTTP -->vdv_453_nats_adapter
     vdv_453_nats_adapter-- "`persists VDV subscription state in`" ---vdv_453_proxy_redis
     vdv_453_nats_adapter-- "`VDV-453 *REF-AUS* *SollFahrt* messages`"-->nats_ref_aus_sollfahrt
-    nats_ref_aus_sollfahrt-->gtfs_rt_feed
+    nats_ref_aus_sollfahrt-->gtfs_matching_service
     vdv_453_nats_adapter-- "`VDV-454 *AUS* *IstFahrt* messages`"-->nats_aus_istfahrt
-    nats_aus_istfahrt-->gtfs_rt_feed
-    gtfs_rt_feed-- "`matches  *SollFahrt*s & *IstFahrt*s with`" ---gtfs_db
-    gtfs_rt_feed-- "`caches matching results using`" ---gtfs_rt_converter_redis
-    gtfs_rt_feed-- "`GTFS-RT messages`"-->nats_gtfs_rt
+    nats_aus_istfahrt-->gtfs_matching_service
+    gtfs_matching_service-- "`matches *REF-AUS* *SollFahrt* & *AUS* *IstFahrt* messages with`" ---gtfs_db
+    gtfs_matching_service-- "`caches matching results using`" ---gtfs_rt_converter_redis
+    gtfs_matching_service-- "`GTFS-RT messages`"-->nats_gtfs_rt
     nats_gtfs_rt-->nats_consuming_gtfs_rt_server
     nats_consuming_gtfs_rt_server-- serves GTFS-RT feed via HTTP -->consumers
 ```
