@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description=gtfs-rt-feed's vdv-reconciliation-service
+After=syslog.target network.target nats-server.service redis.service
+
+[Service]
+ExecStart=/usr/bin/node vdv-reconciliation-service.js
+Restart=always
+RestartSec=3s
+RestartMaxDelaySec=1m
+RestartSteps=10
+WorkingDirectory={{ gtfs_rt_feed_dir }}
+Environment=NODE_ENV=production
+Environment=REDIS_URL="redis:///{{ gtfs_rt_feed_vdv_reconciliation_service_redis_db }}"
+Environment=METRICS_SERVER_PORT="{{ gtfs_rt_feed_vdv_reconciliation_service_metrics_server_port }}"
+Environment=RECONCILIATION_CONSUMER_DURABLE_NAME="gtfs-rt-feed:vdv-reconciliation"
+Environment=RECONCILIATION_CONCURRENCY="{{ gtfs_rt_feed_vdv_reconciliation_service_reconciliation_concurrency }}"
+
+[Install]
+WantedBy=multi-user.target

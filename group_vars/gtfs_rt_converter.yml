@@ -73,6 +73,12 @@ redis_maxmemory_policy: allkeys-lru
 gtfs_rt_feed_git_ref: '2026-02-03'
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
 
+# gtfs-rt-feed: vdv-reconciliation-service
+gtfs_rt_feed_vdv_reconciliation_service_redis_db: 2
+gtfs_rt_feed_vdv_reconciliation_service_metrics_server_port: 9095
+# number of VDV REF-AUS SollFahrts & AUS IstFahrts from NATS getting matched concurrently
+gtfs_rt_feed_vdv_reconciliation_service_reconciliation_concurrency: 30`
+
 # gtfs-rt-feed: gtfs-matching-service
 gtfs_rt_feed_gtfs_matching_service_redis_db: 1
 gtfs_rt_feed_gtfs_matching_service_metrics_server_port: 9091

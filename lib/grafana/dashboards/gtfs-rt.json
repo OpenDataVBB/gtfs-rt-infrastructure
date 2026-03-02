@@ -841,11 +841,11 @@
 					"disableTextWrap": false,
 					"editorMode": "code",
 					"exemplar": false,
-					"expr": "max(jetstream_stream_last_seq{stream_name=\"AUS_ISTFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed:gtfs-matching-service\", subject_root=\"aus\"})",
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"AUS_ISTFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed:vdv-reconciliation-service\", subject_root=\"aus\"})",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": false,
-					"legendFormat": "unmatched (AUS_ISTFAHRT_2 vs gtfs-matching-service)",
+					"legendFormat": "unreconciliated (AUS_ISTFAHRT_2 vs vdv-reconciliation-service)",
 					"range": true,
 					"refId": "A",
 					"useBackend": false
@@ -858,11 +858,11 @@
 					"disableTextWrap": false,
 					"editorMode": "code",
 					"exemplar": false,
-					"expr": "max(jetstream_stream_last_seq{stream_name=\"REF_AUS_SOLLFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed:gtfs-matching-service\", subject_root=\"ref_aus\"})",
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"REF_AUS_SOLLFAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed:vdv-reconciliation-service\", subject_root=\"ref_aus\"})",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": false,
-					"legendFormat": "unmatched (REF_AUS_SOLLFAHRT_2 vs gtfs-matching-service)",
+					"legendFormat": "unreconciliated (REF_AUS_SOLLFAHRT_2 vs vdv-reconciliation-service)",
 					"range": true,
 					"refId": "B",
 					"useBackend": false
@@ -984,6 +984,18 @@
 					"range": true,
 					"refId": "A",
 					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"editorMode": "builder",
+					"expr": "redis_db_keys{db=\"db2\"}",
+					"instant": false,
+					"legendFormat": "keys (vdv-reconciliation-service)",
+					"range": true,
+					"refId": "B"
 				}
 			],
 			"title": "Redis number of keys",
@@ -1463,6 +1475,18 @@
 					"range": true,
 					"refId": "C",
 					"useBackend": false
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"editorMode": "builder",
+					"expr": "systemd_service_restart_total{name=\"gtfs-rt-feed-vdv-reconciliation-service.service\"}",
+					"instant": false,
+					"legendFormat": "vdv-reconciliation-service",
+					"range": true,
+					"refId": "D"
 				}
 			],
 			"title": "service restarts",
