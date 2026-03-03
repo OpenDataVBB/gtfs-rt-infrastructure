@@ -106,7 +106,8 @@
                 replacement: '{{ vdv_453_nats_adapter_address }}:{{ prometheus_blackbox_exporter_port }}'
             static_configs:
               - targets:
-                - '{{ vdv_453_api_host }}'
+                # https://github.com/ansible/ansible/issues/84380#issuecomment-3418775785
+                - '{{ vdv_453_api_host | trim }}'
           - job_name: prometheus
             static_configs:
               - targets: ['{{ prometheus_listen_address }}']
