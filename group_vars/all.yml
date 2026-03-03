@@ -12,8 +12,9 @@ nats_servers:
   # todo: process all .wireguard_addresses?
   - "{{ hostvars.vbb_gtfs_rt_converter_staging.wireguard_addresses.0.split('/')[0] }}"
 
-nats_ref_aus_sollfahrt_stream_max_size_gb: 20
-nats_aus_istfahrt_stream_max_size_gb: 20
+nats_ref_aus_sollfahrt_stream_max_size_gb: 15
+nats_aus_istfahrt_stream_max_size_gb: 15
+nats_vdv_fahrt_stream_max_size_gb: 15
 nats_gtfs_rt_stream_max_size_gb: 5
 
 # Note: Because these variable are used both in the playbook configuring monitoring on the respective `gtfs_rt_converter` machine *and* in the playbook configuring the monitored machine, they have to be defined for a group that includes *both*.

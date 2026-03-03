@@ -879,6 +879,18 @@
 					"legendFormat": "matched (GTFS_RT_2 vs nats-consuming-gtfs-rt-server)",
 					"range": true,
 					"refId": "C"
+				},
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"editorMode": "code",
+					"expr": "max(jetstream_stream_last_seq{stream_name=\"VDV_FAHRT_2\"}) - max(nats_msg_seq{job=\"gtfs-rt-feed:gtfs-matching-service\", subject_root=\"vdv\"})",
+					"instant": false,
+					"legendFormat": "unmatched (VDV_FAHRT_2 vs gtfs-matching-service)",
+					"range": true,
+					"refId": "D"
 				}
 			],
 			"title": "NATS messages: backlog",

@@ -4,30 +4,46 @@ nats_ref_aus_sollfahrt_stream_description: 'VDV-453 REF-AUS SollFahrt messages'
 nats_ref_aus_sollfahrt_stream_subjects:
   - 'ref_aus.sollfahrt.>'
 
-nats_ref_aus_sollfahrt_consumer_name: gtfs-rt-feed
-nats_ref_aus_sollfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
+nats_ref_aus_sollfahrt_consumer_name: 'gtfs-rt-feed:vdv-reconciliation'
+nats_ref_aus_sollfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed: vdv-reconciliation-service'
 nats_ref_aus_sollfahrt_consumer_deliver: new
-nats_ref_aus_sollfahrt_consumer_max_pending: 100
+nats_ref_aus_sollfahrt_consumer_max_pending: 500
 nats_ref_aus_sollfahrt_consumer_max_deliver: 3
 nats_ref_aus_sollfahrt_consumer_backoff: linear
 nats_ref_aus_sollfahrt_consumer_backoff_steps: 2
-nats_ref_aus_sollfahrt_consumer_backoff_min: 1m
-nats_ref_aus_sollfahrt_consumer_backoff_max: 5m
+nats_ref_aus_sollfahrt_consumer_backoff_min: 15s
+nats_ref_aus_sollfahrt_consumer_backoff_max: 2m
 
 nats_aus_istfahrt_stream_name: AUS_ISTFAHRT_2
 nats_aus_istfahrt_stream_description: 'VDV-454 AUS IstFahrt messages'
 nats_aus_istfahrt_stream_subjects:
   - 'aus.istfahrt.>'
 
-nats_aus_istfahrt_consumer_name: gtfs-rt-feed
-nats_aus_istfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed'
+nats_aus_istfahrt_consumer_name: 'gtfs-rt-feed:vdv-reconciliation'
+nats_aus_istfahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed: gtfs-matching-service'
 nats_aus_istfahrt_consumer_deliver: new
-nats_aus_istfahrt_consumer_max_pending: 100
+nats_aus_istfahrt_consumer_max_pending: 500
 nats_aus_istfahrt_consumer_max_deliver: 3
 nats_aus_istfahrt_consumer_backoff: linear
 nats_aus_istfahrt_consumer_backoff_steps: 2
-nats_aus_istfahrt_consumer_backoff_min: 1m
-nats_aus_istfahrt_consumer_backoff_max: 5m
+nats_aus_istfahrt_consumer_backoff_min: 15s
+nats_aus_istfahrt_consumer_backoff_max: 2m
+
+nats_vdv_fahrt_stream_name: VDV_FAHRT_2
+nats_vdv_fahrt_stream_description: 'VDV-454 Fahrt (combined REF-AUS SollFahrt & AUS IstFahrt) messages'
+nats_vdv_fahrt_stream_subjects:
+  - 'vdv.fahrt.>'
+
+nats_vdv_fahrt_consumer_name: 'gtfs-rt-feed:gtfs-matching-service'
+nats_vdv_fahrt_consumer_description: 'OpenDataVBB/gtfs-rt-feed: gtfs-matching-service'
+nats_vdv_fahrt_consumer_deliver: new
+nats_vdv_fahrt_consumer_max_pending: 100
+nats_vdv_fahrt_consumer_max_deliver: 3
+nats_vdv_fahrt_consumer_backoff: linear
+nats_vdv_fahrt_consumer_backoff_steps: 2
+# p95 matching times of 45s are not unusual.
+nats_vdv_fahrt_consumer_backoff_min: 45s
+nats_vdv_fahrt_consumer_backoff_max: 5m
 
 # PostgreSQL
 postgresql_major_version: 16 # todo: detect from target!
