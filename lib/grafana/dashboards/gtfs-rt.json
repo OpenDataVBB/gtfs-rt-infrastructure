@@ -29,6 +29,603 @@
 			"fieldConfig": {
 				"defaults": {
 					"color": {
+						"mode": "palette-classic"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"showValues": false,
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"min": 0,
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
+					}
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 8,
+				"w": 12,
+				"x": 0,
+				"y": 0
+			},
+			"id": 27,
+			"options": {
+				"legend": {
+					"calcs": [],
+					"displayMode": "list",
+					"placement": "bottom",
+					"showLegend": true
+				},
+				"tooltip": {
+					"hideZeros": false,
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "12.4.0",
+			"targets": [
+				{
+					"editorMode": "builder",
+					"expr": "gtfs_rt_feed_entities_total",
+					"legendFormat": "count",
+					"range": true,
+					"refId": "A"
+				}
+			],
+			"title": "feed entities",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "palette-classic-by-name"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 5,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "auto",
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": []
+					},
+					"unit": "decbytes"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 8,
+				"w": 12,
+				"x": 12,
+				"y": 0
+			},
+			"id": 22,
+			"options": {
+				"legend": {
+					"calcs": [],
+					"displayMode": "list",
+					"placement": "bottom",
+					"showLegend": true
+				},
+				"tooltip": {
+					"mode": "multi",
+					"sort": "desc"
+				}
+			},
+			"pluginVersion": "12.0.2+security-01",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "de29irtzi5gcga"
+					},
+					"disableTextWrap": false,
+					"editorMode": "builder",
+					"expr": "feed_size_raw_bytes",
+					"fullMetaSearch": false,
+					"includeNullMetadata": true,
+					"instant": false,
+					"legendFormat": "compression {{compression}}",
+					"range": true,
+					"refId": "A",
+					"useBackend": false
+				}
+			],
+			"title": "GTFS-RT feed size",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "continuous-BlYlRd"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 3,
+						"scaleDistribution": {
+							"log": 2,
+							"type": "log"
+						},
+						"showPoints": "never",
+						"showValues": false,
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
+					}
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 12,
+				"w": 12,
+				"x": 0,
+				"y": 8
+			},
+			"id": 23,
+			"options": {
+				"legend": {
+					"calcs": [
+						"lastNotNull"
+					],
+					"displayMode": "list",
+					"placement": "right",
+					"showLegend": true
+				},
+				"tooltip": {
+					"hideZeros": false,
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "12.4.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "df9jy3caa1khsd"
+					},
+					"editorMode": "builder",
+					"exemplar": false,
+					"expr": "sum by(instance, agency_id_n) (gtfs_rt_schedule_trip_instances_total{matched=\"0\"})",
+					"instant": false,
+					"legendFormat": "a_id={{agency_id_n}}…",
+					"range": true,
+					"refId": "A"
+				}
+			],
+			"title": "unmatched Schedule trip instances, by agency",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "continuous-BlYlRd"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 3,
+						"scaleDistribution": {
+							"log": 2,
+							"type": "log"
+						},
+						"showPoints": "never",
+						"showValues": false,
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"mappings": [],
+					"min": 0,
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
+					}
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 12,
+				"w": 12,
+				"x": 12,
+				"y": 8
+			},
+			"id": 24,
+			"options": {
+				"legend": {
+					"calcs": [
+						"last"
+					],
+					"displayMode": "list",
+					"placement": "right",
+					"showLegend": true
+				},
+				"tooltip": {
+					"hideZeros": false,
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "12.4.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "df9jy3caa1khsd"
+					},
+					"editorMode": "builder",
+					"exemplar": false,
+					"expr": "sum by(instance, kind, route_id_n) (gtfs_rt_items_total{matched=\"0\"})",
+					"instant": false,
+					"legendFormat": "{{kind}} r_id={{route_id_n}}…",
+					"range": true,
+					"refId": "A"
+				}
+			],
+			"title": "unmatched RT feed items",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "continuous-BlYlRd"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 3,
+						"scaleDistribution": {
+							"type": "linear"
+						},
+						"showPoints": "never",
+						"showValues": false,
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"fieldMinMax": false,
+					"mappings": [],
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
+					},
+					"unit": "dtdurations"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 12,
+				"w": 12,
+				"x": 0,
+				"y": 20
+			},
+			"id": 25,
+			"options": {
+				"legend": {
+					"calcs": [],
+					"displayMode": "list",
+					"placement": "right",
+					"showLegend": true
+				},
+				"tooltip": {
+					"hideZeros": false,
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "12.4.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "df9jy3caa1khsd"
+					},
+					"editorMode": "code",
+					"exemplar": false,
+					"expr": "avg by(instance, kind, quantile) (gtfs_rt_feed_items_ages_seconds)",
+					"instant": false,
+					"legendFormat": "{{kind}} q{{quantile}}",
+					"range": true,
+					"refId": "A"
+				}
+			],
+			"title": "feed items' data ages, average across all routes",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
+						"mode": "continuous-BlYlRd"
+					},
+					"custom": {
+						"axisBorderShow": false,
+						"axisCenteredZero": false,
+						"axisColorMode": "text",
+						"axisLabel": "",
+						"axisPlacement": "auto",
+						"barAlignment": 0,
+						"barWidthFactor": 0.6,
+						"drawStyle": "line",
+						"fillOpacity": 0,
+						"gradientMode": "none",
+						"hideFrom": {
+							"legend": false,
+							"tooltip": false,
+							"viz": false
+						},
+						"insertNulls": false,
+						"lineInterpolation": "linear",
+						"lineWidth": 1,
+						"pointSize": 3,
+						"scaleDistribution": {
+							"log": 2,
+							"type": "log"
+						},
+						"showPoints": "never",
+						"showValues": false,
+						"spanNulls": false,
+						"stacking": {
+							"group": "A",
+							"mode": "none"
+						},
+						"thresholdsStyle": {
+							"mode": "off"
+						}
+					},
+					"fieldMinMax": false,
+					"mappings": [],
+					"min": 0,
+					"thresholds": {
+						"mode": "absolute",
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							}
+						]
+					},
+					"unit": "dtdurations"
+				},
+				"overrides": []
+			},
+			"gridPos": {
+				"h": 12,
+				"w": 12,
+				"x": 12,
+				"y": 20
+			},
+			"id": 26,
+			"options": {
+				"legend": {
+					"calcs": [],
+					"displayMode": "list",
+					"placement": "right",
+					"showLegend": true
+				},
+				"tooltip": {
+					"hideZeros": false,
+					"mode": "single",
+					"sort": "none"
+				}
+			},
+			"pluginVersion": "12.4.0",
+			"targets": [
+				{
+					"datasource": {
+						"type": "prometheus",
+						"uid": "df9jy3caa1khsd"
+					},
+					"editorMode": "builder",
+					"exemplar": false,
+					"expr": "sum by(instance, kind, agency_id_n, route_type_n) (gtfs_rt_feed_items_ages_seconds{quantile=\"0.5\"})",
+					"instant": false,
+					"legendFormat": "{{kind}} a_id={{agency_id_n}}… r_type={{route_type_n}}…",
+					"range": true,
+					"refId": "A"
+				}
+			],
+			"title": "feed items' data ages, q0.5 by kind/agency_id/route_type",
+			"type": "timeseries"
+		},
+		{
+			"datasource": {
+				"type": "prometheus",
+				"uid": "de29irtzi5gcga"
+			},
+			"fieldConfig": {
+				"defaults": {
+					"color": {
 						"fixedColor": "red",
 						"mode": "palette-classic-by-name"
 					},
@@ -79,7 +676,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 0
+				"y": 32
 			},
 			"id": 14,
 			"options": {
@@ -174,7 +771,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 0
+				"y": 32
 			},
 			"id": 5,
 			"options": {
@@ -310,7 +907,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 16
+				"y": 48
 			},
 			"id": 1,
 			"options": {
@@ -418,7 +1015,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 16
+				"y": 48
 			},
 			"id": 2,
 			"options": {
@@ -525,7 +1122,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 24
+				"y": 56
 			},
 			"id": 3,
 			"options": {
@@ -633,7 +1230,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 24
+				"y": 56
 			},
 			"id": 4,
 			"options": {
@@ -733,7 +1330,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 8
+				"y": 40
 			},
 			"id": 17,
 			"options": {
@@ -856,7 +1453,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 8
+				"y": 40
 			},
 			"id": 18,
 			"options": {
@@ -1003,7 +1600,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 32
+				"y": 64
 			},
 			"id": 9,
 			"options": {
@@ -1109,7 +1706,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 32
+				"y": 64
 			},
 			"id": 8,
 			"options": {
@@ -1204,7 +1801,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 40
+				"y": 72
 			},
 			"id": 10,
 			"options": {
@@ -1299,7 +1896,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 40
+				"y": 72
 			},
 			"id": 13,
 			"options": {
@@ -1367,7 +1964,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 48
+				"y": 80
 			},
 			"id": 11,
 			"options": {
@@ -1473,7 +2070,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 48
+				"y": 80
 			},
 			"id": 7,
 			"options": {
@@ -1611,7 +2208,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 56
+				"y": 88
 			},
 			"id": 15,
 			"options": {
@@ -1707,7 +2304,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 56
+				"y": 88
 			},
 			"id": 12,
 			"options": {
@@ -1805,7 +2402,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 64
+				"y": 96
 			},
 			"id": 19,
 			"options": {
@@ -1902,7 +2499,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 64
+				"y": 96
 			},
 			"id": 16,
 			"options": {
@@ -2031,7 +2628,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 0,
-				"y": 72
+				"y": 104
 			},
 			"id": 20,
 			"options": {
@@ -2106,7 +2703,7 @@
 				"h": 8,
 				"w": 12,
 				"x": 12,
-				"y": 72
+				"y": 104
 			},
 			"id": 21,
 			"options": {
@@ -2147,99 +2744,6 @@
 			],
 			"title": "availability of the VDV API",
 			"type": "state-timeline"
-		},
-		{
-			"datasource": {
-				"type": "prometheus",
-				"uid": "de29irtzi5gcga"
-			},
-			"fieldConfig": {
-				"defaults": {
-					"color": {
-						"mode": "palette-classic-by-name"
-					},
-					"custom": {
-						"axisBorderShow": false,
-						"axisCenteredZero": false,
-						"axisColorMode": "text",
-						"axisLabel": "",
-						"axisPlacement": "auto",
-						"barAlignment": 0,
-						"barWidthFactor": 0.6,
-						"drawStyle": "line",
-						"fillOpacity": 0,
-						"gradientMode": "none",
-						"hideFrom": {
-							"legend": false,
-							"tooltip": false,
-							"viz": false
-						},
-						"insertNulls": false,
-						"lineInterpolation": "linear",
-						"lineWidth": 1,
-						"pointSize": 5,
-						"scaleDistribution": {
-							"type": "linear"
-						},
-						"showPoints": "auto",
-						"spanNulls": false,
-						"stacking": {
-							"group": "A",
-							"mode": "none"
-						},
-						"thresholdsStyle": {
-							"mode": "off"
-						}
-					},
-					"mappings": [],
-					"thresholds": {
-						"mode": "absolute",
-						"steps": []
-					},
-					"unit": "decbytes"
-				},
-				"overrides": []
-			},
-			"gridPos": {
-				"h": 8,
-				"w": 12,
-				"x": 0,
-				"y": 80
-			},
-			"id": 22,
-			"options": {
-				"legend": {
-					"calcs": [],
-					"displayMode": "list",
-					"placement": "bottom",
-					"showLegend": true
-				},
-				"tooltip": {
-					"mode": "multi",
-					"sort": "desc"
-				}
-			},
-			"pluginVersion": "12.0.2+security-01",
-			"targets": [
-				{
-					"datasource": {
-						"type": "prometheus",
-						"uid": "de29irtzi5gcga"
-					},
-					"disableTextWrap": false,
-					"editorMode": "builder",
-					"expr": "feed_size_raw_bytes",
-					"fullMetaSearch": false,
-					"includeNullMetadata": true,
-					"instant": false,
-					"legendFormat": "compression {{compression}}",
-					"range": true,
-					"refId": "A",
-					"useBackend": false
-				}
-			],
-			"title": "GTFS-RT feed size",
-			"type": "timeseries"
 		}
 	],
 	"preload": false,
