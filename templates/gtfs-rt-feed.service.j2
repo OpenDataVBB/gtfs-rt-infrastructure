@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 [Unit]
-After=syslog.target network.target nats-server.service
+After=syslog.target network.target nats-server.service redis.service
 
 [Service]
 ExecStart=/usr/bin/node index.js
