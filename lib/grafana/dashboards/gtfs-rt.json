@@ -1993,7 +1993,10 @@
 						"lineWidth": 0,
 						"spanNulls": false
 					},
+					"fieldMinMax": false,
 					"mappings": [],
+					"max": 1,
+					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
 						"steps": []
@@ -2008,7 +2011,7 @@
 				"x": 12,
 				"y": 72
 			},
-			"id": 19,
+			"id": 21,
 			"options": {
 				"alignValue": "left",
 				"legend": {
