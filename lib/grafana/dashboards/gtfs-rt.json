@@ -276,6 +276,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -290,7 +291,16 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": []
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
 					},
 					"unit": "s"
 				},
@@ -316,7 +326,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.3.3",
 			"targets": [
 				{
 					"datasource": {
@@ -374,6 +384,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -388,7 +399,16 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": []
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
 					},
 					"unit": "s"
 				},
@@ -414,7 +434,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.3.3",
 			"targets": [
 				{
 					"datasource": {
@@ -471,6 +491,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -485,7 +506,16 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": []
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
 					},
 					"unit": "s"
 				},
@@ -511,7 +541,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.3.3",
 			"targets": [
 				{
 					"datasource": {
@@ -569,6 +599,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -583,7 +614,16 @@
 					"min": 0,
 					"thresholds": {
 						"mode": "absolute",
-						"steps": []
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
 					},
 					"unit": "s"
 				},
@@ -609,7 +649,7 @@
 					"sort": "asc"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.3.3",
 			"targets": [
 				{
 					"datasource": {
@@ -783,6 +823,7 @@
 							"type": "log"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -799,7 +840,7 @@
 						"steps": [
 							{
 								"color": "green",
-								"value": null
+								"value": 0
 							},
 							{
 								"color": "red",
@@ -831,7 +872,7 @@
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.4.0",
 			"targets": [
 				{
 					"datasource": {
@@ -930,6 +971,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -942,8 +984,18 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": []
-					}
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
+					},
+					"unit": "none"
 				},
 				"overrides": []
 			},
@@ -967,7 +1019,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.4.0",
 			"targets": [
 				{
 					"datasource": {
@@ -1389,6 +1441,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -1401,7 +1454,16 @@
 					"mappings": [],
 					"thresholds": {
 						"mode": "absolute",
-						"steps": []
+						"steps": [
+							{
+								"color": "green",
+								"value": 0
+							},
+							{
+								"color": "red",
+								"value": 80
+							}
+						]
 					},
 					"unit": "eps"
 				},
@@ -1422,11 +1484,12 @@
 					"showLegend": true
 				},
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "single",
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.4.0",
 			"targets": [
 				{
 					"datasource": {
@@ -2016,6 +2079,7 @@
 						"mode": "continuous-RdYlGr"
 					},
 					"custom": {
+						"axisPlacement": "auto",
 						"fillOpacity": 70,
 						"hideFrom": {
 							"legend": false,
@@ -2056,11 +2120,12 @@
 				"rowHeight": 0.9,
 				"showValue": "auto",
 				"tooltip": {
+					"hideZeros": false,
 					"mode": "single",
 					"sort": "none"
 				}
 			},
-			"pluginVersion": "12.0.2+security-01",
+			"pluginVersion": "12.4.0",
 			"targets": [
 				{
 					"datasource": {
@@ -2178,7 +2243,7 @@
 		}
 	],
 	"preload": false,
-	"schemaVersion": 40,
+	"schemaVersion": 42,
 	"tags": [],
 	"templating": {
 		"list": []
