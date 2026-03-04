@@ -48,6 +48,7 @@ flowchart TB
     subgraph project_infrastructure [GTFS-RT infrastructute]
         subgraph vdv_453_proxy [machine *vbb_453_proxy*]
             vdv_453_nats_adapter(OpenDataVBB/vdv-453-nats-adapter)
+            vdv_453_proxy_redis[(Redis)]
         end
         class vdv_453_proxy machine
         subgraph gtfs_rt_converter [machine *gtfs_rt_converter*]
@@ -71,6 +72,7 @@ flowchart TB
     style project_infrastructure fill:none
 
     vdv_453_api<-- 2-way communication via HTTP -->vdv_453_nats_adapter
+    vdv_453_nats_adapter-- "`persists VDV subscription state in`" ---vdv_453_proxy_redis
     vdv_453_nats_adapter-- "`VDV-453 *REF-AUS* *SollFahrt* messages`"-->nats_ref_aus_sollfahrt
     nats_ref_aus_sollfahrt-->gtfs_rt_feed
     vdv_453_nats_adapter-- "`VDV-454 *AUS* *IstFahrt* messages`"-->nats_aus_istfahrt
