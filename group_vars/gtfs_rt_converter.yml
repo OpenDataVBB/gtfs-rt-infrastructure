@@ -99,6 +99,6 @@ gtfs_rt_feed_gtfs_download_user_agent: '{{ inventory_hostname }} GTFS import'
 # monitoring
 prometheus_listen_address: 'localhost:9090' # only listen locally
 prometheus_data_retention: 1y
-prometheus_data_retention_size: 20GB
+prometheus_data_retention_size: 50GB
 # We listen on the machine's Wireguard interface to make Grafana accessible to the other machines.
 grafana_http_addr: '10.0.0.0'
