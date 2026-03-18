@@ -39,3 +39,6 @@ gtfs_rt_server_address: '10.0.0.2'
 gtfs_rt_metrics_service_address: '10.0.0.2'
 
 postgresql_major_version: 17
+
+# vbb-gtfs-rt-converter-staging has a only 100G of disk space
+prometheus_data_retention_size: 20GB

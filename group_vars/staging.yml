@@ -17,6 +17,12 @@ vdv_453_api_port: !vault |
           3537663462643566650a653766633864366464353364346561643933396138353638653531363335
           3463
 
+# vbb-gtfs-rt-converter-staging has a only 100G of disk space
+nats_ref_aus_sollfahrt_stream_max_size_gb: 8
+nats_aus_istfahrt_stream_max_size_gb: 8
+nats_vdv_fahrt_stream_max_size_gb: 8
+nats_gtfs_rt_stream_max_size_gb: 3
+
 # Note: We force HTTPS so that HTTP Basic Auth is secure.
 grafana_public_endpoints:
 - 'https://staging.gtfsrt.vbb.de:8080'
