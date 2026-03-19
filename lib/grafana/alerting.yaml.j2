@@ -166,7 +166,7 @@ groups:
             model:
               disableTextWrap: false
               editorMode: builder
-              expr: rate(nats_nr_of_msgs_sent_total{job="vdv-453-nats-adapter"}[1h])
+              expr: rate(nats_nr_of_msgs_sent_total{job="vdv-453-nats-adapter",subject_root="aus"}[1h])
               fullMetaSearch: false
               includeNullMetadata: true
               instant: true
