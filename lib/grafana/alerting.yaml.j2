@@ -98,10 +98,10 @@ groups:
           # note: has to match `contactPoints[].name`
           receiver: GTFS-RT alerts
       - uid: fedyhppyh9fk0a
-        title: vdv_api_no_recent_status_ok
-        condition: no_recent_status_ok
+        title: vdv_api_no_recent_aus_status_ok
+        condition: no_recent_aus_status_ok
         data:
-          - refId: seconds_since_last_status_ok
+          - refId: seconds_since_last_aus_status_ok
             relativeTimeRange:
               from: 300
               to: 0
@@ -114,14 +114,14 @@ groups:
               legendFormat: __auto
               maxDataPoints: 43200
               range: false
-              refId: seconds_since_last_status_ok
-          - refId: no_recent_status_ok
+              refId: seconds_since_last_aus_status_ok
+          - refId: no_recent_aus_status_ok
             datasourceUid: __expr__
             model:
               conditions:
                   - evaluator:
                       params:
-                          - 60
+                          - 180
                       type: gt
                     operator:
                       type: and
@@ -135,10 +135,10 @@ groups:
               datasource:
                   type: __expr__
                   uid: __expr__
-              expression: seconds_since_last_status_ok
+              expression: seconds_since_last_aus_status_ok
               intervalMs: 1000
               maxDataPoints: 43200
-              refId: no_recent_status_ok
+              refId: no_recent_aus_status_ok
               type: threshold
         dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
         panelId: 19
@@ -148,8 +148,65 @@ groups:
         annotations:
           __dashboardUid__: '{{ grafana_dashboards_gtfs_rt_uid }}'
           __panelId__: "16"
-          description: We haven't received a Status=ok from the VDV API in the past 60 seconds.
-          summary: no recent Status=ok from VDV API
+          description: We haven't received an AUS Status=ok from the VDV API in the past 3 minutes.
+          summary: no recent AUS Status=ok from VDV API
+        isPaused: false
+        notification_settings:
+          # note: has to match `contactPoints[].name`
+          receiver: GTFS-RT alerts
+      - uid: 139b8d749c426a
+        title: vdv_api_no_recent_ref_aus_status_ok
+        condition: no_recent_ref_aus_status_ok
+        data:
+          - refId: seconds_since_last_ref_aus_status_ok
+            relativeTimeRange:
+              from: 1000
+              to: 0
+            datasourceUid: de29irtzi5gcga
+            model:
+              editorMode: code
+              expr: time() - vdv_statusantwort_ok_timestamp_seconds{service="ausref",status="1"}
+              instant: true
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: false
+              refId: seconds_since_last_ref_aus_status_ok
+          - refId: no_recent_ref_aus_status_ok
+            datasourceUid: __expr__
+            model:
+              conditions:
+                  - evaluator:
+                      params:
+                          - 600
+                      type: gt
+                    operator:
+                      type: and
+                    query:
+                      params:
+                          - C
+                    reducer:
+                      params: []
+                      type: last
+                    type: query
+              datasource:
+                  type: __expr__
+                  uid: __expr__
+              expression: seconds_since_last_ref_aus_status_ok
+              intervalMs: 1000
+              maxDataPoints: 43200
+              refId: no_recent_ref_aus_status_ok
+              type: threshold
+        dashboardUid: '{{ grafana_dashboards_gtfs_rt_uid }}'
+        panelId: 19
+        noDataState: Alerting
+        execErrState: Error
+        for: 3m
+        annotations:
+          __dashboardUid__: '{{ grafana_dashboards_gtfs_rt_uid }}'
+          __panelId__: "16"
+          description: We haven't received an REF-AUS Status=ok from the VDV API in the past 10 minutes.
+          summary: no recent REF-AUS Status=ok from VDV API
         isPaused: false
         notification_settings:
           # note: has to match `contactPoints[].name`
