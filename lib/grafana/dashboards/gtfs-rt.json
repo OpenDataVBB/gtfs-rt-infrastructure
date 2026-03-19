@@ -2152,7 +2152,7 @@
 						"uid": "de29irtzi5gcga"
 					},
 					"editorMode": "builder",
-					"expr": "systemd_service_restart_total{name=\"gtfs-rt-feed-vdv-reconciliation-service.service\"}",
+					"expr": "rate(systemd_service_restart_total{name=\"gtfs-rt-feed-vdv-reconciliation-service.service\"}[$__rate_interval])",
 					"instant": false,
 					"legendFormat": "vdv-reconciliation-service",
 					"range": true,
