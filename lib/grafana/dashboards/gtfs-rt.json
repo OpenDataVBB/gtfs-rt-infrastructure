@@ -2167,7 +2167,7 @@
 				"type": "prometheus",
 				"uid": "de29irtzi5gcga"
 			},
-			"description": "per minute, calculated with a $__interval window",
+			"description": "per minute, calculated with a 1m window",
 			"fieldConfig": {
 				"defaults": {
 					"color": {
@@ -2197,6 +2197,7 @@
 							"type": "linear"
 						},
 						"showPoints": "auto",
+						"showValues": false,
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
@@ -2244,7 +2245,7 @@
 					"disableTextWrap": false,
 					"editorMode": "builder",
 					"exemplar": false,
-					"expr": "changes(vdv_server_startdienstzst_seconds[$__interval])",
+					"expr": "changes(vdv_server_startdienstzst_seconds[1m])",
 					"fullMetaSearch": false,
 					"includeNullMetadata": true,
 					"instant": false,
@@ -2261,14 +2262,14 @@
 					},
 					"editorMode": "builder",
 					"exemplar": false,
-					"expr": "changes(vdv_server_datenversionid[$__interval])",
+					"expr": "changes(vdv_server_datenversionid[1m])",
 					"instant": false,
 					"legendFormat": "{{service}} DatenVersionID changes",
 					"range": true,
 					"refId": "B"
 				}
 			],
-			"title": "VDV API: restarts/m (StartDienstZst changes) within $__interval",
+			"title": "VDV API: restarts/m (StartDienstZst changes) within 1m",
 			"type": "timeseries"
 		},
 		{
