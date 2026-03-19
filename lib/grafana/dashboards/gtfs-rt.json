@@ -249,7 +249,7 @@
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
-							"mode": "none"
+							"mode": "normal"
 						},
 						"thresholdsStyle": {
 							"mode": "off"
@@ -287,9 +287,7 @@
 					],
 					"displayMode": "table",
 					"placement": "right",
-					"showLegend": true,
-					"sortBy": "Last *",
-					"sortDesc": true
+					"showLegend": true
 				},
 				"tooltip": {
 					"hideZeros": false,
@@ -297,7 +295,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "12.4.0",
+			"pluginVersion": "12.4.1",
 			"targets": [
 				{
 					"datasource": {
@@ -359,7 +357,7 @@
 						"spanNulls": false,
 						"stacking": {
 							"group": "A",
-							"mode": "none"
+							"mode": "normal"
 						},
 						"thresholdsStyle": {
 							"mode": "off"
@@ -407,7 +405,7 @@
 					"sort": "desc"
 				}
 			},
-			"pluginVersion": "12.4.0",
+			"pluginVersion": "12.4.1",
 			"targets": [
 				{
 					"datasource": {
