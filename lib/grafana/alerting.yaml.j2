@@ -103,7 +103,7 @@ groups:
         data:
           - refId: seconds_since_last_aus_status_ok
             relativeTimeRange:
-              from: 300
+              from: 1200 # 20m
               to: 0
             datasourceUid: de29irtzi5gcga
             model:
@@ -121,7 +121,7 @@ groups:
               conditions:
                   - evaluator:
                       params:
-                          - 180
+                          - 900 # 15m
                       type: gt
                     operator:
                       type: and
@@ -160,7 +160,7 @@ groups:
         data:
           - refId: seconds_since_last_ref_aus_status_ok
             relativeTimeRange:
-              from: 1000
+              from: 1200 # 20m
               to: 0
             datasourceUid: de29irtzi5gcga
             model:
@@ -178,7 +178,7 @@ groups:
               conditions:
                   - evaluator:
                       params:
-                          - 600
+                          - 900 # 15m
                       type: gt
                     operator:
                       type: and
