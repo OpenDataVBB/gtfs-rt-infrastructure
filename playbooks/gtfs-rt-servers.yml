@@ -59,12 +59,6 @@
           '{{ nats_gtfs_rt_stream_name }}' \
           '{{ nats_gtfs_rt_consumer_name }}'
 
-    # note: we temporarily do this instead of using geerlingguy.nodejs, see above
-    - name: install Node.js
-      package:
-        name:
-          - nodejs
-
     - name: clone OpenDataVBB/nats-consuming-gtfs-rt-server:{{ nats_consuming_gtfs_rt_server_git_ref }}
       ansible.builtin.git:
         repo: 'https://github.com/OpenDataVBB/nats-consuming-gtfs-rt-server.git'

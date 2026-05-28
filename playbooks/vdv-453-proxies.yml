@@ -2,12 +2,11 @@
 - name: configure VDV-453 proxies
   hosts: vdv_453_proxy
   roles:
-    # geerlingguy.nodejs currently fails with Ansible >=2.19, see https://github.com/geerlingguy/ansible-role-nodejs/pull/171.
-    # - name: install Node.js from NodeSource's repo
-    #   role: geerlingguy.nodejs
-    #   vars:
-    #     nodejs_version: '24.x'
-    #   become: true
+    - name: install Node.js from NodeSource's repo
+      role: geerlingguy.nodejs
+      vars:
+        nodejs_version: '24.x'
+      become: true
 
     - name: install Prometheus blackbox exporter
       role: prometheus.prometheus.blackbox_exporter
@@ -157,12 +156,6 @@
         state: restarted
         name: redis-server
       become: true
-
-    # note: we temporarily do this instead of using geerlingguy.nodejs, see above
-    - name: install Node.js
-      package:
-        name:
-          - nodejs
 
     - name: clone OpenDataVBB/vdv-453-nats-adapter:{{ vdv_453_nats_adapter_git_ref }}
       ansible.builtin.git:

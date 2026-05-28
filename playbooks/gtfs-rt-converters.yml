@@ -25,11 +25,10 @@
           # JetStream stream stats (e.g. first/last message sequence)
           - streams
 
-    # geerlingguy.nodejs currently fails with Ansible >=2.19, see https://github.com/geerlingguy/ansible-role-nodejs/pull/171.
-    # - name: install Node.js from NodeSource's repo
-    #   role: geerlingguy.nodejs
-    #   vars:
-    #     nodejs_version: '24.x'
+    - name: install Node.js from NodeSource's repo
+      role: geerlingguy.nodejs
+      vars:
+        nodejs_version: '24.x'
 
     - name: install PostgreSQL
       # role: geerlingguy.postgresql
@@ -355,12 +354,6 @@
           '{{ nats_vdv_fahrt_consumer_name }}'
 
     # todo: `docker pull ghcr.io/mobidata-bw/postgis-gtfs-importer:v4`, prune unused docker images
-
-    # note: we temporarily do this instead of using geerlingguy.nodejs, see above
-    - name: install Node.js
-      package:
-        name:
-          - nodejs
 
     - name: clone OpenDataVBB/gtfs-rt-feed:{{ gtfs_rt_feed_git_ref }}
       ansible.builtin.git:
