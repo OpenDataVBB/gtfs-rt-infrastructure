@@ -108,7 +108,7 @@ groups:
             datasourceUid: de29irtzi5gcga
             model:
               editorMode: code
-              expr: time() - vdv_statusantwort_ok_timestamp_seconds{service="aus",status="1"}
+              expr: time() - last_over_time(vdv_statusantwort_ok_timestamp_seconds{service="aus",status="1"}[20m])
               instant: true
               intervalMs: 1000
               legendFormat: __auto
@@ -165,7 +165,7 @@ groups:
             datasourceUid: de29irtzi5gcga
             model:
               editorMode: code
-              expr: time() - vdv_statusantwort_ok_timestamp_seconds{service="ausref",status="1"}
+              expr: time() - last_over_time(vdv_statusantwort_ok_timestamp_seconds{service="ausref",status="1"}[20m])
               instant: true
               intervalMs: 1000
               legendFormat: __auto
