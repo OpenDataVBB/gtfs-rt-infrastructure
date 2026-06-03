@@ -241,13 +241,14 @@
         state: restarted
         name: postgres_exporter
 
-    # todo: use geerlingguy.redis once it supports Redis v8 – currently it only uses the stock Ubuntu sources, which have v7 (https://launchpad.net/redis/+packages).
+    # todo: use geerlingguy.redis once it supports Redis v8 – currently it only uses the stock Ubuntu package lists, which uses v7 (https://launchpad.net/redis/+packages) for Ubuntu 25.04 and v8 for Ubuntu 26.04 LTS.
     # https://github.com/geerlingguy/ansible-role-redis
-    - name: install Redis v8
+    - name: install Redis from upstream
       block:
       - name: install Redis PPA signing key
+        # `gpg -o` doesn't overwrite the target, so we use `sponge`.
         ansible.builtin.shell: |
-          curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /etc/apt/keyrings/redis-archive-keyring.gpg
+          curl -fsSL https://packages.redis.io/gpg | gpg --batch --dearmor -o - | sponge /etc/apt/keyrings/redis-archive-keyring.gpg
       - name: add Redis repository to APT sources
         ansible.builtin.apt_repository:
           repo: 'deb [signed-by=/etc/apt/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb {{ ansible_facts["distribution_release"] }} main'
