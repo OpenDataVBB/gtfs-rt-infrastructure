@@ -2005,7 +2005,7 @@
 											"spec": {
 												"disableTextWrap": false,
 												"editorMode": "builder",
-												"expr": "sum by(mode) (rate(node_cpu_seconds_total{mode!=\"idle\"}[$__rate_interval]))",
+												"expr": "sum by(mode, instance) (rate(node_cpu_seconds_total{mode!=\"idle\", instance=\"10.0.0.0:9100\"}[$__rate_interval]))",
 												"fullMetaSearch": false,
 												"includeNullMetadata": true,
 												"instant": false,
@@ -2026,7 +2026,7 @@
 					"description": "",
 					"id": 13,
 					"links": [],
-					"title": "CPU usage",
+					"title": "CPU usage on vbb_gtfs_rt_converter",
 					"vizConfig": {
 						"group": "timeseries",
 						"kind": "VizConfig",
@@ -2060,6 +2060,7 @@
 											"type": "linear"
 										},
 										"showPoints": "auto",
+										"showValues": false,
 										"spanNulls": false,
 										"stacking": {
 											"group": "A",
@@ -2080,6 +2081,10 @@
 								"overrides": []
 							},
 							"options": {
+								"annotations": {
+									"clustering": -1,
+									"multiLane": false
+								},
 								"legend": {
 									"calcs": [],
 									"displayMode": "list",
@@ -2087,6 +2092,7 @@
 									"showLegend": true
 								},
 								"tooltip": {
+									"hideZeros": false,
 									"mode": "single",
 									"sort": "none"
 								}
