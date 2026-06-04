@@ -18,7 +18,7 @@ vdv_453_nats_adapter_log_level: info
 vdv_453_nats_adapter_internal_port: 8080
 
 # For how long the VDV-453 REF-AUS & VDV-454 AUS subscriptions should be valid. Needs to be a plain number, in seconds!
-# see also templates/vdv-453-nats-adapter.service.j2 & templates/vdv-453-nats-adapter-run.sh.j2.
+# see also templates/vdv-453-nats-adapter.service.j2 & lib/vdv-453-nats-adapter-run.sh.
 # see also https://github.com/OpenDataVBB/vdv-453-nats-adapter/issues/2
 vdv_453_nats_adapter_subscription_ttl: 43200 # 12 hours
 
