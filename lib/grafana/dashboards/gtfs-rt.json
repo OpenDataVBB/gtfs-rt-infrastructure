@@ -424,7 +424,7 @@
 											"kind": "DataQuery",
 											"spec": {
 												"editorMode": "builder",
-												"expr": "gtfs_rt_feed_entities_total",
+												"expr": "gtfs_rt_feed_entities",
 												"legendFormat": "count",
 												"range": true
 											},
@@ -544,7 +544,7 @@
 											"spec": {
 												"editorMode": "builder",
 												"exemplar": false,
-												"expr": "sum by(instance, kind, route_id_n) (gtfs_rt_items_total{matched=\"0\"})",
+												"expr": "sum by(instance, kind, route_id_n) (gtfs_rt_items{matched=\"0\"})",
 												"instant": false,
 												"legendFormat": "{{kind}} r_id={{route_id_n}}…",
 												"range": true
@@ -668,7 +668,7 @@
 											"spec": {
 												"editorMode": "builder",
 												"exemplar": false,
-												"expr": "sum by(instance, agency_id_n) (gtfs_rt_schedule_trip_instances_total{matched=\"0\"})",
+												"expr": "sum by(instance, agency_id_n) (gtfs_rt_schedule_trip_instances{matched=\"0\"})",
 												"instant": false,
 												"legendFormat": "a_id={{agency_id_n}}…",
 												"range": true
