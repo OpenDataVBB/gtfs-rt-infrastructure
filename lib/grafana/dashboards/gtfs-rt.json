@@ -72,7 +72,7 @@
 												"fullMetaSearch": false,
 												"includeNullMetadata": true,
 												"instant": false,
-												"legendFormat": "compression {{compression}}",
+												"legendFormat": "digest \"{{feed_digest}}\" compression {{compression}}",
 												"range": true,
 												"useBackend": false
 											},
