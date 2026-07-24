@@ -55,6 +55,12 @@
     #     upgrade: dist
     #   become: true
 
+    - name: set root password
+      ansible.builtin.user:
+        name: 'root'
+        password: '{{ root_password_hashed }}'
+      become: true
+
     # todo: timedatectl set-ntp true
     - name: set timezone to Europe/Berlin
       become: true
