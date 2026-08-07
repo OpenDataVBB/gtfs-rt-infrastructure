@@ -72,7 +72,7 @@ redis_maxmemory: 4gb
 redis_maxmemory_policy: allkeys-lru
 
 # gtfs-rt-feed
-gtfs_rt_feed_git_ref: '2026-06-16'
+gtfs_rt_feed_git_ref: '2026-08-07'
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
 
 # gtfs-rt-feed: vdv-reconciliation-service
