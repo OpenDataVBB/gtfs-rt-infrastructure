@@ -88,7 +88,7 @@
     - name: install curl-mirror
       ansible.builtin.get_url:
         # todo: keep updated somehow
-        url: 'https://gist.github.com/derhuerst/745cf09fe5f3ea2569948dd215bbfe1a/raw/27aa4919b5676abda8f9e0d90c3ec43d0d63f3d7/mirror.mjs'
+        url: 'https://gist.github.com/derhuerst/745cf09fe5f3ea2569948dd215bbfe1a/raw/ac55ba3b8c0fed913ae60c411868e64dbeb47094/mirror.mjs'
         dest: /usr/local/bin/curl-mirror
         mode: '+x'
 
