@@ -4,7 +4,7 @@
 After=syslog.target network.target
 
 [Service]
-ExecStart=/usr/bin/node cli.js 'http://localhost:{{ nats_consuming_gtfs_rt_server_internal_port }}/'
+ExecStart=/usr/bin/node cli.js --with-stu-overage 'http://localhost:{{ nats_consuming_gtfs_rt_server_internal_port }}/'
 Restart=always
 WorkingDirectory={{ gtfs_rt_metrics_service_dir }}
 Environment=HOME=%h
