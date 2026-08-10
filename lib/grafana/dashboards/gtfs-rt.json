@@ -5,9 +5,9 @@
 		"name": "be2c3frskfv9ce",
 		"namespace": "default",
 		"uid": "nsxHOzF5ipLN7ncGBB8Ji5yw5qU6R0wG7ixh4X5BzuUX",
-		"resourceVersion": "1780498770941980",
+		"resourceVersion": "1786369429982020",
 		"generation": 13,
-		"creationTimestamp": "2025-07-22T13:26:25Z",
+		"creationTimestamp": "2025-05-13T11:25:22Z",
 		"labels": {
 			"grafana.app/deprecatedInternalID": "2"
 		},
@@ -15,11 +15,11 @@
 			"grafana.app/createdBy": "provisioning:",
 			"grafana.app/managedBy": "classic-file-provisioning",
 			"grafana.app/managerId": "default",
-			"grafana.app/sourceChecksum": "f7676649a811fb874cdd91e2cd1a0644",
+			"grafana.app/sourceChecksum": "056c2efe49e25e3ad0bb23022fc12355",
 			"grafana.app/sourcePath": "/var/lib/grafana/dashboards/gtfs-rt.json",
-			"grafana.app/sourceTimestamp": "1772550319000",
+			"grafana.app/sourceTimestamp": "1786369424000",
 			"grafana.app/updatedBy": "access-policy:service",
-			"grafana.app/updatedTimestamp": "2026-06-03T14:59:30Z",
+			"grafana.app/updatedTimestamp": "2026-08-10T13:43:49Z",
 			"grafana.app/folder": ""
 		}
 	},
@@ -2465,6 +2465,150 @@
 					}
 				}
 			},
+			"rt_stus_by_matching_sched_rel": {
+				"kind": "Panel",
+				"spec": {
+					"data": {
+						"kind": "QueryGroup",
+						"spec": {
+							"queries": [
+								{
+									"kind": "PanelQuery",
+									"spec": {
+										"hidden": false,
+										"query": {
+											"datasource": {
+												"name": "de29irtzi5gcga"
+											},
+											"group": "prometheus",
+											"kind": "DataQuery",
+											"spec": {
+												"editorMode": "builder",
+												"expr": "sum(gtfs_rt_stoptimeupdates{matched=\"0\"})",
+												"instant": false,
+												"legendFormat": "unmatched",
+												"range": true
+											},
+											"version": "v0"
+										},
+										"refId": "A"
+									}
+								},
+								{
+									"kind": "PanelQuery",
+									"spec": {
+										"hidden": false,
+										"query": {
+											"datasource": {
+												"name": "de29irtzi5gcga"
+											},
+											"group": "prometheus",
+											"kind": "DataQuery",
+											"spec": {
+												"editorMode": "builder",
+												"expr": "sum by(tu_sched_rel, sched_rel) (gtfs_rt_stoptimeupdates{matched=\"1\"})",
+												"instant": false,
+												"legendFormat": "matched tu_sched_rel={{tu_sched_rel}} sched_rel={{sched_rel}}",
+												"range": true
+											},
+											"version": "v0"
+										},
+										"refId": "B"
+									}
+								}
+							],
+							"queryOptions": {},
+							"transformations": []
+						}
+					},
+					"description": "- matched by TripUpdate schedule_relationship & StopTimeUpdate schedule_relationship\n- unmatched",
+					"id": 30,
+					"links": [],
+					"title": "RT StopTimeUpdates, by matching & sched_rel",
+					"vizConfig": {
+						"group": "timeseries",
+						"kind": "VizConfig",
+						"spec": {
+							"fieldConfig": {
+								"defaults": {
+									"color": {
+										"mode": "palette-classic-by-name"
+									},
+									"custom": {
+										"axisBorderShow": false,
+										"axisCenteredZero": false,
+										"axisColorMode": "text",
+										"axisLabel": "",
+										"axisPlacement": "auto",
+										"barAlignment": 0,
+										"barWidthFactor": 0.6,
+										"drawStyle": "line",
+										"fillOpacity": 0,
+										"gradientMode": "none",
+										"hideFrom": {
+											"legend": false,
+											"tooltip": false,
+											"viz": false
+										},
+										"insertNulls": false,
+										"lineInterpolation": "linear",
+										"lineWidth": 1,
+										"pointSize": 5,
+										"scaleDistribution": {
+											"log": 2,
+											"type": "log"
+										},
+										"showPoints": "never",
+										"showValues": false,
+										"spanNulls": false,
+										"stacking": {
+											"group": "A",
+											"mode": "none"
+										},
+										"thresholdsStyle": {
+											"mode": "off"
+										}
+									},
+									"thresholds": {
+										"mode": "absolute",
+										"steps": [
+											{
+												"color": "green",
+												"value": 0
+											},
+											{
+												"color": "red",
+												"value": 80
+											}
+										]
+									}
+								},
+								"overrides": []
+							},
+							"options": {
+								"annotations": {
+									"clustering": -1,
+									"multiLane": false
+								},
+								"legend": {
+									"calcs": [],
+									"displayMode": "list",
+									"enableFacetedFilter": false,
+									"overflow": "ellipsis",
+									"placement": "bottom",
+									"showLegend": true
+								},
+								"tooltip": {
+									"hideZeros": false,
+									"mode": "single",
+									"sort": "none"
+								}
+							}
+						},
+						"version": "13.1.1"
+					}
+				}
+			},
 			"systemd_services_restarts": {
 				"kind": "Panel",
 				"spec": {
@@ -2730,19 +2874,131 @@
 							},
 							"options": {
 								"cellHeight": "sm",
-								"footer": {
-									"countRows": false,
-									"enablePagination": false,
-									"fields": "",
-									"reducer": [
-										"sum"
-									],
-									"show": false
-								},
+								"enablePagination": false,
 								"showHeader": true
 							}
 						},
 						"version": "13.0.2"
+					}
+				}
+			},
+			"unmatched_schedule_stus_by_agency": {
+				"kind": "Panel",
+				"spec": {
+					"data": {
+						"kind": "QueryGroup",
+						"spec": {
+							"queries": [
+								{
+									"kind": "PanelQuery",
+									"spec": {
+										"hidden": false,
+										"query": {
+											"datasource": {
+												"name": "de29irtzi5gcga"
+											},
+											"group": "prometheus",
+											"kind": "DataQuery",
+											"spec": {
+												"editorMode": "builder",
+												"expr": "sum by(agency_id_n) (gtfs_rt_schedule_stoptimes{matched=\"0\"})",
+												"instant": true,
+												"legendFormat": "a_id={{agency_id_n}}",
+												"range": true
+											},
+											"version": "v0"
+										},
+										"refId": "A"
+									}
+								}
+							],
+							"queryOptions": {},
+							"transformations": []
+						}
+					},
+					"description": "",
+					"id": 28,
+					"links": [],
+					"title": "unmatched Schedule stop_times instances, by agency",
+					"vizConfig": {
+						"group": "timeseries",
+						"kind": "VizConfig",
+						"spec": {
+							"fieldConfig": {
+								"defaults": {
+									"color": {
+										"mode": "continuous-BlYlRd"
+									},
+									"custom": {
+										"axisBorderShow": false,
+										"axisCenteredZero": false,
+										"axisColorMode": "text",
+										"axisLabel": "",
+										"axisPlacement": "auto",
+										"barAlignment": 0,
+										"barWidthFactor": 0.6,
+										"drawStyle": "line",
+										"fillOpacity": 0,
+										"gradientMode": "none",
+										"hideFrom": {
+											"legend": false,
+											"tooltip": false,
+											"viz": false
+										},
+										"insertNulls": false,
+										"lineInterpolation": "linear",
+										"lineWidth": 1,
+										"pointSize": 5,
+										"scaleDistribution": {
+											"log": 2,
+											"type": "log"
+										},
+										"showPoints": "never",
+										"showValues": false,
+										"spanNulls": false,
+										"stacking": {
+											"group": "A",
+											"mode": "none"
+										},
+										"thresholdsStyle": {
+											"mode": "off"
+										}
+									},
+									"thresholds": {
+										"mode": "absolute",
+										"steps": [
+											{
+												"color": "green",
+												"value": 0
+											}
+										]
+									}
+								},
+								"overrides": []
+							},
+							"options": {
+								"annotations": {
+									"clustering": -1,
+									"multiLane": false
+								},
+								"legend": {
+									"calcs": [
+										"lastNotNull"
+									],
+									"displayMode": "list",
+									"enableFacetedFilter": false,
+									"overflow": "ellipsis",
+									"placement": "right",
+									"showLegend": true
+								},
+								"tooltip": {
+									"hideZeros": false,
+									"mode": "single",
+									"sort": "none"
+								}
+							}
+						},
+						"version": "13.1.1"
 					}
 				}
 			},
@@ -3682,6 +3938,32 @@
 							"width": 12,
 							"x": 12,
 							"y": 104
+						}
+					},
+					{
+						"kind": "GridLayoutItem",
+						"spec": {
+							"element": {
+								"kind": "ElementReference",
+								"name": "unmatched_schedule_stus_by_agency"
+							},
+							"height": 12,
+							"width": 12,
+							"x": 0,
+							"y": 112
+						}
+					},
+					{
+						"kind": "GridLayoutItem",
+						"spec": {
+							"element": {
+								"kind": "ElementReference",
+								"name": "rt_stus_by_matching_sched_rel"
+							},
+							"height": 12,
+							"width": 12,
+							"x": 12,
+							"y": 112
 						}
 					}
 				]
