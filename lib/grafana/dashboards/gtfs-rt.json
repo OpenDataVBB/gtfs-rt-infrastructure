@@ -791,17 +791,43 @@
 											"spec": {
 												"disableTextWrap": false,
 												"editorMode": "builder",
-												"expr": "rate(caddy_http_requests_total{server=\"srv0\"}[$__rate_interval])",
+												"expr": "sum(rate(caddy_http_request_size_bytes_count{server=\"srv0\", code=~\"2.+\"}[$__rate_interval]))",
 												"fullMetaSearch": false,
 												"includeNullMetadata": true,
-												"instant": true,
-												"legendFormat": "__auto",
+												"instant": false,
+												"legendFormat": "2xx {{method}}",
 												"range": true,
 												"useBackend": false
 											},
 											"version": "v0"
 										},
 										"refId": "A"
+									}
+								},
+								{
+									"kind": "PanelQuery",
+									"spec": {
+										"hidden": false,
+										"query": {
+											"datasource": {
+												"name": "de29irtzi5gcga"
+											},
+											"group": "prometheus",
+											"kind": "DataQuery",
+											"spec": {
+												"disableTextWrap": false,
+												"editorMode": "builder",
+												"expr": "sum(rate(caddy_http_request_size_bytes_count{server=\"srv0\", code!~\"2.+\"}[$__rate_interval]))",
+												"fullMetaSearch": false,
+												"includeNullMetadata": true,
+												"instant": false,
+												"legendFormat": "non-2xx {{method}}",
+												"range": true,
+												"useBackend": false
+											},
+											"version": "v0"
+										},
+										"refId": "B"
 									}
 								}
 							],
@@ -812,7 +838,7 @@
 					"description": "",
 					"id": 12,
 					"links": [],
-					"title": "incoming HTTP requests",
+					"title": "incoming HTTP requests, by HTTP status code",
 					"vizConfig": {
 						"group": "timeseries",
 						"kind": "VizConfig",
@@ -846,6 +872,7 @@
 											"type": "linear"
 										},
 										"showPoints": "auto",
+										"showValues": false,
 										"spanNulls": false,
 										"stacking": {
 											"group": "A",
@@ -864,19 +891,26 @@
 								"overrides": []
 							},
 							"options": {
+								"annotations": {
+									"clustering": -1,
+									"multiLane": false
+								},
 								"legend": {
 									"calcs": [],
 									"displayMode": "list",
+									"enableFacetedFilter": false,
+									"overflow": "ellipsis",
 									"placement": "bottom",
 									"showLegend": true
 								},
 								"tooltip": {
+									"hideZeros": false,
 									"mode": "single",
 									"sort": "none"
 								}
 							}
 						},
-						"version": "13.0.2"
+						"version": "13.1.1"
 					}
 				}
 			},
