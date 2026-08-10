@@ -25,6 +25,26 @@
 	encode zstd gzip
 
 	route /data {
+		@generic_ua {
+			header !User-Agent
+			header User-Agent Boost.Beast/*
+			header User-Agent Go-http-client/*
+			header User-Agent python-requests/*
+			header User-Agent Java-http-client/*
+			header User-Agent python-httpx/*
+			header User-Agent RestSharp/*
+			header User-Agent node
+			header User-Agent python-urllib3/*
+			header User-Agent Python/*
+			header User-Agent Java/*
+			header User-Agent Apache-HttpClient/*
+			header User-Agent axios/*
+		}
+		respond @generic_ua 403 {
+			body "You *seem to* have used the default user agent of your HTTP client of choice. If you send many requests, make sure to a) set a reverse DNS entry for your IPs and b) send a meaningful non-generic User-Agent."
+			close
+		}
+
 		uri strip_prefix /data
 
 		# todo: higher rate limit for authenticated clients

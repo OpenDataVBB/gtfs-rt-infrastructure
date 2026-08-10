@@ -4,7 +4,7 @@
 	<title>{{ gtfs_rt_public_endpoint_name }}</title>
 	<link href="{{ gtfs_rt_public_endpoints[0] }}"/>
 	<subtitle>announcements related to the {{ gtfs_rt_public_endpoint_name }}</subtitle>
-	<updated>2026-06-04T16:00:00+02:00</updated>
+	<updated>2026-08-11T11:30:00+02:00</updated>
 	<link href="{{ gtfs_rt_public_endpoints[0] }}/news.atom.xml" rel="self"/>
 	<link href="{{ gtfs_rt_public_endpoints[0] }}" rel="alternate"/>
 	<author>
@@ -12,6 +12,15 @@
 		<email>mail+vbb-gtfs-rt@jannisr.de</email>
 		<uri>https://jannisr.de</uri>
 	</author>
+	<entry>
+		<id>tag:vbb.de,2026-08-11:e69f0dca54c7e8c806b73fd8</id>
+		<title>please send an informative User-Agent</title>
+		<updated>2026-08-11T11:30:00+02:00</updated>
+		<content type="html"><![CDATA[
+			<p>Given that VBB's GTFS-RT API is completely open, in order to ensure availability and to understand who uses it for what, it is essential that consumers set an informative <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/User-Agent"><code>User-Agent</code></a>, ideally with contact information. Also consider configuring <a href="https://en.wikipedia.org/wiki/Reverse_DNS_lookup">reverse DNS records</a> for your server's IP addresses.</p>
+			<p>There have been a lot of requests either without a <code>User-Agent</code> header or with the default value of common HTTP client libraries. Out of those, we have started blocking the most notorious ones.</p>
+		]]></content>
+	</entry>
 	<entry>
 		<id>tag:vbb.de,2026-06-04:3be3d09b692d81514697ffbb</id>
 		<title>feed unavailable</title>

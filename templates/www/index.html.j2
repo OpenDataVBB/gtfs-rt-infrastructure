@@ -123,7 +123,7 @@
 	<ul>
 		<li>You can inspect the feed <a href="https://public-transport.github.io/gtfs-rt-inspector/?feedUrl={{ (gtfs_rt_public_endpoints[0] ~ '/data') | urlencode }}&feedSyncInterval=30&view=inspector">in a web-based GTFS-RT inspector</a>.</li>
 		<li>It is licensed as <a href="https://creativecommons.org/licenses/by/4.0/" referrerpolicy="no-referrer">CC-BY 4.0</a>.</li>
-		<li>You can fetch it without authentication, up to a limit of {{ gtfs_rt_rate_limit_human_readable }}.</li>
+		<li>You can fetch it without authentication, up to a limit of {{ gtfs_rt_rate_limit_human_readable }}. Please make sure to send an informative <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/User-Agent"><code>User-Agent</code></a>, ideally with contact information, and to set a <a href="https://en.wikipedia.org/wiki/Reverse_DNS_lookup">reverse DNS record</a>. We may block requests with generic/meaningless <code>User-Agent</code>s.</li>
 		<li>Please make sure to subscribe to the <a href="/news.atom.xml">Atom (RSS) feed</a> to get notified about downtime, important changes, etc.</li>
 		<li>It has <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS">CORS</a> enabled, so you can query it from any webpage.</li>
 		<li>It is served with an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag"><code>ETag</code></a> header, allowing clients to cache it.</li>
