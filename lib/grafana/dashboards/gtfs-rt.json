@@ -2102,6 +2102,105 @@
 					}
 				}
 			},
+			"latest_gtfs_schedule_imports": {
+				"kind": "Panel",
+				"spec": {
+					"data": {
+						"kind": "QueryGroup",
+						"spec": {
+							"queries": [
+								{
+									"kind": "PanelQuery",
+									"spec": {
+										"hidden": false,
+										"query": {
+											"datasource": {
+												"name": "de29irtzi5gcga"
+											},
+											"group": "prometheus",
+											"kind": "DataQuery",
+											"spec": {
+												"editorMode": "code",
+												"exemplar": false,
+												"expr": "time() - systemd_unit_active_enter_time_seconds{name=~\".*gtfs.+import.+service\"}",
+												"fromExploreMetrics": true,
+												"instant": true,
+												"interval": "",
+												"legendFormat": "{{name}}",
+												"range": false
+											},
+											"version": "v0"
+										},
+										"refId": "systemd_service_restart_total-sum(rate)"
+									}
+								}
+							],
+							"queryOptions": {},
+							"transformations": []
+						}
+					},
+					"description": "",
+					"id": 31,
+					"links": [],
+					"title": "latest GTFS Schedule import",
+					"vizConfig": {
+						"group": "bargauge",
+						"kind": "VizConfig",
+						"spec": {
+							"fieldConfig": {
+								"defaults": {
+									"color": {
+										"mode": "continuous-GrYlRd"
+									},
+									"decimals": 0,
+									"max": 7200,
+									"thresholds": {
+										"mode": "absolute",
+										"steps": [
+											{
+												"color": "green",
+												"value": 0
+											},
+											{
+												"color": "red",
+												"value": 80
+											}
+										]
+									},
+									"unit": "s"
+								},
+								"overrides": []
+							},
+							"options": {
+								"displayMode": "lcd",
+								"legend": {
+									"calcs": [],
+									"displayMode": "list",
+									"overflow": "ellipsis",
+									"placement": "bottom",
+									"showLegend": false
+								},
+								"maxVizHeight": 300,
+								"minVizHeight": 16,
+								"minVizWidth": 8,
+								"namePlacement": "auto",
+								"orientation": "horizontal",
+								"reduceOptions": {
+									"calcs": [
+										"lastNotNull"
+									],
+									"fields": "",
+									"values": false
+								},
+								"showUnfilled": true,
+								"sizing": "auto",
+								"valueMode": "color"
+							}
+						},
+						"version": "13.1.1"
+					}
+				}
+			},
 			"pg_db_sizes": {
 				"kind": "Panel",
 				"spec": {
@@ -3964,6 +4063,19 @@
 							"width": 12,
 							"x": 12,
 							"y": 112
+						}
+					},
+					{
+						"kind": "GridLayoutItem",
+						"spec": {
+							"element": {
+								"kind": "ElementReference",
+								"name": "latest_gtfs_schedule_imports"
+							},
+							"height": 5,
+							"width": 12,
+							"x": 0,
+							"y": 124
 						}
 					}
 				]
