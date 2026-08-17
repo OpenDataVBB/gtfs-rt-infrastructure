@@ -857,7 +857,7 @@
 										"barAlignment": 0,
 										"barWidthFactor": 0.6,
 										"drawStyle": "line",
-										"fillOpacity": 0,
+										"fillOpacity": 25,
 										"gradientMode": "none",
 										"hideFrom": {
 											"legend": false,
@@ -876,7 +876,7 @@
 										"spanNulls": false,
 										"stacking": {
 											"group": "A",
-											"mode": "none"
+											"mode": "normal"
 										},
 										"thresholdsStyle": {
 											"mode": "off"
