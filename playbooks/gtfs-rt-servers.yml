@@ -189,6 +189,15 @@
         port: '8080'
       become: true
 
+    # https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes
+    - name: increase UDP buffer sizes
+      ansible.builtin.copy:
+        src: '../lib/20-increased-udp-buffer-sizes.conf'
+        dest: '/etc/sysctl.d/' # note the trailing slash
+    - name: reload sysctl parameters
+      ansible.builtin.shell: |
+        sysctl --load
+
     # todo: delete old/superfluous remote files -> mirror
     - name: copy www files
       ansible.builtin.copy:
