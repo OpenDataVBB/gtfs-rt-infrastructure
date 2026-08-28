@@ -25,8 +25,10 @@
 	encode zstd gzip
 
 	route /data {
+		@no_ua {
+			expression {http.request.header.User-Agent} == ""
+		}
 		@generic_ua {
-			header !User-Agent
 			header User-Agent Boost.Beast/*
 			header User-Agent Go-http-client/*
 			header User-Agent python-requests/*
@@ -39,6 +41,14 @@
 			header User-Agent Java/*
 			header User-Agent Apache-HttpClient/*
 			header User-Agent axios/*
+			header User-Agent ureq/*
+
+			# While `OpenTripPlanner` is more specific than those above, it doesn't tell us which OTP instance requests.
+			header User-Agent OpenTripPlanner
+		}
+		respond @no_ua 403 {
+			body "Make sure to a) set a reverse DNS entry for your IPs and b) send a meaningful non-generic User-Aagent."
+			close
 		}
 		respond @generic_ua 403 {
 			body "You *seem to* have used the default user agent of your HTTP client of choice. If you send many requests, make sure to a) set a reverse DNS entry for your IPs and b) send a meaningful non-generic User-Agent."
