@@ -1,7 +1,7 @@
 ---
 collections:
 - name: prometheus.prometheus
-  version: '0.30.0'
+  version: '0.30.1'
 - name: grafana.grafana
   version: '6.1.0'
 roles:
@@ -9,7 +9,7 @@ roles:
   version: '3.0.2'
 - name: githubixx.ansible_role_wireguard
   src: https://github.com/githubixx/ansible-role-wireguard.git
-  version: '19.0.0'
+  version: '19.2.0'
 - name: nats
   src: https://github.com/derhuerst/ansible-role-nats.git
   version: main
@@ -18,9 +18,6 @@ roles:
 - src: caddy_ansible.caddy_ansible
   version: v3.2.0
 - src: geerlingguy.postgresql
-  # temporarily use my fork to support Ubuntu 25 until https://github.com/geerlingguy/ansible-role-postgresql/pull/284 is merged
-  # version: '4.0.1'
-  src: https://github.com/derhuerst/ansible-role-postgresql.git
-  version: 'ubuntu-25'
+  version: '4.1.0'
 - src: https://github.com/andrewrothstein/ansible-duckdb.git
-  version: 'ce74b9d' # supports DuckDB <=1.5.3
+  version: '9f6efb0' # supports DuckDB <=1.5.5

@@ -122,7 +122,7 @@
         postgres_exporter_disabled_collectors:
           - locks
           - replication
-          - replication_slot
+          - replication_slots
           - stat_bgwriter
           # The `stat_database` collector (enabled by default) exposes the database name as a label. Because postgis-gtfs-importer creates a new database on each import (gtfs_$timestamp_$hash), this creates a large number of time series.
           # > CAUTION: Remember that every unique combination of key-value label pairs represents a new time series, which can dramatically increase the amount of data stored. Do not use labels to store dimensions with high cardinality (many different label values), such as user IDs, email addresses, or other unbounded sets of values.
