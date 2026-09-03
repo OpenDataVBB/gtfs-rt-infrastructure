@@ -21,6 +21,7 @@ Environment=METRICS_SERVER_PORT="{{ gtfs_rt_feed_gtfs_matching_service_metrics_s
 Environment=MATCHING_CONSUMER_NAME="gtfs-rt-feed:gtfs-matching-service"
 Environment=MATCHING_CONCURRENCY="{{ gtfs_rt_feed_gtfs_matching_service_matching_concurrency }}"
 Environment=MATCHING_CACHING_TTL="{{ gtfs_rt_feed_gtfs_matching_service_matching_caching_ttl }}"
+Environment=VDV_FAHRTS_INCLUDE_SERVICE_STOPS="{{ vdv_fahrts_include_service_stops | to_json }}"
 
 [Install]
 WantedBy=multi-user.target

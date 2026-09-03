@@ -72,7 +72,7 @@ redis_maxmemory: 4gb
 redis_maxmemory_policy: allkeys-lru
 
 # gtfs-rt-feed
-gtfs_rt_feed_git_ref: '2026-08-07'
+gtfs_rt_feed_git_ref: '2026-09-01'
 gtfs_rt_feed_dir: '/srv/gtfs-rt-feed'
 
 # gtfs-rt-feed: vdv-reconciliation-service
@@ -91,6 +91,10 @@ gtfs_rt_feed_gtfs_matching_service_pgdatabase_conf_path: '/etc/systemd/system/gt
 gtfs_rt_feed_gtfs_matching_service_matching_concurrency: 50
 # Schedule days are usually longer than 24 hours: they start a 00:00, but some trips run well beyond 23:59.
 gtfs_rt_feed_gtfs_matching_service_matching_caching_ttl: 100800 # 1 day 4 hours, in seconds
+
+# Most VDV Fahrts in the VBB area do not include (final) service stops, while the GTFS Schedule data mostly does. This leads to service stops being exposed as SKIPPED StopTimeUpdates.
+# see also https://github.com/OpenDataVBB/gtfs-rt-infrastructure/issues/8#issuecomment-5141769606
+vdv_fahrts_include_service_stops: false
 
 # gtfs-rt-feed: GTFS import
 gtfs_rt_feed_gtfs_importer_db: 'gtfs_importer'
