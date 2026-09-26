@@ -13,6 +13,8 @@ Environment=LOG_LEVEL="{{ gtfs_rt_metrics_service_log_level }}"
 Environment=PORT={{ gtfs_rt_metrics_service_port }}
 Environment=GTFS_RT_FETCH_INTERVAL={{ gtfs_rt_metrics_service_fetch_interval }}
 Environment=GTFS_IMPORTER_DB_PREFIX={{ gtfs_rt_metrics_service_db_prefix }}
+Environment=GTFS_RT_MATCHING_TIME_BUFFER_BEFORE={{ gtfs_rt_metrics_service_matching_time_buffer_before }}
+Environment=GTFS_RT_MATCHING_TIME_BUFFER_AFTER={{ gtfs_rt_metrics_service_matching_time_buffer_after }}
 
 [Install]
 WantedBy=multi-user.target

@@ -32,3 +32,7 @@ gtfs_rt_metrics_service_fetch_interval: 10 # in seconds
 gtfs_rt_metrics_service_dir: /srv/gtfs-rt-metrics-service
 gtfs_rt_metrics_service_db_prefix: vbb
 gtfs_rt_metrics_service_log_level: info
+# > Match GTFS-RT entities with Schedule trip instances that have been (or were) active earlier than now, in seconds.
+gtfs_rt_metrics_service_matching_time_buffer_before: 300
+# > Match GTFS-RT entities with Schedule trip instances that will be (or are) active later than now, in seconds.
+gtfs_rt_metrics_service_matching_time_buffer_after: 600
