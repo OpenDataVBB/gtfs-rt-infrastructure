@@ -791,11 +791,11 @@
 											"spec": {
 												"disableTextWrap": false,
 												"editorMode": "builder",
-												"expr": "sum(rate(caddy_http_request_size_bytes_count{server=\"srv0\", code=~\"2.+\"}[$__rate_interval]))",
+												"expr": "sum(rate(caddy_http_request_size_bytes_count{server=\"srv0\", code=~\"[23].+\"}[$__rate_interval]))",
 												"fullMetaSearch": false,
 												"includeNullMetadata": true,
 												"instant": false,
-												"legendFormat": "2xx {{method}}",
+												"legendFormat": "2xx/3xx {{method}}",
 												"range": true,
 												"useBackend": false
 											},
@@ -817,11 +817,11 @@
 											"spec": {
 												"disableTextWrap": false,
 												"editorMode": "builder",
-												"expr": "sum(rate(caddy_http_request_size_bytes_count{server=\"srv0\", code!~\"2.+\"}[$__rate_interval]))",
+												"expr": "sum(rate(caddy_http_request_size_bytes_count{server=\"srv0\", code!~\"[23].+\"}[$__rate_interval]))",
 												"fullMetaSearch": false,
 												"includeNullMetadata": true,
 												"instant": false,
-												"legendFormat": "non-2xx {{method}}",
+												"legendFormat": "non-2xx/3xx {{method}}",
 												"range": true,
 												"useBackend": false
 											},
@@ -857,7 +857,7 @@
 										"barAlignment": 0,
 										"barWidthFactor": 0.6,
 										"drawStyle": "line",
-										"fillOpacity": 25,
+										"fillOpacity": 0,
 										"gradientMode": "none",
 										"hideFrom": {
 											"legend": false,
@@ -876,7 +876,7 @@
 										"spanNulls": false,
 										"stacking": {
 											"group": "A",
-											"mode": "normal"
+											"mode": "none"
 										},
 										"thresholdsStyle": {
 											"mode": "off"
@@ -910,7 +910,7 @@
 								}
 							}
 						},
-						"version": "13.1.1"
+						"version": "13.2.3"
 					}
 				}
 			},
